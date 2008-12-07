@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns:google="http://base.google.com/ns/1.0" xml:lang="en-US" xmlns:openSearch="http://a9.com/-/spec/opensearch/1.1/" xmlns="http://www.w3.org/2005/Atom" xmlns:twitter="http://api.twitter.com/">
+  <id>tag:search.twitter.com,2005:search/twitter</id>
+  <link type="text/html" rel="alternate" href="http://search.twitter.com/search?q=twitter"/>
+  <link type="application/atom+xml" rel="self" href="http://search.twitter.com/search.atom?q=twitter"/>
+  <title>twitter - Twitter Search</title>
+  <link type="application/opensearchdescription+xml" rel="search" href="http://search.twitter.com/opensearch.xml"/>
+  <link type="application/atom+xml" rel="refresh" href="http://search.twitter.com/search.atom?q=twitter&amp;since_id=1043835074"/>
+  <updated>2008-12-07T19:50:01Z</updated>
+  <openSearch:itemsPerPage>15</openSearch:itemsPerPage>
+  <link type="application/atom+xml" rel="next" href="http://search.twitter.com/search.atom?max_id=1043835074&amp;page=2&amp;q=twitter"/>
+  <entry>
+    <id>tag:search.twitter.com,2005:1043835074</id>
+    <published>2008-12-07T19:50:01Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/PlanetAmerica/statuses/1043835074"/>
+    <title>@americac2c getting ready to go out to run errands... If I can just stop tweeting... TWITTER IS LIKE CRACK!</title>
+    <content type="html">&lt;a href="http://twitter.com/americac2c"&gt;@americac2c&lt;/a&gt; getting ready to go out to run errands... If I can just stop tweeting... &lt;b&gt;TWITTER&lt;/b&gt; IS LIKE CRACK!</content>
+    <updated>2008-12-07T19:50:01Z</updated>
+    <link type="image/png" rel="image" href="http://s3.amazonaws.com/twitter_production/profile_images/66422442/PA_PeaceOnEarth_normal.JPG"/>
+    <author>
+      <name>PlanetAmerica (PlanetAmerica)</name>
+      <uri>http://twitter.com/PlanetAmerica</uri>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:search.twitter.com,2005:1043835064</id>
+    <published>2008-12-07T19:50:01Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/smltwit/statuses/1043835064"/>
+    <title>is twitter up at Sun Dec 07 14:50:00 -0500 2008?</title>
+    <content type="html">is &lt;b&gt;twitter&lt;/b&gt; up at Sun Dec 07 14:50:00 -0500 2008?</content>
+    <updated>2008-12-07T19:50:01Z</updated>
+    <link type="image/png" rel="image" href="http://static.twitter.com/images/default_profile_normal.png"/>
+    <author>
+      <name>smltwit (smltwit)</name>
+      <uri>http://twitter.com/smltwit</uri>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:search.twitter.com,2005:1043834959</id>
+    <published>2008-12-07T19:49:56Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/Timaay/statuses/1043834959"/>
+    <title>@BobbyJindal  is on twitter? He's the bomb!</title>
+    <content type="html">&lt;a href="http://twitter.com/BobbyJindal"&gt;@BobbyJindal&lt;/a&gt;  is on &lt;b&gt;twitter&lt;/b&gt;? He's the bomb!</content>
+    <updated>2008-12-07T19:49:56Z</updated>
+    <link type="image/png" rel="image" href="http://s3.amazonaws.com/twitter_production/profile_images/65548924/Me_mid_Sep_08_closeup_normal.jpg"/>
+    <author>
+      <name>Timaay (Tim)</name>
+      <uri>http://twitter.com/Timaay</uri>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:search.twitter.com,2005:1043834951</id>
+    <published>2008-12-07T19:49:57Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/WSRSL/statuses/1043834951"/>
+    <title>is wondering how many William S. Richardson Law School students, faculty, staff and alumni are on Twitter.</title>
+    <content type="html">is wondering how many William S. Richardson Law School students, faculty, staff and alumni are on &lt;b&gt;Twitter&lt;/b&gt;.</content>
+    <updated>2008-12-07T19:49:57Z</updated>
+    <link type="image/png" rel="image" href="http://s3.amazonaws.com/twitter_production/profile_images/66663370/wsrsl_normal.jpg"/>
+    <author>
+      <name>WSRSL (WSRSL)</name>
+      <uri>http://twitter.com/WSRSL</uri>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:search.twitter.com,2005:1043834905</id>
+    <published>2008-12-07T19:49:54Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/dodeja/statuses/1043834905"/>
+    <title>@PeteTongTV Hmm.. Doesn't seem like that is a twitter account.</title>
+    <content type="html">&lt;a href="http://twitter.com/PeteTongTV"&gt;@PeteTongTV&lt;/a&gt; Hmm.. Doesn't seem like that is a &lt;b&gt;twitter&lt;/b&gt; account.</content>
+    <updated>2008-12-07T19:49:54Z</updated>
+    <link type="image/png" rel="image" href="http://s3.amazonaws.com/twitter_production/profile_images/58752150/n42002206_30447830_1400_normal.jpg"/>
+    <link type="application/atom+xml" rel="thread" href="http://search.twitter.com/search/thread/1043834905.atom"/>
+    <author>
+      <name>dodeja (Akshay Dodeja)</name>
+      <uri>http://twitter.com/dodeja</uri>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:search.twitter.com,2005:1043834833</id>
+    <published>2008-12-07T19:49:51Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/velotips/statuses/1043834833"/>
+    <title>@janibrajkovic Can you sum up your first training camp with Lance in just one Twitter reply?</title>
+    <content type="html">&lt;a href="http://twitter.com/janibrajkovic"&gt;@janibrajkovic&lt;/a&gt; Can you sum up your first training camp with Lance in just one &lt;b&gt;Twitter&lt;/b&gt; reply?</content>
+    <updated>2008-12-07T19:49:51Z</updated>
+    <link type="image/png" rel="image" href="http://s3.amazonaws.com/twitter_production/profile_images/64068730/velotips_button_normal.png"/>
+    <author>
+      <name>velotips (velotips)</name>
+      <uri>http://twitter.com/velotips</uri>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:search.twitter.com,2005:1043834742</id>
+    <published>2008-12-07T19:49:43Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/jontilton/statuses/1043834742"/>
+    <title>Do I smell a potential competition?... http://twitter.grader.com</title>
+    <content type="html">Do I smell a potential competition?... &lt;a href="http://twitter.grader.com"&gt;http://&lt;b&gt;twitter&lt;/b&gt;.grader.com&lt;/a&gt;</content>
+    <updated>2008-12-07T19:49:43Z</updated>
+    <link type="image/png" rel="image" href="http://s3.amazonaws.com/twitter_production/profile_images/66567701/Picture_2_normal.png"/>
+    <author>
+      <name>jontilton (Jon Tilton)</name>
+      <uri>http://twitter.com/jontilton</uri>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:search.twitter.com,2005:1043834722</id>
+    <published>2008-12-07T19:49:44Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/lorelaicc/statuses/1043834722"/>
+    <title>so I'm thinking of signing Damaris up for Twitter b/c she reads mine, Russ, plus several other friends, it would make it easier for her, hmm</title>
+    <content type="html">so I'm thinking of signing Damaris up for &lt;b&gt;Twitter&lt;/b&gt; b/c she reads mine, Russ, plus several other friends, it would make it easier for her, hmm</content>
+    <updated>2008-12-07T19:49:44Z</updated>
+    <link type="image/png" rel="image" href="http://s3.amazonaws.com/twitter_production/profile_images/65930221/CIMG0609_normal.JPG"/>
+    <author>
+      <name>lorelaicc (C.C. Almon)</name>
+      <uri>http://twitter.com/lorelaicc</uri>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:search.twitter.com,2005:1043834700</id>
+    <published>2008-12-07T19:49:44Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/schoel/statuses/1043834700"/>
+    <title>Building a dynamic web app with Scala LIFT ( twitter's newer components run on it) - great tutorial here: http://is.gd/aBuU</title>
+    <content type="html">Building a dynamic web app with Scala LIFT ( &lt;b&gt;twitter&lt;/b&gt;'s newer components run on it) - great tutorial here: &lt;a href="http://is.gd/aBuU"&gt;http://is.gd/aBuU&lt;/a&gt;</content>
+    <updated>2008-12-07T19:49:44Z</updated>
+    <link type="image/png" rel="image" href="http://s3.amazonaws.com/twitter_production/profile_images/64882089/Martin_normal.jpg"/>
+    <author>
+      <name>schoel (Martin Schoel)</name>
+      <uri>http://twitter.com/schoel</uri>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:search.twitter.com,2005:1043834637</id>
+    <published>2008-12-07T19:49:39Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/jpickell/statuses/1043834637"/>
+    <title>Why isn't the default behavior of twitter.com to use ssl?  If I log into the site via ssl, it still redirects me to the http site! Arg.</title>
+    <content type="html">Why isn't the default behavior of &lt;b&gt;twitter&lt;/b&gt;.com to use ssl?  If I log into the site via ssl, it still redirects me to the http site! Arg.</content>
+    <updated>2008-12-07T19:49:39Z</updated>
+    <link type="image/png" rel="image" href="http://s3.amazonaws.com/twitter_production/profile_images/44469492/beard_normal.jpg"/>
+    <author>
+      <name>jpickell (Jeff Pickell)</name>
+      <uri>http://twitter.com/jpickell</uri>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:search.twitter.com,2005:1043834531</id>
+    <published>2008-12-07T19:49:36Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/shayman/statuses/1043834531"/>
+    <title>@KMiley Actually wait, sorry, that's what happens when I'm checking out Twitter.</title>
+    <content type="html">&lt;a href="http://twitter.com/KMiley"&gt;@KMiley&lt;/a&gt; Actually wait, sorry, that's what happens when I'm checking out &lt;b&gt;Twitter&lt;/b&gt;.</content>
+    <updated>2008-12-07T19:49:36Z</updated>
+    <link type="image/png" rel="image" href="http://s3.amazonaws.com/twitter_production/profile_images/57087906/TwitterPicture_bigger_normal.jpg"/>
+    <link type="application/atom+xml" rel="thread" href="http://search.twitter.com/search/thread/1043834531.atom"/>
+    <author>
+      <name>shayman (Steve Hayman)</name>
+      <uri>http://twitter.com/shayman</uri>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:search.twitter.com,2005:1043834455</id>
+    <published>2008-12-07T19:49:34Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/tradeshowguy/statuses/1043834455"/>
+    <title>retweet from @comster A few of our fave Twitter Tips and Resources: http://tinyurl.com/6og6le</title>
+    <content type="html">retweet from &lt;a href="http://twitter.com/comster"&gt;@comster&lt;/a&gt; A few of our fave &lt;b&gt;Twitter&lt;/b&gt; Tips and Resources: &lt;a href="http://tinyurl.com/6og6le"&gt;http://tinyurl.com/6og6le&lt;/a&gt;</content>
+    <updated>2008-12-07T19:49:34Z</updated>
+    <link type="image/png" rel="image" href="http://s3.amazonaws.com/twitter_production/profile_images/65135908/IE_Logo_normal.jpg"/>
+    <author>
+      <name>tradeshowguy (Tim Patterson)</name>
+      <uri>http://twitter.com/tradeshowguy</uri>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:search.twitter.com,2005:1043834446</id>
+    <published>2008-12-07T19:49:31Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/WSRSL/statuses/1043834446"/>
+    <title>is wondering how many William S. Richardson Law School students, faculty, staff and alumni are on Twitter</title>
+    <content type="html">is wondering how many William S. Richardson Law School students, faculty, staff and alumni are on &lt;b&gt;Twitter&lt;/b&gt;</content>
+    <updated>2008-12-07T19:49:31Z</updated>
+    <link type="image/png" rel="image" href="http://s3.amazonaws.com/twitter_production/profile_images/66663370/wsrsl_normal.jpg"/>
+    <author>
+      <name>WSRSL (WSRSL)</name>
+      <uri>http://twitter.com/WSRSL</uri>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:search.twitter.com,2005:1043834415</id>
+    <published>2008-12-07T19:49:33Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/swatcat_mx/statuses/1043834415"/>
+    <title>@morris237 de donde es la imagen de fondo que tienes en tu twitter???</title>
+    <content type="html">&lt;a href="http://twitter.com/morris237"&gt;@morris237&lt;/a&gt; de donde es la imagen de fondo que tienes en tu &lt;b&gt;twitter&lt;/b&gt;???</content>
+    <updated>2008-12-07T19:49:33Z</updated>
+    <link type="image/png" rel="image" href="http://s3.amazonaws.com/twitter_production/profile_images/64691040/swatcat__normal.JPG"/>
+    <link type="application/atom+xml" rel="thread" href="http://search.twitter.com/search/thread/1043834415.atom"/>
+    <author>
+      <name>swatcat_mx (Amhed)</name>
+      <uri>http://twitter.com/swatcat_mx</uri>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:search.twitter.com,2005:1043834370</id>
+    <published>2008-12-07T19:49:30Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/JennoChand/statuses/1043834370"/>
+    <title>one...my twitter is filled with dj comments...LOVE IT! 2.pancakes w/starwberries...BOMB ASS</title>
+    <content type="html">one...my &lt;b&gt;twitter&lt;/b&gt; is filled with dj comments...LOVE IT! 2.pancakes w/starwberries...BOMB ASS</content>
+    <updated>2008-12-07T19:49:30Z</updated>
+    <link type="image/png" rel="image" href="http://s3.amazonaws.com/twitter_production/profile_images/65705333/n129400926_30398878_7852_normal.jpg"/>
+    <author>
+      <name>JennoChand (JennoChand)</name>
+      <uri>http://twitter.com/JennoChand</uri>
+    </author>
+  </entry>
+</feed>
