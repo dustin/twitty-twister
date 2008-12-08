@@ -1,5 +1,5 @@
 from twisted.internet import error
-from twisted.web import sux
+from twisted.web import sux, microdom
 
 class NoopParser(object):
     def __init__(self, n):
@@ -115,3 +115,8 @@ class Feed(sux.XMLParser):
         else:
             print "Unhandled entity reference: ", data
 
+def parseXML(xml):
+    return microdom.parseXMLString(xml)
+
+def parseUpdateResponse(xml):
+    return parseXML(xml).getElementsByTagName("id")[0].firstChild().data

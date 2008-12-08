@@ -10,7 +10,7 @@ import base64
 import urllib
 
 from twisted.python import log
-from twisted.internet import reactor
+from twisted.internet import reactor, defer
 from twisted.web import client
 
 import txml
@@ -41,6 +41,17 @@ def __post(user, password, path, args={}):
 def verify_credentials(username, password):
     "Verify a user's credentials."
     return __post(username, password, "/account/verify_credentials.xml")
+
+def __parsed_post(hdef, parser):
+    deferred = defer.Deferred()
+    hdef.addErrback(lambda e: deferred.errback(e))
+    hdef.addCallback(lambda p: deferred.callback(parser(p)))
+    return deferred
+
+def update(username, password, status):
+    "Update your status.  Returns the ID of the new post."
+    return __parsed_post(__post(username, password, "/statuses/update.xml",
+        {'status': status}), txml.parseUpdateResponse)
 
 def search(query, delegate):
     "Perform a search query.  Get results in a deferred."

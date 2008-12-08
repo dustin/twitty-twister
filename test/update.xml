@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<status>
+  <created_at>Mon Dec 08 18:48:12 +0000 2008</created_at>
+  <id>1045518625</id>
+  <text>I wonder if this works.</text>
+  <source>web</source>
+  <truncated>false</truncated>
+  <in_reply_to_status_id></in_reply_to_status_id>
+  <in_reply_to_user_id></in_reply_to_user_id>
+  <favorited>false</favorited>
+  <user>
+    <id>14117412</id>
+    <name>Dustin Sallings</name>
+    <screen_name>dlsspy</screen_name>
+    <location>Santa Clara, CA</location>
+    <description>Probably writing code.</description>
+    <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/57455325/IMG_0596_2_normal.JPG</profile_image_url>
+    <url>http://bleu.west.spy.net/~dustin/</url>
+    <protected>false</protected>
+    <followers_count>196</followers_count>
+  </user>
+</status>
