@@ -41,7 +41,7 @@ def __post(user, password, path, args={}):
 def __get(user, password, path, delegate, params={}):
     url = BASE_URL + path
     if params:
-        url += '?' + __urlencode(params),
+        url += '?' + __urlencode(params)
     return client.downloadPage(url, txml.Feed(delegate),
         headers=makeAuthHeader(user, password))
 
