@@ -79,6 +79,12 @@ def follow(username, password, user):
     Returns no useful data."""
     return __post(username, password, '/friendships/create/%s.xml' % user)
 
+def leave(username, password, user):
+    """Stop following the given user.
+
+    Returns no useful data."""
+    return __post(username, password, '/friendships/destroy/%s.xml' % user)
+
 def search(query, delegate):
     """Perform a search query.
     
