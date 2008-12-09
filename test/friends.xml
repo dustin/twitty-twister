@@ -1,0 +1,2080 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<users type="array">
+<user>
+  <id>10803182</id>
+  <name>rescuetime</name>
+  <screen_name>rescuetime</screen_name>
+  <location></location>
+  <description></description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/58196015/icon2_normal.jpg</profile_image_url>
+  <url>http://www.rescuetime.com</url>
+  <protected>false</protected>
+  <followers_count>122</followers_count>
+  <status>
+    <created_at>Sat Nov 15 02:38:07 +0000 2008</created_at>
+    <id>1006503657</id>
+    <text>Just pushed a big new release - mostly under the hood upgrades and speed boosts, but now you can drag and drop!  Woo-hoo!</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+  </status>
+</user>
+<user>
+  <id>8161232</id>
+  <name>richardbranson</name>
+  <screen_name>richardbranson</screen_name>
+  <location></location>
+  <description></description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/64445726/rb_normal.jpg</profile_image_url>
+  <url></url>
+  <protected>false</protected>
+  <followers_count>3506</followers_count>
+  <status>
+    <created_at>Wed Dec 03 11:48:17 +0000 2008</created_at>
+    <id>1035983655</id>
+    <text>See on my blog a picture of what my 2000th follower won! http://richard.virgin.com!</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+  </status>
+</user>
+<user>
+  <id>17874544</id>
+  <name>Support</name>
+  <screen_name>Support</screen_name>
+  <location></location>
+  <description></description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/66375066/twitterowl_normal.jpg</profile_image_url>
+  <url></url>
+  <protected>true</protected>
+  <followers_count>7</followers_count>
+</user>
+<user>
+  <id>14346209</id>
+  <name>Sean</name>
+  <screen_name>sean</screen_name>
+  <location>Texas</location>
+  <description>twitter.JP support/translator/etc dude</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/52613904/me_normal.jpg</profile_image_url>
+  <url>http://twitter.com/ajishiosean</url>
+  <protected>false</protected>
+  <followers_count>593</followers_count>
+  <status>
+    <created_at>Mon Dec 08 06:21:34 +0000 2008</created_at>
+    <id>1044625313</id>
+    <text>Kicked out from said park, now at hotel.</text>
+    <source>&lt;a href=&quot;http://www.atebits.com/software/tweetie/&quot;&gt;Tweetie&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited></favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>3611041</id>
+  <name>Dan Zarrella</name>
+  <screen_name>danzarrella</screen_name>
+  <location>Boston</location>
+  <description>Social &amp; Viral Marketing Scientist</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/57631299/twitter_avatar_normal.jpg</profile_image_url>
+  <url>http://danzarrella.com</url>
+  <protected>false</protected>
+  <followers_count>2250</followers_count>
+  <status>
+    <created_at>Tue Dec 09 03:38:18 +0000 2008</created_at>
+    <id>1046385581</id>
+    <text>cute, my little sister is on twitter: @BDeVito</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>15128159</id>
+  <name>cathybaron</name>
+  <screen_name>cathybaron</screen_name>
+  <location>los angeles</location>
+  <description>im a designer of life</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/65621863/squareatcamera_normal.jpg</profile_image_url>
+  <url>http://www.cathybaron.com</url>
+  <protected>false</protected>
+  <followers_count>168</followers_count>
+  <status>
+    <created_at>Mon Dec 08 23:59:19 +0000 2008</created_at>
+    <id>1046048590</id>
+    <text>my pet sitter is the best n the world.she just left sooshi &amp; sashi kitty treats for the holidays!if you need a sitter www.4pawsandatale.com</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>973261</id>
+  <name>Dusty Reagan</name>
+  <screen_name>DustyReagan</screen_name>
+  <location>Austin, TX</location>
+  <description>Entrepreneur, Web Geek, Austin Jelly Guy, Conjunctured Co-Founder, Maker of FriendOrFollow.com</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/53507812/2209569192_816b28049d_normal.jpg</profile_image_url>
+  <url>http://dustyreagan.com</url>
+  <protected>false</protected>
+  <followers_count>1288</followers_count>
+  <status>
+    <created_at>Tue Dec 09 03:38:13 +0000 2008</created_at>
+    <id>1046385495</id>
+    <text>I love the Bert &amp; Ernie gangsta rap. I've watched it several times today. :) http://tinyurl.com/64z4cm</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>14478614</id>
+  <name>Jeff Elder</name>
+  <screen_name>JeffElder</screen_name>
+  <location>Stanford, Calif.</location>
+  <description>Syndicated columnist, blogger, Silicon Valley tech scholar at Stanford</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/54558965/MyPicture-1_normal.jpg</profile_image_url>
+  <url></url>
+  <protected>false</protected>
+  <followers_count>312</followers_count>
+  <status>
+    <created_at>Sun Dec 07 23:46:08 +0000 2008</created_at>
+    <id>1044132308</id>
+    <text>$100 prize for best plot suggestion for @wolfstory, my serial about  she-wolves on the prowl. Followers appear as characters, if they wish.</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>5819322</id>
+  <name>Maggie Utgoff</name>
+  <screen_name>mutgoff</screen_name>
+  <location>san francisco</location>
+  <description></description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/66291189/maggie_normal</profile_image_url>
+  <url>http://www.worktolive.us</url>
+  <protected>false</protected>
+  <followers_count>96</followers_count>
+  <status>
+    <created_at>Mon Dec 08 03:31:15 +0000 2008</created_at>
+    <id>1044428625</id>
+    <text>If I was a spice girl I would be lazy spice</text>
+    <source>&lt;a href=&quot;http://help.twitter.com/index.php?pg=kb.page&amp;id=75&quot;&gt;txt&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>17431654</id>
+  <name>johnroderick</name>
+  <screen_name>johnroderick</screen_name>
+  <location>Starship Washington</location>
+  <description>I love too hard.</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/65501874/deet_normal.jpg</profile_image_url>
+  <url>http://thelongwinters.com</url>
+  <protected>false</protected>
+  <followers_count>743</followers_count>
+  <status>
+    <created_at>Mon Dec 08 21:54:46 +0000 2008</created_at>
+    <id>1045843938</id>
+    <text>My backyard used to have moles. Then, mysteriously, they all went away. Now some new varmints are digging holes.  Whither diggeth, varmints?</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>9740572</id>
+  <name>Evan (CEO of mimoco)</name>
+  <screen_name>mimobot</screen_name>
+  <location>boston</location>
+  <description>MIMOBOT character-based, artist-designed USB flash drives come preloaded w/ digital media content for your enjoyment.  follow to play&amp;win twitter contests w/me!</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/65899718/goldenpanda_2_normal.jpg</profile_image_url>
+  <url>http://www.mimoco.com/mimo_news/400k_megabyte_contest</url>
+  <protected>false</protected>
+  <followers_count>1996</followers_count>
+  <status>
+    <created_at>Tue Dec 09 03:58:20 +0000 2008</created_at>
+    <id>1046415424</id>
+    <text>it's the final hour for day 32. get those tweets in twitterland. todays WOTD = flash.</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>8453452</id>
+  <name>Guy Kawasaki</name>
+  <screen_name>guykawasaki</screen_name>
+  <location></location>
+  <description>Online magazine editor</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/64990284/guy2.0_normal.jpg</profile_image_url>
+  <url>http://alltop.com/</url>
+  <protected>false</protected>
+  <followers_count>34429</followers_count>
+  <status>
+    <created_at>Tue Dec 09 05:00:26 +0000 2008</created_at>
+    <id>1046500505</id>
+    <text>@julieminevich 30s. Not bad.</text>
+    <source>&lt;a href=&quot;http://www.tweetdeck.com/&quot;&gt;TweetDeck&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id>1046486130</in_reply_to_status_id>
+    <in_reply_to_user_id>16564753</in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name>julieminevich</in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>16957618</id>
+  <name>Greg Yaitanes</name>
+  <screen_name>GregYaitanes</screen_name>
+  <location>LA or NYC</location>
+  <description>twitter investor, advisor and i direct things</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/62795863/gybiopic_normal.jpg</profile_image_url>
+  <url>http://www.imdb.com/name/nm0944981/</url>
+  <protected>true</protected>
+  <followers_count>36</followers_count>
+</user>
+<user>
+  <id>15068491</id>
+  <name>toohai2</name>
+  <screen_name>toohai2</screen_name>
+  <location>SW Misery</location>
+  <description></description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/55261585/sean02__Small__normal.JPG</profile_image_url>
+  <url>http://myspace.com/joplinsean</url>
+  <protected>false</protected>
+  <followers_count>3</followers_count>
+  <status>
+    <created_at>Wed Dec 03 16:30:39 +0000 2008</created_at>
+    <id>1036408023</id>
+    <text>Just got done driving 110miles round trip only to have my interview rescheduled well after I arrived... I'm in a wonderful mood.</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited></favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>631583</id>
+  <name>Julia Roy</name>
+  <screen_name>juliaroy</screen_name>
+  <location>NYC</location>
+  <description>&#9733;An entirely digital girl&#9733; Host of weekly web-series @ TweetWeek.blip.tv &amp; is Senior Agent @ Undercurrent.com</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/61756364/Photo_324_normal.jpg</profile_image_url>
+  <url>http://juliaroy.com</url>
+  <protected>false</protected>
+  <followers_count>7313</followers_count>
+  <status>
+    <created_at>Tue Dec 09 04:45:41 +0000 2008</created_at>
+    <id>1046481749</id>
+    <text>OMG! Chillin in my hotel room at the Ritz, in the Best Robe EVER! http://flickr.com/photos/juliapatriciaroy/3094838686/</text>
+    <source>&lt;a href=&quot;http://www.twhirl.org/&quot;&gt;twhirl&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>17169320</id>
+  <name>Common</name>
+  <screen_name>common</screen_name>
+  <location></location>
+  <description></description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/63598404/common_twitter_normal.jpg</profile_image_url>
+  <url>http://www.thinkcommon.com</url>
+  <protected>false</protected>
+  <followers_count>283</followers_count>
+  <status>
+    <created_at>Mon Dec 01 20:30:04 +0000 2008</created_at>
+    <id>1032894394</id>
+    <text>still needs to learn how to use twitter...so be patient and check out thinkcommon.com till then</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>17696989</id>
+  <name>Domenick Regina</name>
+  <screen_name>clark092002</screen_name>
+  <location>Dallas, Texas</location>
+  <description></description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/65695014/Flickr_Photo_Download__IMAG0122_normal.jpg</profile_image_url>
+  <url></url>
+  <protected>true</protected>
+  <followers_count>3</followers_count>
+</user>
+<user>
+  <id>12498052</id>
+  <name>jillregina</name>
+  <screen_name>jillregina</screen_name>
+  <location></location>
+  <description></description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/65696767/jill_on_Flickr_-_Photo_Sharing__normal.jpg</profile_image_url>
+  <url></url>
+  <protected>false</protected>
+  <followers_count>10</followers_count>
+  <status>
+    <created_at>Sun Nov 30 04:20:23 +0000 2008</created_at>
+    <id>1030291406</id>
+    <text>Thanxmas at our house: &quot;The gift that keeps on giving....&quot;
+.....I really like margaritas!</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>17696559</id>
+  <name>lauriejo</name>
+  <screen_name>lauriejo</screen_name>
+  <location></location>
+  <description></description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/65693747/laurie__MIL__on_Flickr_-_Photo_Sharing__normal.jpg</profile_image_url>
+  <url></url>
+  <protected>true</protected>
+  <followers_count>5</followers_count>
+</user>
+<user>
+  <id>16444606</id>
+  <name>Katie Boehret</name>
+  <screen_name>kabster728</screen_name>
+  <location>WDC</location>
+  <description>As a WSJ Reporter, I write a weekly technology column on Wednesday</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/60708970/Dot_Drawing_normal.gif</profile_image_url>
+  <url></url>
+  <protected>false</protected>
+  <followers_count>685</followers_count>
+  <status>
+    <created_at>Mon Dec 08 23:58:18 +0000 2008</created_at>
+    <id>1046047250</id>
+    <text>&quot;Somebody pick up. PICK UP!!!&quot; --Kate McCallister, &quot;Home Alone&quot;</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>4388511</id>
+  <name>David Wolf</name>
+  <screen_name>wolfgroupasia</screen_name>
+  <location>Beijing</location>
+  <description>Silicon Hutong denizen and communications strategist.</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/66035701/2_normal.JPG</profile_image_url>
+  <url>http://siliconhutong.typepad.com/silicon_hutong/</url>
+  <protected>false</protected>
+  <followers_count>409</followers_count>
+  <status>
+    <created_at>Tue Dec 09 01:31:04 +0000 2008</created_at>
+    <id>1046190272</id>
+    <text>Find out why strangers may cheer you up and other sociology topics at http://sociology.alltop.com/</text>
+    <source>&lt;a href=&quot;https://twitterfeed.com/alltop&quot;&gt;alltop&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited></favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>16252784</id>
+  <name>lululemon athletica</name>
+  <screen_name>lululemon</screen_name>
+  <location>Vancouver, BC</location>
+  <description>Dancing, singing, flossing, and tweeting from the lululemon head office in Vancouver, BC.  </description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/64458661/lotus400_normal.jpg</profile_image_url>
+  <url>http://www.lululemon.com</url>
+  <protected>false</protected>
+  <followers_count>356</followers_count>
+  <status>
+    <created_at>Mon Dec 08 15:28:00 +0000 2008</created_at>
+    <id>1045186002</id>
+    <text>Has anyone seen our new reusable shopping bags yet? http://bit.ly/reuse</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+  </status>
+</user>
+<user>
+  <id>7419512</id>
+  <name>Bhaskar Roy</name>
+  <screen_name>broy</screen_name>
+  <location>Redwood City, CA</location>
+  <description>Qik Cofounder</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/65521211/pic7_normal.jpg</profile_image_url>
+  <url>http://qik.com/bhaskar</url>
+  <protected>false</protected>
+  <followers_count>990</followers_count>
+  <status>
+    <created_at>Mon Dec 08 23:12:10 +0000 2008</created_at>
+    <id>1045974355</id>
+    <text>@RockDaMullet How about Tue afternoon at our office in Redwood City?</text>
+    <source>&lt;a href=&quot;http://www.tweetdeck.com/&quot;&gt;TweetDeck&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id>1044817636</in_reply_to_status_id>
+    <in_reply_to_user_id>14840612</in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name>RockDaMullet</in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>14749606</id>
+  <name>dropbox</name>
+  <screen_name>Dropbox</screen_name>
+  <location>sf, ca</location>
+  <description></description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/54096846/box_normal.jpg</profile_image_url>
+  <url>http://getdropbox.com</url>
+  <protected>false</protected>
+  <followers_count>4383</followers_count>
+  <status>
+    <created_at>Wed Dec 03 23:09:16 +0000 2008</created_at>
+    <id>1037105634</id>
+    <text>My user Wiki is now available!  Gogo!  http://wiki.getdropbox.com</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>17344075</id>
+  <name>gerardway</name>
+  <screen_name>gerardway</screen_name>
+  <location></location>
+  <description></description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/65367412/A_small_cup_of_coffee_normal.jpg</profile_image_url>
+  <url></url>
+  <protected>false</protected>
+  <followers_count>10008</followers_count>
+  <status>
+    <created_at>Tue Dec 09 01:46:23 +0000 2008</created_at>
+    <id>1046213420</id>
+    <text>writing umbrella academy</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>17468515</id>
+  <name>bcbryar</name>
+  <screen_name>bobbryar</screen_name>
+  <location></location>
+  <description></description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/65394453/IMG_0225_normal.JPG</profile_image_url>
+  <url></url>
+  <protected>false</protected>
+  <followers_count>8930</followers_count>
+  <status>
+    <created_at>Tue Dec 02 07:19:29 +0000 2008</created_at>
+    <id>1033791372</id>
+    <text>gotta go.  nice talking.  see you tomorrow!</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>17461978</id>
+  <name>THE_REAL_SHAQ</name>
+  <screen_name>THE_REAL_SHAQ</screen_name>
+  <location>PHOENIX/EVERYWERE</location>
+  <description>VERY QUOTATIOUS</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/64797034/shaq_normal.jpg</profile_image_url>
+  <url></url>
+  <protected>false</protected>
+  <followers_count>19192</followers_count>
+  <status>
+    <created_at>Tue Dec 09 03:31:56 +0000 2008</created_at>
+    <id>1046375927</id>
+    <text>Id like people to think of me as someone who cares about them
+
+Princess diana</text>
+    <source>&lt;a href=&quot;http://help.twitter.com/index.php?pg=kb.page&amp;id=75&quot;&gt;txt&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>17194296</id>
+  <name>Mr Tweet</name>
+  <screen_name>MrTweet</screen_name>
+  <location>Everywhere </location>
+  <description>I am your personal twitter assistant - add me as a friend, and I'll suggest to you which influencers and followers you should check out. (More coming soon! )</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/64014211/Ticon_small_normal.png</profile_image_url>
+  <url>http://www.mrtweet.net</url>
+  <protected>false</protected>
+  <followers_count>20416</followers_count>
+  <status>
+    <created_at>Mon Dec 08 16:30:51 +0000 2008</created_at>
+    <id>1045281899</id>
+    <text>Blog Post: Influence is in the eye of the audience (not the beholder) http://blog.mrtweet.net/?p=26  What's YOUR definition of influence? :)</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+  </status>
+</user>
+<user>
+  <id>9184282</id>
+  <name>Irene McGee</name>
+  <screen_name>springfever</screen_name>
+  <location>San Francisco</location>
+  <description>Media Maven</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/56035071/Photo_28_normal.jpg</profile_image_url>
+  <url>http://www.irenemcgee.com</url>
+  <protected>true</protected>
+  <followers_count>280</followers_count>
+</user>
+<user>
+  <id>15677036</id>
+  <name>Playboy</name>
+  <screen_name>Playboy</screen_name>
+  <location>Chicago, New York and L.A.</location>
+  <description></description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/64547407/playboy-magazine_bigger-1_normal.jpg</profile_image_url>
+  <url>http://www.playboy.com</url>
+  <protected>false</protected>
+  <followers_count>372</followers_count>
+  <status>
+    <created_at>Mon Dec 08 23:30:07 +0000 2008</created_at>
+    <id>1046002959</id>
+    <text>Jayden Tyler is our Model of the Day for Monday, December 8th (NSFW): http://bit.ly/vzWh</text>
+    <source>&lt;a href=&quot;http://twittertise.com/&quot;&gt;Twittertise&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>13414102</id>
+  <name>Sean Gerety</name>
+  <screen_name>IdeaKitchn</screen_name>
+  <location>Atlanta, GA, USA</location>
+  <description>UX Geek - I love the cloud and a great UI. Part of www.twitpay.me team</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/51502459/Me_normal.png</profile_image_url>
+  <url>http://ideakitchn.com/blogs/sean/default.aspx</url>
+  <protected>false</protected>
+  <followers_count>326</followers_count>
+  <status>
+    <created_at>Tue Dec 09 04:15:24 +0000 2008</created_at>
+    <id>1046440695</id>
+    <text>@locoups I thought i'd go old school. Plus, everyone likes postcards.</text>
+    <source>&lt;a href=&quot;http://www.atebits.com/software/tweetie/&quot;&gt;Tweetie&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id>1046296882</in_reply_to_status_id>
+    <in_reply_to_user_id>12422212</in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name>locoups</in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>17553062</id>
+  <name>Nebrasker</name>
+  <screen_name>Nebrasker</screen_name>
+  <location></location>
+  <description></description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/65153333/IMG_2232_normal.JPG</profile_image_url>
+  <url></url>
+  <protected>false</protected>
+  <followers_count>5</followers_count>
+  <status>
+    <created_at>Mon Dec 01 00:07:25 +0000 2008</created_at>
+    <id>1031398526</id>
+    <text>Sure did Thanks. So sweet.</text>
+    <source>&lt;a href=&quot;http://help.twitter.com/index.php?pg=kb.page&amp;id=75&quot;&gt;txt&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>17501126</id>
+  <name>judeplum</name>
+  <screen_name>judeplum</screen_name>
+  <location>there</location>
+  <description>sarcastic relativist, eccentric realist, verbose bastard? hypocritical human</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/64959500/Photo_171_normal.jpg</profile_image_url>
+  <url></url>
+  <protected>false</protected>
+  <followers_count>22</followers_count>
+  <status>
+    <created_at>Thu Nov 20 05:04:03 +0000 2008</created_at>
+    <id>1014218873</id>
+    <text>Twitter is the long-awaited justification for self-absorbed egotists and self-ordained sages; at last humanity is justified!</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+  </status>
+</user>
+<user>
+  <id>76093</id>
+  <name>Melissa Gira Grant</name>
+  <screen_name>melissagira</screen_name>
+  <location>San Francisco</location>
+  <description>Embedded.</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/64617018/Picture_7_normal.png</profile_image_url>
+  <url>http://melissagira.com</url>
+  <protected>false</protected>
+  <followers_count>2025</followers_count>
+  <status>
+    <created_at>Tue Dec 09 01:50:18 +0000 2008</created_at>
+    <id>1046219703</id>
+    <text>Stretched out with tom ka soup, Mazzy Star, and my aching body. #snifflerparty</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>15680291</id>
+  <name>Jennifer Newton</name>
+  <screen_name>jbirdnewton</screen_name>
+  <location></location>
+  <description></description>
+  <profile_image_url>http://static.twitter.com/images/default_profile_normal.png</profile_image_url>
+  <url></url>
+  <protected>false</protected>
+  <followers_count>2</followers_count>
+  <status>
+    <created_at>Thu Jul 31 20:40:54 +0000 2008</created_at>
+    <id>874025126</id>
+    <text>ttping</text>
+    <source>&lt;a href=&quot;http://twitterhelp.blogspot.com/2008/05/twitter-via-mobile-web-mtwittercom.html&quot;&gt;mobile web&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited></favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>7985672</id>
+  <name>Soren Macbeth</name>
+  <screen_name>sorenmacbeth</screen_name>
+  <location>Oakland, California</location>
+  <description>Founder &amp; CEO of http://stocktwits.com, Interested in Currency Markets, Hedge Funds</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/63530454/self_normal.jpg</profile_image_url>
+  <url>http://dopeness.org/</url>
+  <protected>false</protected>
+  <followers_count>741</followers_count>
+  <status>
+    <created_at>Tue Dec 09 02:41:28 +0000 2008</created_at>
+    <id>1046297320</id>
+    <text>@pglyman Agreed.</text>
+    <source>&lt;a href=&quot;http://www.tweetdeck.com/&quot;&gt;TweetDeck&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id>1046295411</in_reply_to_status_id>
+    <in_reply_to_user_id>3125451</in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name>pglyman</in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>14886375</id>
+  <name>Stocktwits</name>
+  <screen_name>StockTwits</screen_name>
+  <location>Oakland, CA</location>
+  <description>Real-time stock conversations. Follow me and prefix tickers with $ (e.g. $GLD) to have your tweets indexed!</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/61696487/STavatar3_normal.png</profile_image_url>
+  <url>http://www.stocktwits.com</url>
+  <protected>false</protected>
+  <followers_count>4299</followers_count>
+  <status>
+    <created_at>Mon Dec 08 22:34:02 +0000 2008</created_at>
+    <id>1045911017</id>
+    <text>@bfia tx bob for the kudos!  weve plenty more on the way...</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id>1045882641</in_reply_to_status_id>
+    <in_reply_to_user_id>7822742</in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name>bfia</in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>16094727</id>
+  <name>Google Chrome</name>
+  <screen_name>ChromeBrowser</screen_name>
+  <location>Internet</location>
+  <description>Google Chrome - Community, News, Blogs, Forums, Tools, Add-ons, Tutorials</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/59289499/Google-Chrome-Browser_normal.png</profile_image_url>
+  <url>http://Google-Chrome-Browser.com</url>
+  <protected>false</protected>
+  <followers_count>254</followers_count>
+  <status>
+    <created_at>Tue Dec 09 04:51:07 +0000 2008</created_at>
+    <id>1046488926</id>
+    <text>piraterick: Google Chrome for the Win: BTW: Google Chrome spies on you. So if you're doing something illegal, st.. http://tinyurl.com/5rup3t</text>
+    <source>&lt;a href=&quot;http://twitterfeed.com&quot;&gt;twitterfeed&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>15337502</id>
+  <name>JT Bateman</name>
+  <screen_name>Tanya77</screen_name>
+  <location>L.A., Calif. USA</location>
+  <description>Partner, FM78.tv</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/61773365/Photo_62_normal.jpg</profile_image_url>
+  <url>http://www.fm78.tv</url>
+  <protected>true</protected>
+  <followers_count>27</followers_count>
+</user>
+<user>
+  <id>15794195</id>
+  <name>grader</name>
+  <screen_name>grader</screen_name>
+  <location>Cambridge, MA</location>
+  <description>Free tools for measuring your marketing mojo at http://grader.com</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/58987540/hubspot-twitter-icon_normal.jpg</profile_image_url>
+  <url>http://twitter.grader.com</url>
+  <protected>false</protected>
+  <followers_count>19893</followers_count>
+  <status>
+    <created_at>Mon Dec 08 18:19:14 +0000 2008</created_at>
+    <id>1045469015</id>
+    <text>If you liked our funny music video about inbound marketing.  Please help it spread. Thanks! http://bit.ly/m2Af</text>
+    <source>&lt;a href=&quot;http://twitter.grader.com&quot;&gt;Twitter Grader&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+  </status>
+</user>
+<user>
+  <id>631603</id>
+  <name>Cassie</name>
+  <screen_name>cassiestirman</screen_name>
+  <location></location>
+  <description></description>
+  <profile_image_url>http://static.twitter.com/images/default_profile_normal.png</profile_image_url>
+  <url></url>
+  <protected>true</protected>
+  <followers_count>9</followers_count>
+</user>
+<user>
+  <id>17247792</id>
+  <name>Kristin Kramer</name>
+  <screen_name>SN0WKRASH</screen_name>
+  <location>San Bruno, CA (SF Bay Area)</location>
+  <description>CSS Guru/UI Designer/ Developer With Social Skills</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/63905026/logo_normal.jpg</profile_image_url>
+  <url>http://www.kramerpublishinginteractive.com</url>
+  <protected>false</protected>
+  <followers_count>61</followers_count>
+  <status>
+    <created_at>Mon Dec 08 10:24:18 +0000 2008</created_at>
+    <id>1044825807</id>
+    <text>wondering which enneagram number is consistently late</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited></favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>7746932</id>
+  <name>Dan Bricklin</name>
+  <screen_name>DanB</screen_name>
+  <location>Massachusetts, USA</location>
+  <description>One of the VisiCalc guys, DB Demo, Trellix, blogging, podcasting, etc., and president of Software Garden, Inc. (SGI)</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/25950942/Dan200609IMG_2366white2-85x85_normal.jpg</profile_image_url>
+  <url>http://www.bricklin.com</url>
+  <protected>false</protected>
+  <followers_count>614</followers_count>
+  <status>
+    <created_at>Fri Dec 05 17:08:05 +0000 2008</created_at>
+    <id>1040494292</id>
+    <text>No Tech Tuesday this month -- too many holiday parties, but some take its place: http://tinyurl.com/5omfun</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+  </status>
+</user>
+<user>
+  <id>13141672</id>
+  <name>gmasterb</name>
+  <screen_name>gmasterb</screen_name>
+  <location>Topang Canyon, LA CA</location>
+  <description></description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/64499330/img_rebecca2_normal.jpg</profile_image_url>
+  <url></url>
+  <protected>false</protected>
+  <followers_count>21</followers_count>
+  <status>
+    <created_at>Sun Dec 07 23:45:50 +0000 2008</created_at>
+    <id>1044131843</id>
+    <text>About to ham it up and mc a green expo at ford theater!</text>
+    <source>&lt;a href=&quot;http://orangatame.com/products/twitterberry/&quot;&gt;TwitterBerry&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited></favorited>
+  </status>
+</user>
+<user>
+  <id>1763791</id>
+  <name>Fire Eagle</name>
+  <screen_name>fireeagle</screen_name>
+  <location>Brickhouse</location>
+  <description>Updates from the team at Fire Eagle - we look after your location! Feel free to ask us questions and we'll do our best to get back to you.</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/64372127/fireeagle_normal.png</profile_image_url>
+  <url>http://fireeagle.yahoo.net</url>
+  <protected>false</protected>
+  <followers_count>353</followers_count>
+  <status>
+    <created_at>Mon Dec 08 19:16:22 +0000 2008</created_at>
+    <id>1045567417</id>
+    <text>Hey C# developers, check out the updates to the fireeaglenet library: http://bit.ly/fenet - Blog post: http://bit.ly/13LM7</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+  </status>
+</user>
+<user>
+  <id>9317092</id>
+  <name>Warren Sukernek</name>
+  <screen_name>warrenss</screen_name>
+  <location>Seattle</location>
+  <description>Social media wannabe- Digital Strategist  http://sukernek.blogspot.com</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/55638046/ws_photo_normal.jpg</profile_image_url>
+  <url>http://twittermaven.com</url>
+  <protected>false</protected>
+  <followers_count>1844</followers_count>
+  <status>
+    <created_at>Tue Dec 09 00:30:44 +0000 2008</created_at>
+    <id>1046096989</id>
+    <text>@lucio_ribeiro It sure sounds like it.  I wonder if it will go to court.</text>
+    <source>&lt;a href=&quot;http://www.tweetdeck.com/&quot;&gt;TweetDeck&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id>1046041270</in_reply_to_status_id>
+    <in_reply_to_user_id>16658723</in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name>lucio_ribeiro</in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>16149338</id>
+  <name>Pableaux Johnson</name>
+  <screen_name>pableauxNO</screen_name>
+  <location>LVLL</location>
+  <description>Spending storm season a bit too far from the Gulf.</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/59596891/PXheadshot_normal.JPG</profile_image_url>
+  <url>http://www.bayoudog.com</url>
+  <protected>false</protected>
+  <followers_count>80</followers_count>
+  <status>
+    <created_at>Tue Dec 09 03:11:02 +0000 2008</created_at>
+    <id>1046344405</id>
+    <text>@crayolalettuce saving you a bowlful. Also -- the Van Winkles came for dinner. You'd have PLOTZED.</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id>1045816142</in_reply_to_status_id>
+    <in_reply_to_user_id>1008411</in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name>crayolalettuce</in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>16491359</id>
+  <name>Current FM</name>
+  <screen_name>currentfm</screen_name>
+  <location></location>
+  <description>What do we think?</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/60994554/currentfm_normal.jpg</profile_image_url>
+  <url>http://www.current.fm</url>
+  <protected>false</protected>
+  <followers_count>171</followers_count>
+  <status>
+    <created_at>Tue Dec 09 04:30:41 +0000 2008</created_at>
+    <id>1046461953</id>
+    <text>:: Xmas, Santa, Heroes, Christmas, Boston Legal, #tcot, #journchat, #cwtu, Chuck, MNF, Scream Queens, G... http://simpl.es/SibxU3</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>94733</id>
+  <name>carrie westlake</name>
+  <screen_name>carriewestlake</screen_name>
+  <location></location>
+  <description></description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/17060832/Just_Carrie__no_jonathan_._normal.jpg</profile_image_url>
+  <url>http://sfgirl.typepad.com/</url>
+  <protected>false</protected>
+  <followers_count>131</followers_count>
+  <status>
+    <created_at>Mon Dec 08 23:17:34 +0000 2008</created_at>
+    <id>1045982743</id>
+    <text>@luciac - what is wrong with anna?</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id>1045965345</in_reply_to_status_id>
+    <in_reply_to_user_id>678993</in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name>luciac</in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>10454672</id>
+  <name>Karen Hartline</name>
+  <screen_name>khartline</screen_name>
+  <location>Now calling CA home</location>
+  <description>Sassy, witty and spunky...shaken, not stirred.</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/63480014/SummerMashNYC_me_avatar_normal.jpg</profile_image_url>
+  <url>http://mashable.com</url>
+  <protected>false</protected>
+  <followers_count>1111</followers_count>
+  <status>
+    <created_at>Tue Dec 09 04:28:24 +0000 2008</created_at>
+    <id>1046458838</id>
+    <text>@a Isn't that what Digg hoodies are for...&quot;I forgot to do laundry&quot; days?  Next time...</text>
+    <source>&lt;a href=&quot;http://www.tweetdeck.com/&quot;&gt;TweetDeck&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id>1046439786</in_reply_to_status_id>
+    <in_reply_to_user_id>940631</in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name>a</in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>14430697</id>
+  <name>Twitturly</name>
+  <screen_name>twitturly</screen_name>
+  <location>Roseville, CA</location>
+  <description>I am Twitturly. I track popular URLs on Twitter. Is your URL buzzing?</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/62922528/fav_icon_128_blue_normal.jpg</profile_image_url>
+  <url>http://twitturly.com</url>
+  <protected>false</protected>
+  <followers_count>242</followers_count>
+  <status>
+    <created_at>Mon Dec 08 22:04:56 +0000 2008</created_at>
+    <id>1045861557</id>
+    <text>New #2 &amp;#8679; from #4: http://is.gd/aBvl - Academics invent a mathematical equation for why people procrastinate - Telegraph</text>
+    <source>&lt;a href=&quot;http://twitturly.com&quot;&gt;Twitt(url)y&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>17220934</id>
+  <name>Al Gore</name>
+  <screen_name>algore</screen_name>
+  <location></location>
+  <description></description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/63792815/133537152_115x115_normal.jpg</profile_image_url>
+  <url>http://algore.com/</url>
+  <protected>false</protected>
+  <followers_count>21306</followers_count>
+  <status>
+    <created_at>Fri Dec 05 17:08:07 +0000 2008</created_at>
+    <id>1040494376</id>
+    <text>Looking forward to going to Poland next week. http://tinyurl.com/5bhu4k</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+  </status>
+</user>
+<user>
+  <id>1438651</id>
+  <name>Jackie Danicki</name>
+  <screen_name>jackiedanicki</screen_name>
+  <location>811 Hamilton St</location>
+  <description>Work in progress</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/63312479/photo-17_normal.jpg</profile_image_url>
+  <url>http://jackiedanicki.com</url>
+  <protected>true</protected>
+  <followers_count>482</followers_count>
+</user>
+<user>
+  <id>11817092</id>
+  <name>Erikka Arone</name>
+  <screen_name>erikkaarone</screen_name>
+  <location>San Francisco &amp; Half Moon </location>
+  <description>I have a fabulous life.</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/42719982/erikkaboating_normal.jpg</profile_image_url>
+  <url>http://www.fredoland.com</url>
+  <protected>false</protected>
+  <followers_count>157</followers_count>
+  <status>
+    <created_at>Mon Dec 08 21:41:59 +0000 2008</created_at>
+    <id>1045820954</id>
+    <text>Super sunny mtg day</text>
+    <source>&lt;a href=&quot;http://help.twitter.com/index.php?pg=kb.page&amp;id=75&quot;&gt;txt&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited></favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>655093</id>
+  <name>God</name>
+  <screen_name>god</screen_name>
+  <location>heaven</location>
+  <description>Hells yeah, it's me!</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/58245337/images_normal.jpg</profile_image_url>
+  <url></url>
+  <protected>false</protected>
+  <followers_count>2213</followers_count>
+  <status>
+    <created_at>Tue Dec 09 02:46:03 +0000 2008</created_at>
+    <id>1046304306</id>
+    <text>@Gerdanperox I bless McDonald's fries though.</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id>1046202875</in_reply_to_status_id>
+    <in_reply_to_user_id>1671181</in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name>Gerdanperox</in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>16551442</id>
+  <name>sweet_toof</name>
+  <screen_name>sweet_toof</screen_name>
+  <location></location>
+  <description></description>
+  <profile_image_url>http://static.twitter.com/images/default_profile_normal.png</profile_image_url>
+  <url></url>
+  <protected>false</protected>
+  <followers_count>15</followers_count>
+  <status>
+    <created_at>Fri Nov 07 20:45:32 +0000 2008</created_at>
+    <id>995486533</id>
+    <text>is http://popsugar.com/2474084</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>8406952</id>
+  <name>ellmcgirt</name>
+  <screen_name>ellmcgirt</screen_name>
+  <location>I've been everywhere, man.</location>
+  <description>Fast Company Magazine</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/53146275/ellencolumn_normal.jpg</profile_image_url>
+  <url>http://www.fastcompany.com</url>
+  <protected>false</protected>
+  <followers_count>291</followers_count>
+  <status>
+    <created_at>Tue Dec 09 04:01:55 +0000 2008</created_at>
+    <id>1046421254</id>
+    <text>@misssmith11  Yes. I'll find you, if you don't find me first.</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id>1046406590</in_reply_to_status_id>
+    <in_reply_to_user_id>13070362</in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name>misssmith11</in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>15744118</id>
+  <name>Richard Rosenblatt</name>
+  <screen_name>demandrichard</screen_name>
+  <location></location>
+  <description></description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/63805478/picofme_normal.jpg</profile_image_url>
+  <url></url>
+  <protected>false</protected>
+  <followers_count>321</followers_count>
+  <status>
+    <created_at>Mon Dec 08 23:24:15 +0000 2008</created_at>
+    <id>1045993911</id>
+    <text>Finishing a meeting with Justine at ijustine.com.  Interesting opportunity with Livestrong.com</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>2035631</id>
+  <name>Ian McAllister</name>
+  <screen_name>ianmcall</screen_name>
+  <location>Seattle, WA</location>
+  <description>Manager, Gifting &amp; Social Applications at Amazon.com</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/61155316/headshot_normal.jpg</profile_image_url>
+  <url>http://ianmcallister.spaces.live.com/blog</url>
+  <protected>false</protected>
+  <followers_count>128</followers_count>
+  <status>
+    <created_at>Mon Dec 08 15:28:18 +0000 2008</created_at>
+    <id>1045186446</id>
+    <text>Headline: &quot;Outside Pressure Grows For GM to Oust Wagoner&quot; because they &quot;Agree That $1 Post-Bailout Salary is Too High&quot;</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+  </status>
+</user>
+<user>
+  <id>12217</id>
+  <name>Tom Conrad</name>
+  <screen_name>tconrad</screen_name>
+  <location></location>
+  <description>Pandora, Music, Tech, TV, repeat.</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/52434943/conrad_med_normal.jpg</profile_image_url>
+  <url>http://tomconrad.net</url>
+  <protected>false</protected>
+  <followers_count>598</followers_count>
+  <status>
+    <created_at>Tue Dec 09 04:40:40 +0000 2008</created_at>
+    <id>1046475527</id>
+    <text>@adamse I've used NetFlix/Silverlight on the Mac too. Also a great experience -- 24&quot; iMac does a decent TV impression in a pinch.</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id>1046471022</in_reply_to_status_id>
+    <in_reply_to_user_id>6296522</in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name>adamse</in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>673483</id>
+  <name>DeWitt</name>
+  <screen_name>dewitt</screen_name>
+  <location>San Francisco, CA</location>
+  <description>Indeterminate things</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/31982552/dewitt_1_normal.jpg</profile_image_url>
+  <url>http://unto.net/</url>
+  <protected>false</protected>
+  <followers_count>557</followers_count>
+  <status>
+    <created_at>Tue Dec 09 05:00:48 +0000 2008</created_at>
+    <id>1046501014</id>
+    <text>@chrisblizzard I don't quite agree.  This is very opaque: http://tinyurl.com/5gab94</text>
+    <source>&lt;a href=&quot;http://friendfeed.com/&quot;&gt;FriendFeed&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id>1046494482</in_reply_to_status_id>
+    <in_reply_to_user_id>12811302</in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name>chrisblizzard</in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>16727535</id>
+  <name>Lance Armstrong</name>
+  <screen_name>lancearmstrong</screen_name>
+  <location>Austin, TX</location>
+  <description>7-time Tour de France winner, full time cancer fighter - LIVESTRONG!</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/62112464/twittermug_normal.jpg</profile_image_url>
+  <url>http://www.livestrong.org</url>
+  <protected>false</protected>
+  <followers_count>10310</followers_count>
+  <status>
+    <created_at>Tue Dec 09 01:53:32 +0000 2008</created_at>
+    <id>1046224620</id>
+    <text>Watched The Dark Knight on the plane. Amazing.</text>
+    <source>&lt;a href=&quot;http://orangatame.com/products/twitterberry/&quot;&gt;TwitterBerry&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>7666212</id>
+  <name>Guy Debord</name>
+  <screen_name>guydebord</screen_name>
+  <location></location>
+  <description>Boredom is always counter-revolutionary. Always.</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/25096882/guy_debord_normal.gif</profile_image_url>
+  <url>http://www.nothingness.org/SI/debord.html</url>
+  <protected>false</protected>
+  <followers_count>455</followers_count>
+  <status>
+    <created_at>Tue Dec 11 08:31:48 +0000 2007</created_at>
+    <id>489326052</id>
+    <text>The spectacle is capital to such a degree of accumulation that it becomes an image.</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+  </status>
+</user>
+<user>
+  <id>14790996</id>
+  <name>jennabeth</name>
+  <screen_name>jennabeth</screen_name>
+  <location>PA</location>
+  <description>love my husband and 4 kids, livin' and lovin' life!  </description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/60518920/IMG_1369_normal.jpg</profile_image_url>
+  <url>http://www.xanga.com/JennaBeth77</url>
+  <protected>true</protected>
+  <followers_count>10</followers_count>
+</user>
+<user>
+  <id>10582572</id>
+  <name>VegasCabbie</name>
+  <screen_name>vegascabbie</screen_name>
+  <location>Vegas Baby</location>
+  <description>YOU THINK EVERYTHING THAT HAPPENS HERE STAYS HERE..???  HAHAHAHAHAHA</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/64034632/Sunglassessmall_normal.jpg</profile_image_url>
+  <url>http://www.thevegascabbie.com</url>
+  <protected>false</protected>
+  <followers_count>500</followers_count>
+  <status>
+    <created_at>Tue Dec 09 04:28:02 +0000 2008</created_at>
+    <id>1046458342</id>
+    <text>http://twitpic.com/rc8m - Vegas Xmas lights...cabbie styke.</text>
+    <source>&lt;a href=&quot;http://twitpic.com/&quot;&gt;TwitPic&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited></favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>2884771</id>
+  <name>Newsweek</name>
+  <screen_name>Newsweek</screen_name>
+  <location>New York, NY 10019</location>
+  <description></description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/62274552/nwk_twitter_57x57_normal.png</profile_image_url>
+  <url>http://www.newsweek.com</url>
+  <protected>false</protected>
+  <followers_count>1688</followers_count>
+  <status>
+    <created_at>Mon Dec 08 16:51:18 +0000 2008</created_at>
+    <id>1045312059</id>
+    <text>Fun! Name NASA's new rover: http://tinyurl.com/5kkkrr</text>
+    <source>&lt;a href=&quot;http://www.tweetdeck.com/&quot;&gt;TweetDeck&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+  </status>
+</user>
+<user>
+  <id>16574209</id>
+  <name>JOHNABYRNE</name>
+  <screen_name>JOHNABYRNE</screen_name>
+  <location>New York</location>
+  <description>Editor-in-Chief, BusinessWeek.com, Digital Journalism Advocate</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/61191999/john_byrne_148x200_normal.jpg</profile_image_url>
+  <url>http://www.businessweek.com/blogs/whatsyourstoryidea/</url>
+  <protected>false</protected>
+  <followers_count>2440</followers_count>
+  <status>
+    <created_at>Tue Dec 09 04:08:30 +0000 2008</created_at>
+    <id>1046431229</id>
+    <text>Just published: A smart analysis of what went wrong with Sam Zell's purchase of the Tribune Co. http://is.gd/aN6S</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>770149</id>
+  <name>chris</name>
+  <screen_name>cdnewt</screen_name>
+  <location></location>
+  <description></description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/34668872/face_normal.jpg</profile_image_url>
+  <url></url>
+  <protected>false</protected>
+  <followers_count>178</followers_count>
+  <status>
+    <created_at>Wed Oct 22 22:21:03 +0000 2008</created_at>
+    <id>971162606</id>
+    <text>@ACEdge yes, we track videos, including support for 450 video sites, and track metrics continually</text>
+    <source>&lt;a href=&quot;http://twitterhelp.blogspot.com/2008/05/twitter-via-mobile-web-mtwittercom.html&quot;&gt;mobile web&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id>971142618</in_reply_to_status_id>
+    <in_reply_to_user_id>14317104</in_reply_to_user_id>
+    <favorited></favorited>
+  </status>
+</user>
+<user>
+  <id>9573382</id>
+  <name>Chris Ramsey</name>
+  <screen_name>chrisramsey</screen_name>
+  <location></location>
+  <description>VP Business Development @ Radian6 - Social media monitoring, measurement and engagement platform</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/55611204/Picture_5_normal.png</profile_image_url>
+  <url>http://www.radian6.com</url>
+  <protected>false</protected>
+  <followers_count>1992</followers_count>
+  <status>
+    <created_at>Mon Dec 08 13:03:31 +0000 2008</created_at>
+    <id>1044976634</id>
+    <text>@Sargenius yeah thought a few people would get a kick out of that!</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id>1041845691</in_reply_to_status_id>
+    <in_reply_to_user_id>17177125</in_reply_to_user_id>
+    <favorited>false</favorited>
+  </status>
+</user>
+<user>
+  <id>16964954</id>
+  <name>twitroid</name>
+  <screen_name>twitroid</screen_name>
+  <location></location>
+  <description>please friend me at http://twitter.com/twidroid</description>
+  <profile_image_url>http://static.twitter.com/images/default_profile_normal.png</profile_image_url>
+  <url>http://twidroid.com</url>
+  <protected>false</protected>
+  <followers_count>134</followers_count>
+  <status>
+    <created_at>Sat Oct 25 10:16:03 +0000 2008</created_at>
+    <id>974830454</id>
+    <text>please friend me at http://twitter.com/twidroid</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>14079576</id>
+  <name>Kevin Thau</name>
+  <screen_name>kmthau</screen_name>
+  <location>iPhone: 39.688171,-104.962830</location>
+  <description>Constantly tinkering</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/59318988/kt_normal.jpg</profile_image_url>
+  <url>http://kmthau.tumblr.com/</url>
+  <protected>false</protected>
+  <followers_count>157</followers_count>
+  <status>
+    <created_at>Tue Dec 09 04:00:49 +0000 2008</created_at>
+    <id>1046419439</id>
+    <text>shoveling snow.</text>
+    <source>&lt;a href=&quot;http://help.twitter.com/index.php?pg=kb.page&amp;id=75&quot;&gt;txt&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>1047961</id>
+  <name>jobs</name>
+  <screen_name>workerswork</screen_name>
+  <location></location>
+  <description>Careers, jobs and work-related news from WorkersWork.com</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/66046809/w48x48_bigger_normal.gif</profile_image_url>
+  <url>http://www.workerswork.com</url>
+  <protected>false</protected>
+  <followers_count>794</followers_count>
+  <status>
+    <created_at>Mon Dec 08 20:37:03 +0000 2008</created_at>
+    <id>1045706392</id>
+    <text>Dow Chemical announced it will slash 5,000 full-time jobs (11% of its total work force) and close 20 plants.  http://tr.im/20iq</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+  </status>
+</user>
+<user>
+  <id>16533806</id>
+  <name>dailydomains</name>
+  <screen_name>dailydomains</screen_name>
+  <location>Earth</location>
+  <description>Tweeting you the finest DAILY DOMAINS this side of the equator </description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/63053661/domain-names_normal.jpg</profile_image_url>
+  <url>http://TweetDailyDomains.com</url>
+  <protected>false</protected>
+  <followers_count>749</followers_count>
+  <status>
+    <created_at>Tue Dec 09 03:59:18 +0000 2008</created_at>
+    <id>1046416840</id>
+    <text>http://www.&#7710;.com  $499  (Rare 1 letter IDN in Irish... all major TLD's taken punycode xn--xgg.com registered at Godaddy)</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>15537599</id>
+  <name>Georgette Deemer</name>
+  <screen_name>georgettedeemer</screen_name>
+  <location>Honolulu, Hawaii</location>
+  <description>Communications Director Hawaii House of Reps (Majority) </description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/61502259/Georgette_5.4.08_normal.jpg</profile_image_url>
+  <url>http://hawaiihouseblog.blogspot.com</url>
+  <protected>false</protected>
+  <followers_count>237</followers_count>
+  <status>
+    <created_at>Tue Dec 09 04:53:02 +0000 2008</created_at>
+    <id>1046491281</id>
+    <text>Can't wait to hear @volcanicash's response to @AlohaArleen's question: what does bolohead mean? LOL.</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>16941646</id>
+  <name>greggrunberg</name>
+  <screen_name>greggrunberg</screen_name>
+  <location></location>
+  <description></description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/66068323/ThePromise_GG2_2_normal.jpg</profile_image_url>
+  <url></url>
+  <protected>false</protected>
+  <followers_count>7164</followers_count>
+  <status>
+    <created_at>Tue Dec 09 04:53:02 +0000 2008</created_at>
+    <id>1046491275</id>
+    <text>@JackieNiko Seattle rocks in so many ways. Loved it. But there's no place like home. There's no place like home.</text>
+    <source>&lt;a href=&quot;http://iconfactory.com/software/twitterrific&quot;&gt;twitterrific&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id>1046479009</in_reply_to_status_id>
+    <in_reply_to_user_id>16254392</in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name>JackieNiko</in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>10191572</id>
+  <name>theindependent</name>
+  <screen_name>theindependent</screen_name>
+  <location>Grand Island, Nebraska</location>
+  <description>The Grand Island Independent. Central Nebraska's news source</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/63477807/giilogocrane_normal.jpg</profile_image_url>
+  <url>http://www.theindependent.com</url>
+  <protected>false</protected>
+  <followers_count>386</followers_count>
+  <status>
+    <created_at>Fri Dec 05 22:28:14 +0000 2008</created_at>
+    <id>1041050263</id>
+    <text>Cops and Canines - Sarah Schulz looks at what it's like to be a K9 officer. Looks like a cool piece :) Have a fabulous weekend everyone!</text>
+    <source>&lt;a href=&quot;http://www.twhirl.org/&quot;&gt;twhirl&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited></favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>15395435</id>
+  <name>Stephanie Romanski</name>
+  <screen_name>stephromanski</screen_name>
+  <location>Grand Island, Nebraska</location>
+  <description>Web editor for TheIndependent.com, a World-Herald newspaper.</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/62854601/cell4_normal.jpg</profile_image_url>
+  <url>http://www.stephanieromanski.com</url>
+  <protected>false</protected>
+  <followers_count>301</followers_count>
+  <status>
+    <created_at>Tue Dec 09 03:02:38 +0000 2008</created_at>
+    <id>1046330993</id>
+    <text>http://twitpic.com/rbnk ok ok so it's kind of pretty, but there's a layer of ice underneath the pretty.</text>
+    <source>&lt;a href=&quot;http://www.twhirl.org/&quot;&gt;twhirl&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>16465507</id>
+  <name>twidroid</name>
+  <screen_name>twidroid</screen_name>
+  <location>Austria</location>
+  <description>the twitter app for android mobiles</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/61005370/Untitled-23_normal.png</profile_image_url>
+  <url>http://twidroid.com</url>
+  <protected>false</protected>
+  <followers_count>513</followers_count>
+  <status>
+    <created_at>Tue Nov 18 21:58:43 +0000 2008</created_at>
+    <id>1011843313</id>
+    <text>::: 1.2.4 now available http://twidroid.com/v124-available/</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>14345566</id>
+  <name>TheBloggess</name>
+  <screen_name>TheBloggess</screen_name>
+  <location>Houston</location>
+  <description>I have friends in spite of myself. I also write for http://tinyurl.com/5pec39</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/52610807/ava_normal.jpg</profile_image_url>
+  <url>http://thebloggess.com/</url>
+  <protected>false</protected>
+  <followers_count>4661</followers_count>
+  <status>
+    <created_at>Fri Dec 05 13:57:06 +0000 2008</created_at>
+    <id>1040150941</id>
+    <text>every character looks fiendish when all you want to do is vomit.</text>
+    <source>&lt;a href=&quot;http://twitterhelp.blogspot.com/2008/05/twitter-via-mobile-web-mtwittercom.html&quot;&gt;mobile web&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+  </status>
+</user>
+<user>
+  <id>15981442</id>
+  <name>Betty Draper</name>
+  <screen_name>betty_draper</screen_name>
+  <location>Ossining, New York</location>
+  <description>Happily married. Two children. Third coming. Forever trapped. Or not?</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/62436282/newbetty_normal.jpg</profile_image_url>
+  <url>http://www.amctv.com/originals/madmen/cast/bdraper</url>
+  <protected>false</protected>
+  <followers_count>6446</followers_count>
+  <status>
+    <created_at>Tue Dec 02 00:14:18 +0000 2008</created_at>
+    <id>1033246905</id>
+    <text>@chiefhotmomma Still waiting for my third, indeed. I dreamed last night that it kicked, but it hasn't, not yet, not really. Am I eager!</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id>1032324124</in_reply_to_status_id>
+    <in_reply_to_user_id>15476956</in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name>chiefhotmomma</in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>15199130</id>
+  <name>Lee_DigitaStory</name>
+  <screen_name>Lee_DigitaStory</screen_name>
+  <location></location>
+  <description>Bringing the web experience to a whole different level</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/61302869/twitter_image_2_normal.jpg</profile_image_url>
+  <url>http://www.leslie-chacon.info</url>
+  <protected>false</protected>
+  <followers_count>174</followers_count>
+  <status>
+    <created_at>Mon Dec 08 19:19:53 +0000 2008</created_at>
+    <id>1045573624</id>
+    <text>@Omni_man  as an analyst I live in excel &amp; hardly use the UI, if used DB would that open up a custom reports in client?</text>
+    <source>&lt;a href=&quot;http://www.tweetdeck.com/&quot;&gt;TweetDeck&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id>1045530264</in_reply_to_status_id>
+    <in_reply_to_user_id>15582396</in_reply_to_user_id>
+    <favorited>false</favorited>
+  </status>
+</user>
+<user>
+  <id>15687093</id>
+  <name>Elena Rossini</name>
+  <screen_name>_elena</screen_name>
+  <location>Paris, France</location>
+  <description>Documentary Filmmaker. Feminist. Tree-hugging-animal-loving-vegetarian. Bookish. Liberal. Idealist. (In short, a real life Lisa Simpson)</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/57574225/gonzale-smile_normal.jpg</profile_image_url>
+  <url>http://www.elenarossini.com</url>
+  <protected>false</protected>
+  <followers_count>117</followers_count>
+  <status>
+    <created_at>Mon Dec 08 12:45:38 +0000 2008</created_at>
+    <id>1044955293</id>
+    <text>first day of work on the script of &quot;The Illusionists&quot; - exciting!</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+  </status>
+</user>
+<user>
+  <id>7861312</id>
+  <name>Felicia Day</name>
+  <screen_name>feliciaday</screen_name>
+  <location></location>
+  <description>Actress, Filmmaker, Gamer, Misanthrope</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/56589270/square_flower_normal.jpg</profile_image_url>
+  <url>http://www.feliciaday.com</url>
+  <protected>false</protected>
+  <followers_count>17775</followers_count>
+  <status>
+    <created_at>Tue Dec 09 04:42:05 +0000 2008</created_at>
+    <id>1046477329</id>
+    <text>Guild Season 2 is now wrapped!  I can't believe we did it :)  So excited &amp; relieved. I can't wait to get these episodes out!</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>16875185</id>
+  <name>donnasokolskyburke</name>
+  <screen_name>donnasokolsky</screen_name>
+  <location>San Francisco</location>
+  <description>Founder of Sparkpr</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/62489661/donna_pic_normal.jpg</profile_image_url>
+  <url></url>
+  <protected>false</protected>
+  <followers_count>75</followers_count>
+  <status>
+    <created_at>Sat Dec 06 00:15:30 +0000 2008</created_at>
+    <id>1041207433</id>
+    <text>Daily Fill is NOT MySpace Celebrity. Vwag gets it wrong again</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited></favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>9860432</id>
+  <name>radian6</name>
+  <screen_name>radian6</screen_name>
+  <location>Fredericton, New Brunswick, Ca</location>
+  <description>Radian6's social media monitoring platform is used by PR, marketing and customer support professionals in corporate and agency settings. Managed by @davidalston</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/58147925/Picture_22_normal.png</profile_image_url>
+  <url>http://radian6.com/</url>
+  <protected>false</protected>
+  <followers_count>669</followers_count>
+  <status>
+    <created_at>Tue Dec 09 01:21:04 +0000 2008</created_at>
+    <id>1046175325</id>
+    <text>@leeodden 's great interview with @richardatdell - goes deep on real ROI of corp. listening/engaging in social media  http://bit.ly/G6PX</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id>1046124865</in_reply_to_status_id>
+    <in_reply_to_user_id>871891</in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name>leeodden</in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>2739351</id>
+  <name>Byrne Reese</name>
+  <screen_name>byrnereese</screen_name>
+  <location>Oakland</location>
+  <description></description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/64526053/byrne_normal.jpg</profile_image_url>
+  <url>http://www.majordojo.com/</url>
+  <protected>false</protected>
+  <followers_count>310</followers_count>
+  <status>
+    <created_at>Mon Dec 08 20:52:38 +0000 2008</created_at>
+    <id>1045733733</id>
+    <text>Want to follow the work I am doing on Test Run? Twitter 'follow runtestrun'.</text>
+    <source>&lt;a href=&quot;http://iconfactory.com/software/twitterrific&quot;&gt;twitterrific&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+  </status>
+</user>
+<user>
+  <id>9860232</id>
+  <name>twys</name>
+  <screen_name>twys</screen_name>
+  <location></location>
+  <description>Cash tracking made easy through Twitter</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/61671274/tweetwhatyouspend_logo_normal.png</profile_image_url>
+  <url>http://www.tweetwhatyouspend.com</url>
+  <protected>false</protected>
+  <followers_count>1287</followers_count>
+  <status>
+    <created_at>Tue Nov 25 18:45:03 +0000 2008</created_at>
+    <id>1023142642</id>
+    <text>Setup your own custom spending categories now on www.tweetwhatyouspend.com!  See how to do it here: http://is.gd/8Z4u</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+  </status>
+</user>
+<user>
+  <id>8731812</id>
+  <name>Josh Stylman</name>
+  <screen_name>jstylman</screen_name>
+  <location>Brooklyn, NY</location>
+  <description></description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/24701752/last.fm_normal.jpg</profile_image_url>
+  <url>http://www.reprisemedia.com</url>
+  <protected>false</protected>
+  <followers_count>188</followers_count>
+  <status>
+    <created_at>Mon Dec 08 15:42:59 +0000 2008</created_at>
+    <id>1045208768</id>
+    <text>@hershberg Heh.  Maybe their goal is the downfall of Google :-)</text>
+    <source>&lt;a href=&quot;http://www.naan.net/trac/wiki/TwitterFox&quot;&gt;TwitterFox&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id>1045198731</in_reply_to_status_id>
+    <in_reply_to_user_id>8883622</in_reply_to_user_id>
+    <favorited>false</favorited>
+  </status>
+</user>
+<user>
+  <id>16409683</id>
+  <name>Britney Spears</name>
+  <screen_name>britneyspears</screen_name>
+  <location>Los Angeles, CA</location>
+  <description>Yes! This is the real Britney Spears! We've got updates from her team, her website and yes, even Britney herself!</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/60533073/03_normal.jpg</profile_image_url>
+  <url>http://www.britneyspears.com</url>
+  <protected>false</protected>
+  <followers_count>10460</followers_count>
+  <status>
+    <created_at>Fri Dec 05 06:03:37 +0000 2008</created_at>
+    <id>1039686921</id>
+    <text>I had the honor to light the Christmas tree tonight for the first time in LA. I took my babies and we had a great time. ~Britney</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+  </status>
+</user>
+<user>
+  <id>7336292</id>
+  <name>Jeff Dachis</name>
+  <screen_name>jeffdachis</screen_name>
+  <location>New York</location>
+  <description></description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/56964178/IMG_9343_3-1_normal.jpg</profile_image_url>
+  <url></url>
+  <protected>false</protected>
+  <followers_count>391</followers_count>
+  <status>
+    <created_at>Tue Dec 09 01:14:40 +0000 2008</created_at>
+    <id>1046165143</id>
+    <text>@natanyap oooohhh yeah...  cold.</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id>1043695538</in_reply_to_status_id>
+    <in_reply_to_user_id>14956897</in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name>natanyap</in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>9541782</id>
+  <name>T.J. Maxx</name>
+  <screen_name>tjmaxx</screen_name>
+  <location>New York, NY</location>
+  <description>TJ Maxx Stores: We'd like to hear your ideas here on Twitter.</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/62117002/599622_79256938_normal.jpg</profile_image_url>
+  <url>http://www.tjmaxx.com</url>
+  <protected>false</protected>
+  <followers_count>908</followers_count>
+  <status>
+    <created_at>Tue Dec 09 01:36:18 +0000 2008</created_at>
+    <id>1046198275</id>
+    <text>TJ Maxx find: Over 50% off of Pour La Victoire tan slingbacks, $69.99  http://twurl.nl/hnrhhp</text>
+    <source>&lt;a href=&quot;http://tweetburner.com/&quot;&gt;Tweetburner&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>14306010</id>
+  <name>Apostolia Pentogenis</name>
+  <screen_name>apostolia4</screen_name>
+  <location>Harlem, NYC</location>
+  <description>Apostolia (Paula) Pentogenis</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/63719858/Paula_P_normal.jpg</profile_image_url>
+  <url>http://blog.federatedmedia.net/archives/2008/03/welcome-paula.php</url>
+  <protected>false</protected>
+  <followers_count>112</followers_count>
+  <status>
+    <created_at>Mon Dec 08 21:12:16 +0000 2008</created_at>
+    <id>1045768648</id>
+    <text>&quot;If Greece had already appeared difficult to govern, it will now be out of control.&quot; http://tinyurl.com/67v9yy   #griots</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>11302402</id>
+  <name>Melissa Pierce</name>
+  <screen_name>melissapierce</screen_name>
+  <location>Chicago</location>
+  <description>Pro Mess Anti Crap. Mum of 3, creatives coach,movie producer, and all around over extended gal. If you follow me please @ me and introduce yourself! </description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/65810678/squaremelissa_normal.jpg</profile_image_url>
+  <url>http://lifeinperpetualbeta.com</url>
+  <protected>false</protected>
+  <followers_count>934</followers_count>
+  <status>
+    <created_at>Tue Dec 09 02:26:30 +0000 2008</created_at>
+    <id>1046274951</id>
+    <text>Excited for tomorrow! Get to review &amp; digitize all new interviews &amp; see some like @irenaslutsky, for the first time. But now... sleeeeep</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited></favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>12980962</id>
+  <name>amandafazani</name>
+  <screen_name>amandafazani</screen_name>
+  <location>Sheffield, UK</location>
+  <description>I'm a blogger, designer and full time mum!</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/47256482/amanda_small_photo_normal.jpg</profile_image_url>
+  <url>http://www.bloggerbuster.com</url>
+  <protected>false</protected>
+  <followers_count>698</followers_count>
+  <status>
+    <created_at>Wed Dec 03 11:32:14 +0000 2008</created_at>
+    <id>1035967901</id>
+    <text>New Post: A Simple Snow Effect Widget for Blogger Blogs! http://tinyurl.com/5ndcyh</text>
+    <source>&lt;a href=&quot;http://twitterfeed.com&quot;&gt;twitterfeed&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+  </status>
+</user>
+<user>
+  <id>5614652</id>
+  <name>Clay Whitehead</name>
+  <screen_name>claywhitehead</screen_name>
+  <location>san francisco</location>
+  <description>starting up the start up search.</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/61675146/Profile_Pic_4_test_normal.jpg</profile_image_url>
+  <url>http://inveterateoptimism.blogspot.com/</url>
+  <protected>false</protected>
+  <followers_count>151</followers_count>
+  <status>
+    <created_at>Thu Nov 27 00:40:22 +0000 2008</created_at>
+    <id>1025549435</id>
+    <text>@jdl79 stop twittering and get back to work!</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id>15868294</in_reply_to_user_id>
+    <favorited>false</favorited>
+  </status>
+</user>
+<user>
+  <id>10959642</id>
+  <name>Tara Brown</name>
+  <screen_name>tara</screen_name>
+  <location>West Coast is the Best Coast</location>
+  <description>internet nobody married to an internet trouble maker = lots of shenanigans that nobody cares about</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/63531204/2992912177_1609333347_s_normal.jpg</profile_image_url>
+  <url>http://tarabrown.pbwiki.com</url>
+  <protected>false</protected>
+  <followers_count>1436</followers_count>
+  <status>
+    <created_at>Tue Dec 09 04:41:19 +0000 2008</created_at>
+    <id>1046476372</id>
+    <text>My roommate has bed bugs. And she doesn't have any lovers so I don't know where they came from.</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>16310420</id>
+  <name>VoterWatch</name>
+  <screen_name>VoterWatch</screen_name>
+  <location>New York, NY</location>
+  <description>VoterWatch is a non-partisan, non-profit working to engage the public in the political process.</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/60121649/logo_normal.gif</profile_image_url>
+  <url>http://www.voterwatch.org</url>
+  <protected>false</protected>
+  <followers_count>672</followers_count>
+  <status>
+    <created_at>Thu Oct 23 15:56:48 +0000 2008</created_at>
+    <id>972207241</id>
+    <text>Please consider sponsoring VoterWatch today!  We need your support!  http://tinyurl.com/65p5hj</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+  </status>
+</user>
+<user>
+  <id>14456985</id>
+  <name>Danny Casler</name>
+  <screen_name>dannycasler</screen_name>
+  <location>Everywhere</location>
+  <description>Musician, World Traveler, Party Animal</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/59844359/dannyboy_normal.JPG</profile_image_url>
+  <url>http://www.myspace.com/nationalproduct</url>
+  <protected>false</protected>
+  <followers_count>288</followers_count>
+  <status>
+    <created_at>Mon Dec 08 23:58:50 +0000 2008</created_at>
+    <id>1046047978</id>
+    <text>@BrandonBall holla</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id>1045686955</in_reply_to_status_id>
+    <in_reply_to_user_id>15339215</in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name>BrandonBall</in_reply_to_screen_name>
+  </status>
+</user>
+<user>
+  <id>16678987</id>
+  <name>hank999</name>
+  <screen_name>hank999</screen_name>
+  <location></location>
+  <description></description>
+  <profile_image_url>http://static.twitter.com/images/default_profile_normal.png</profile_image_url>
+  <url></url>
+  <protected>false</protected>
+  <followers_count>15</followers_count>
+  <status>
+    <created_at>Fri Oct 10 04:01:03 +0000 2008</created_at>
+    <id>953722216</id>
+    <text>*fight 7*</text>
+    <source>&lt;a href=&quot;http://iconfactory.com/software/twitterrific&quot;&gt;twitterrific&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+  </status>
+</user>
+<user>
+  <id>7963772</id>
+  <name>J. Slobotski</name>
+  <screen_name>jjsnyc</screen_name>
+  <location>NYC/Omaha</location>
+  <description>connector, innovator, entrepreneur, making the city even better, preparing for the arrival of web3.0 and working hard at killin' it everyday.</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/62467194/SPN_killingit_1_normal.jpg</profile_image_url>
+  <url>http://www.SiliconPrairieNews.com</url>
+  <protected>false</protected>
+  <followers_count>682</followers_count>
+  <status>
+    <created_at>Tue Dec 09 03:27:23 +0000 2008</created_at>
+    <id>1046369084</id>
+    <text>Blackberry Bold indeed for free at Wal-Mart: http://tinyurl.com/5luk65</text>
+    <source>web</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
+</users>
