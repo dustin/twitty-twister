@@ -70,7 +70,10 @@ class Entry(BaseXMLHandler):
         if name == 'link':
             del self.link
 
-class Feed(sux.XMLParser):
+class Parser(sux.XMLParser):
+
+    toplevel_tag = 'entry'
+    toplevel_type = None
 
     """A file-like thingy that parses a friendfeed feed with SUX."""
     def __init__(self, delegate):
@@ -91,13 +94,13 @@ class Feed(sux.XMLParser):
     # XML Callbacks
     def gotTagStart(self, name, attrs):
         self.data=[]
-        if name ==  'entry':
-            self.currentEntry = Entry()
+        if name ==  self.toplevel_tag:
+            self.currentEntry = self.toplevel_type()
         elif self.currentEntry:
             self.currentEntry.gotTagStart(name, attrs)
 
     def gotTagEnd(self, name):
-        if name == 'entry':
+        if name == self.toplevel_tag:
             self.currentEntry.done = True
             del self.currentEntry.current_ob
             self.delegate(self.currentEntry)
@@ -114,6 +117,11 @@ class Feed(sux.XMLParser):
             self.data.append(e[data])
         else:
             print "Unhandled entity reference: ", data
+
+class Feed(Parser):
+
+    toplevel_tag = 'entry'
+    toplevel_type = Entry
 
 def parseXML(xml):
     return microdom.parseXMLString(xml)
