@@ -103,7 +103,7 @@ def leave(username, password, user):
     Returns no useful data."""
     return __post(username, password, '/friendships/destroy/%s.xml' % user)
 
-def search(query, delegate):
+def search(query, delegate, args=None):
     """Perform a search query.
     
     Results are given one at a time to the delegate.  An example delegate
@@ -111,5 +111,8 @@ def search(query, delegate):
     
     def exampleDelegate(entry):
         print entry.title"""
-    return client.downloadPage(SEARCH_URL + '?' + __urlencode({'q': query}),
+    if args is None:
+        args = {}
+    args['q'] = query
+    return client.downloadPage(SEARCH_URL + '?' + __urlencode(args),
         txml.Feed(delegate))
