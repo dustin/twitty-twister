@@ -67,6 +67,12 @@ def friends(username, password, delegate, params={}):
     return __get(username, password, "/statuses/friends_timeline.atom",
         delegate, params)
 
+def direct_messages(username, password, delegate, params={}):
+    """Get direct messages for the authenticating user.
+
+    See search for example of how results are returned."""
+    return __get(username, password, "/direct_messages.atom", delegate, params)
+
 def search(query, delegate):
     """Perform a search query.
     

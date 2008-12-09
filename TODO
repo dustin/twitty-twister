@@ -14,7 +14,6 @@
 
 # Direct Message Methods
 
-   * direct_messages
    * sent
    * new
    * destroy
