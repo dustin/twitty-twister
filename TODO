@@ -1,0 +1,51 @@
+# Status Methods
+
+   * public_timeline
+   * friends_timeline
+   * user_timeline
+   * show
+   * replies
+   * destroy
+
+# User Methods
+
+   * friends
+   * followers
+   * show
+
+# Direct Message Methods
+
+   * direct_messages
+   * sent
+   * new
+   * destroy
+
+# Friendship Methods
+
+   * create
+   * destroy
+   * exists
+
+# Account Methods
+
+   * verify_credentials
+   * end_session
+   * update_location 
+   * update_delivery_device
+   * rate_limit_status
+
+# Favorite Methods
+
+   * favorites
+   * create
+   * destroy
+
+# Notification Methods
+
+   * follow
+   * leave
+
+# Block Methods
+
+   * create
+   * destroy
