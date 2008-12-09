@@ -16,7 +16,7 @@ import txml
 
 class XMLParserTest(unittest.TestCase):
 
-    def testParsing(self):
+    def testParsingEntry(self):
         ts=self
         def gotEntry(e):
             if e.id == 'tag:search.twitter.com,2005:1043835074':
@@ -47,6 +47,29 @@ class XMLParserTest(unittest.TestCase):
         f.close()
         t.write(d)
         f.close()
+
+    def testParsingUser(self):
+        ts=self
+        def gotUser(u):
+            if u.id == '16957618':
+                ts.assertEquals('16957618', u.id)
+                ts.assertEquals('Greg Yaitanes', u.name)
+                ts.assertEquals('GregYaitanes', u.screen_name)
+                ts.assertEquals('LA or NYC', u.location)
+                ts.assertEquals(
+                    'twitter investor, advisor and i direct things',
+                    u.description)
+                ts.assertEquals('http://s3.amazonaws.com/twitter_production/'
+                    'profile_images/62795863/gybiopic_normal.jpg',
+                    u.profile_image_url)
+                ts.assertEquals('http://www.imdb.com/name/nm0944981/', u.url)
+                ts.assertEquals('true', u.protected)
+                ts.assertEquals('36', u.followers_count)
+        f=open("test/friends.xml")
+        d=f.read()
+        t = txml.Users(gotUser)
+        f.close()
+        t.write(d)
 
     def testStatusUpdateParse(self):
         with open("test/update.xml") as f:

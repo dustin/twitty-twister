@@ -70,6 +70,17 @@ class Entry(BaseXMLHandler):
         if name == 'link':
             del self.link
 
+class Status(BaseXMLHandler):
+
+    SIMPLE_PROPS = ['created_at', 'id', 'text', 'source', 'truncated',
+        'in_reply_to_status_id', 'in_reply_to_user_id', 'favorited']
+
+class User(BaseXMLHandler):
+
+    SIMPLE_PROPS = ['id', 'name', 'screen_name', 'location', 'description',
+        'profile_image_url', 'url', 'protected', 'followers_count']
+    COMPLEX_PROPS = {'status': Status}
+
 class Parser(sux.XMLParser):
 
     toplevel_tag = 'entry'
@@ -122,6 +133,11 @@ class Feed(Parser):
 
     toplevel_tag = 'entry'
     toplevel_type = Entry
+
+class Users(Parser):
+
+    toplevel_tag = 'user'
+    toplevel_type = User
 
 def parseXML(xml):
     return microdom.parseXMLString(xml)
