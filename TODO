@@ -1,7 +1,6 @@
 # Status Methods
 
    * public_timeline
-   * user_timeline
    * show
    * destroy
 

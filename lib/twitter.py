@@ -67,6 +67,18 @@ def friends(username, password, delegate, params={}):
     return __get(username, password, "/statuses/friends_timeline.atom",
         delegate, params)
 
+def user_timeline(username, password, delegate, user=None, params={}):
+    """Get the most recent updates for a user.
+
+    If no user is specified, the statuses for the authenticating user are
+    returned.
+
+    See search for example of how results are returned."""
+    if user:
+        params['id'] = user
+    return __get(username, password, "/statuses/user_timeline.atom",
+        delegate, params)
+
 def direct_messages(username, password, delegate, params={}):
     """Get direct messages for the authenticating user.
 
