@@ -1,7 +1,6 @@
 # Status Methods
 
    * public_timeline
-   * friends_timeline
    * user_timeline
    * show
    * replies

@@ -38,6 +38,13 @@ def __post(user, password, path, args={}):
         postdata=__urlencode(args),
         headers=makeAuthHeader(user, password, h))
 
+def __get(user, password, path, delegate, params={}):
+    url = BASE_URL + path
+    if params:
+        url += '?' + __urlencode(params),
+    return client.downloadPage(url, txml.Feed(delegate),
+        headers=makeAuthHeader(user, password))
+
 def verify_credentials(username, password):
     "Verify a user's credentials."
     return __post(username, password, "/account/verify_credentials.xml")
@@ -52,6 +59,13 @@ def update(username, password, status):
     "Update your status.  Returns the ID of the new post."
     return __parsed_post(__post(username, password, "/statuses/update.xml",
         {'status': status}), txml.parseUpdateResponse)
+
+def friends(username, password, delegate, params={}):
+    """Get updates from friends.
+
+    See search for example of how results are returned."""
+    return __get(username, password, "/statuses/friends_timeline.atom",
+        delegate, params)
 
 def search(query, delegate):
     """Perform a search query.
