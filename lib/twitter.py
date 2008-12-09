@@ -73,6 +73,12 @@ def direct_messages(username, password, delegate, params={}):
     See search for example of how results are returned."""
     return __get(username, password, "/direct_messages.atom", delegate, params)
 
+def follow(username, password, user):
+    """Follow the given user.
+
+    Returns no useful data."""
+    return __post(username, password, '/friendships/create/%s.xml' % user)
+
 def search(query, delegate):
     """Perform a search query.
     
