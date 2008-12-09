@@ -54,6 +54,12 @@ def update(username, password, status):
         {'status': status}), txml.parseUpdateResponse)
 
 def search(query, delegate):
-    "Perform a search query.  Get results in a deferred."
+    """Perform a search query.
+    
+    Results are given one at a time to the delegate.  An example delegate
+    may look like this:
+    
+    def exampleDelegate(entry):
+        print entry.title"""
     return client.downloadPage(SEARCH_URL + '?' + __urlencode({'q': query}),
         txml.Feed(delegate))

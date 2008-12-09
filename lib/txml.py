@@ -100,7 +100,7 @@ class Feed(sux.XMLParser):
         if name == 'entry':
             self.currentEntry.done = True
             del self.currentEntry.current_ob
-            self.delegate.gotEntry(self.currentEntry)
+            self.delegate(self.currentEntry)
             self.currentEntry = None
         elif self.currentEntry:
             self.currentEntry.gotTagEnd(name, ''.join(self.data).decode('utf8'))

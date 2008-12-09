@@ -14,10 +14,9 @@ from twisted.internet import reactor, protocol, defer, task
 
 import twitter
 
-class CB(object):
-    def gotEntry(self, msg):
-        print "Got a entry: ", msg.title
+def gotEntry(msg):
+    print "Got a entry: ", msg.title
 
-twitter.search(sys.argv[1], CB()).addBoth(lambda x: reactor.stop())
+twitter.search(sys.argv[1], gotEntry).addBoth(lambda x: reactor.stop())
 
 reactor.run()
