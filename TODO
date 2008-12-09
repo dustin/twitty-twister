@@ -23,7 +23,6 @@
 
 # Account Methods
 
-   * verify_credentials
    * end_session
    * update_location 
    * update_delivery_device
