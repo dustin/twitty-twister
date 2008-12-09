@@ -73,6 +73,12 @@ def direct_messages(username, password, delegate, params={}):
     See search for example of how results are returned."""
     return __get(username, password, "/direct_messages.atom", delegate, params)
 
+def replies(username, password, delegate, params={}):
+    """Get the most recent replies for the authenticating user.
+
+    See search for example of how results are returned."""
+    return __get(username, password, "/statuses/replies.atom", delegate, params)
+
 def follow(username, password, user):
     """Follow the given user.
 
