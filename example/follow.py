@@ -19,7 +19,7 @@ def cb(answer):
         print answer
     return f
 
-twitter.follow(sys.argv[1], sys.argv[2], sys.argv[3]).addCallback(
+twitter.Twitter(sys.argv[1], sys.argv[2]).follow(sys.argv[3]).addCallback(
     cb("worked")).addErrback(cb("didn't work")).addBoth(
     lambda x: reactor.stop())
 

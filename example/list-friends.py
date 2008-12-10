@@ -21,7 +21,7 @@ un=None
 if len(sys.argv) > 3:
     un=sys.argv[3]
 
-twitter.list_friends(sys.argv[1], sys.argv[2], gotUser, un).addBoth(
+twitter.Twitter(sys.argv[1], sys.argv[2]).list_friends(gotUser, un).addBoth(
     lambda x: reactor.stop())
 
 reactor.run()

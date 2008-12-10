@@ -21,7 +21,7 @@ user = None
 if len(sys.argv) > 3:
     user = sys.argv[3]
 
-twitter.user_timeline(sys.argv[1], sys.argv[2], gotEntry, user).addBoth(
+twitter.Twitter(sys.argv[1], sys.argv[2]).user_timeline(gotEntry, user).addBoth(
     lambda x: reactor.stop())
 
 reactor.run()

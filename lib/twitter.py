@@ -18,127 +18,136 @@ import txml
 BASE_URL="http://twitter.com"
 SEARCH_URL="http://search.twitter.com/search.atom"
 
-def makeAuthHeader(username, password, headers=None):
-    if not headers:
-        headers = {}
-    authorization = base64.encodestring('%s:%s' % (username, password))[:-1]
-    headers['Authorization'] = "Basic %s" % authorization
-    return headers
+class Twitter(object):
 
-def __urlencode(h):
-    rv = []
-    for k,v in h.iteritems():
-        rv.append('%s=%s' %
-            (urllib.quote(k.encode("utf-8")), urllib.quote(v.encode("utf-8"))))
-    return '&'.join(rv)
+    def __init__(self, user=None, passwd=None,
+        base_url=BASE_URL, search_url=SEARCH_URL):
 
-def __post(user, password, path, args={}):
-    h = {'Content-Type': 'application/x-www-form-urlencoded'}
-    return client.getPage((BASE_URL + "%s") % path, method='POST',
-        postdata=__urlencode(args),
-        headers=makeAuthHeader(user, password, h))
+        self.base_url = BASE_URL
+        self.search_Url = SEARCH_URL
+        self.username = user
+        self.password = passwd
 
-def __get(user, password, path, delegate, params={}):
-    url = BASE_URL + path
-    if params:
-        url += '?' + __urlencode(params)
-    return client.downloadPage(url, txml.Feed(delegate),
-        headers=makeAuthHeader(user, password))
+    def __makeAuthHeader(self, headers=None):
+        if not headers:
+            headers = {}
+        authorization = base64.encodestring('%s:%s'
+            % (self.username, self.password))[:-1]
+        headers['Authorization'] = "Basic %s" % authorization
+        return headers
 
-def verify_credentials(username, password):
-    "Verify a user's credentials."
-    return __post(username, password, "/account/verify_credentials.xml")
+    def __urlencode(self, h):
+        rv = []
+        for k,v in h.iteritems():
+            rv.append('%s=%s' %
+                (urllib.quote(k.encode("utf-8")),
+                urllib.quote(v.encode("utf-8"))))
+        return '&'.join(rv)
 
-def __parsed_post(hdef, parser):
-    deferred = defer.Deferred()
-    hdef.addErrback(lambda e: deferred.errback(e))
-    hdef.addCallback(lambda p: deferred.callback(parser(p)))
-    return deferred
+    def __post(self, path, args={}):
+        h = {'Content-Type': 'application/x-www-form-urlencoded'}
+        return client.getPage((BASE_URL + "%s") % path, method='POST',
+            postdata=self.__urlencode(args), headers=self.__makeAuthHeader(h))
 
-def update(username, password, status):
-    "Update your status.  Returns the ID of the new post."
-    return __parsed_post(__post(username, password, "/statuses/update.xml",
-        {'status': status}), txml.parseUpdateResponse)
+    def __get(self, path, delegate, params={}):
+        url = BASE_URL + path
+        if params:
+            url += '?' + self.__urlencode(params)
+        return client.downloadPage(url, txml.Feed(delegate),
+            headers=self.__makeAuthHeader())
 
-def friends(username, password, delegate, params={}):
-    """Get updates from friends.
+    def verify_credentials(self):
+        "Verify a user's credentials."
+        return self.__post("/account/verify_credentials.xml")
 
-    See search for example of how results are returned."""
-    return __get(username, password, "/statuses/friends_timeline.atom",
-        delegate, params)
+    def __parsed_post(self, hdef, parser):
+        deferred = defer.Deferred()
+        hdef.addErrback(lambda e: deferred.errback(e))
+        hdef.addCallback(lambda p: deferred.callback(parser(p)))
+        return deferred
 
-def user_timeline(username, password, delegate, user=None, params={}):
-    """Get the most recent updates for a user.
+    def update(self, status):
+        "Update your status.  Returns the ID of the new post."
+        return self.__parsed_post(self.__post("/statuses/update.xml",
+            {'status': status}), txml.parseUpdateResponse)
 
-    If no user is specified, the statuses for the authenticating user are
-    returned.
+    def friends(self, delegate, params={}):
+        """Get updates from friends.
 
-    See search for example of how results are returned."""
-    if user:
-        params['id'] = user
-    return __get(username, password, "/statuses/user_timeline.atom",
-        delegate, params)
+        See search for example of how results are returned."""
+        return self.__get("/statuses/friends_timeline.atom", delegate, params)
 
-def direct_messages(username, password, delegate, params={}):
-    """Get direct messages for the authenticating user.
+    def user_timeline(self, delegate, user=None, params={}):
+        """Get the most recent updates for a user.
 
-    See search for example of how results are returned."""
-    return __get(username, password, "/direct_messages.atom", delegate, params)
+        If no user is specified, the statuses for the authenticating user are
+        returned.
 
-def replies(username, password, delegate, params={}):
-    """Get the most recent replies for the authenticating user.
+        See search for example of how results are returned."""
+        if user:
+            params['id'] = user
+        return self.__get("/statuses/user_timeline.atom", delegate, params)
 
-    See search for example of how results are returned."""
-    return __get(username, password, "/statuses/replies.atom", delegate, params)
+    def direct_messages(self, delegate, params={}):
+        """Get direct messages for the authenticating user.
 
-def follow(username, password, user):
-    """Follow the given user.
+        See search for example of how results are returned."""
+        return self.__get("/direct_messages.atom", delegate, params)
 
-    Returns no useful data."""
-    return __post(username, password, '/friendships/create/%s.xml' % user)
+    def replies(self, delegate, params={}):
+        """Get the most recent replies for the authenticating user.
 
-def leave(username, password, user):
-    """Stop following the given user.
+        See search for example of how results are returned."""
+        return self.__get("/statuses/replies.atom", delegate, params)
 
-    Returns no useful data."""
-    return __post(username, password, '/friendships/destroy/%s.xml' % user)
+    def follow(self, user):
+        """Follow the given user.
 
-def list_friends(username, password, delegate, user=None, params=None):
-    """Get the list of friends for a user.
+        Returns no useful data."""
+        return self.__post('/friendships/create/%s.xml' % user)
 
-    Calls the delegate with each user object found."""
-    if user:
-        url = BASE_URL + '/statuses/friends/' + user + '.xml'
-    else:
-        url = BASE_URL + '/statuses/friends.xml'
-    if params:
-        url += '?' + __urlencode(params)
-    return client.downloadPage(url, txml.Users(delegate),
-        headers=makeAuthHeader(username, password))
+    def leave(self, user):
+        """Stop following the given user.
 
-def list_followers(username, password, delegate, user=None, params=None):
-    """Get the list of followers for a user.
+        Returns no useful data."""
+        return self.__post('/friendships/destroy/%s.xml' % user)
 
-    Calls the delegate with each user object found."""
-    if user:
-        url = BASE_URL + '/statuses/followers/' + user + '.xml'
-    else:
-        url = BASE_URL + '/statuses/followers.xml'
-    if params:
-        url += '?' + __urlencode(params)
-    return client.downloadPage(url, txml.Users(delegate),
-        headers=makeAuthHeader(username, password))
+    def list_friends(self, delegate, user=None, params=None):
+        """Get the list of friends for a user.
 
-def search(query, delegate, args=None):
-    """Perform a search query.
-    
-    Results are given one at a time to the delegate.  An example delegate
-    may look like this:
-    
-    def exampleDelegate(entry):
-        print entry.title"""
-    if args is None:
-        args = {}
-    args['q'] = query
-    return client.downloadPage(SEARCH_URL + '?' + __urlencode(args),
-        txml.Feed(delegate))
+        Calls the delegate with each user object found."""
+        if user:
+            url = BASE_URL + '/statuses/friends/' + user + '.xml'
+        else:
+            url = BASE_URL + '/statuses/friends.xml'
+        if params:
+            url += '?' + self.__urlencode(params)
+        return client.downloadPage(url, txml.Users(delegate),
+            headers=self.__makeAuthHeader())
+
+    def list_followers(self, delegate, user=None, params=None):
+        """Get the list of followers for a user.
+
+        Calls the delegate with each user object found."""
+        if user:
+            url = BASE_URL + '/statuses/followers/' + user + '.xml'
+        else:
+            url = BASE_URL + '/statuses/followers.xml'
+        if params:
+            url += '?' + self.__urlencode(params)
+        return client.downloadPage(url, txml.Users(delegate),
+            headers=self.__makeAuthHeader())
+
+    def search(self, query, delegate, args=None):
+        """Perform a search query.
+
+        Results are given one at a time to the delegate.  An example delegate
+        may look like this:
+
+        def exampleDelegate(entry):
+            print entry.title"""
+        if args is None:
+            args = {}
+        args['q'] = query
+        return client.downloadPage(SEARCH_URL + '?' + self.__urlencode(args),
+            txml.Feed(delegate))

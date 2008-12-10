@@ -18,7 +18,7 @@ def gotEntry(msg):
     print "Got a entry: %s" % (msg.title)
     print "\t%s" % (msg.content)
 
-twitter.direct_messages(sys.argv[1], sys.argv[2], gotEntry).addBoth(
+twitter.Twitter(sys.argv[1], sys.argv[2]).direct_messages(gotEntry).addBoth(
     lambda x: reactor.stop())
 
 reactor.run()

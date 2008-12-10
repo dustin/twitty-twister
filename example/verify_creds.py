@@ -19,7 +19,7 @@ def cb(answer):
         print answer
     return f
 
-twitter.verify_credentials(sys.argv[1], sys.argv[2]).addCallback(
+twitter.Twitter(sys.argv[1], sys.argv[2]).verify_credentials().addCallback(
     cb("worked")).addErrback(cb("didn't work")).addBoth(
     lambda x: reactor.stop())
 

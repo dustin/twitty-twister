@@ -17,7 +17,7 @@ import twitter
 def gotEntry(msg):
     print "Got a entry from %s: %s" % (msg.author.name, msg.title)
 
-twitter.friends(sys.argv[1], sys.argv[2], gotEntry).addBoth(
+twitter.Twitter(sys.argv[1], sys.argv[2]).friends(gotEntry).addBoth(
     lambda x: reactor.stop())
 
 reactor.run()

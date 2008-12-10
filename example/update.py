@@ -20,7 +20,7 @@ def cb(x):
 def eb(e):
     print e
 
-twitter.update(sys.argv[1], sys.argv[2], ' '.join(sys.argv[3:])
+twitter.Twitter(sys.argv[1], sys.argv[2]).update(' '.join(sys.argv[3:])
     ).addCallback(cb).addErrback(eb).addBoth(lambda x: reactor.stop())
 
 reactor.run()
