@@ -103,6 +103,19 @@ def leave(username, password, user):
     Returns no useful data."""
     return __post(username, password, '/friendships/destroy/%s.xml' % user)
 
+def list_friends(username, password, delegate, user=None, params=None):
+    """Get the list of friends for a user.
+
+    Calls the delegate with each user object found."""
+    if user:
+        url = BASE_URL + '/statuses/friends/' + user + '.xml'
+    else:
+        url = BASE_URL + '/statuses/friends.xml'
+    if params:
+        url += '?' + __urlencode(params)
+    return client.downloadPage(url, txml.Users(delegate),
+        headers=makeAuthHeader(username, password))
+
 def search(query, delegate, args=None):
     """Perform a search query.
     
