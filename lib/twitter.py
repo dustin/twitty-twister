@@ -116,6 +116,19 @@ def list_friends(username, password, delegate, user=None, params=None):
     return client.downloadPage(url, txml.Users(delegate),
         headers=makeAuthHeader(username, password))
 
+def list_followers(username, password, delegate, user=None, params=None):
+    """Get the list of followers for a user.
+
+    Calls the delegate with each user object found."""
+    if user:
+        url = BASE_URL + '/statuses/followers/' + user + '.xml'
+    else:
+        url = BASE_URL + '/statuses/followers.xml'
+    if params:
+        url += '?' + __urlencode(params)
+    return client.downloadPage(url, txml.Users(delegate),
+        headers=makeAuthHeader(username, password))
+
 def search(query, delegate, args=None):
     """Perform a search query.
     
