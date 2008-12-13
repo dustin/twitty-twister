@@ -129,6 +129,8 @@ class Parser(sux.XMLParser):
         e = {'quot': '"', 'lt': '&lt;', 'gt': '&gt;', 'amp': '&amp;'}
         if e.has_key(data):
             self.data.append(e[data])
+        elif data[0] == '#':
+            self.data.append('&' + data + ';')
         else:
             print "Unhandled entity reference: ", data
 
