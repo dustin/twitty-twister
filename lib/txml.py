@@ -14,11 +14,11 @@ class BaseXMLHandler(object):
 
     SIMPLE_PROPS = []
     COMPLEX_PROPS = {}
-    tag_name = None
 
-    def __init__(self):
+    def __init__(self, n):
         self.done = False
         self.current_ob = None
+        self.tag_name = n
         for p in self.SIMPLE_PROPS:
             self.__dict__[p] = None
 
@@ -26,10 +26,11 @@ class BaseXMLHandler(object):
         if self.current_ob:
             self.current_ob.gotTagStart(name, attrs)
         elif name in self.COMPLEX_PROPS:
-            self.current_ob = self.COMPLEX_PROPS[name]()
+            self.current_ob = self.COMPLEX_PROPS[name](name)
         elif name in self.SIMPLE_PROPS:
             pass
         else:
+            print "Got unknown tag", name, "in", self.__class__
             self.current_ob = NoopParser(name)
 
     def gotTagEnd(self, name, data):
@@ -51,14 +52,11 @@ class BaseXMLHandler(object):
 class Author(BaseXMLHandler):
 
     SIMPLE_PROPS = [ 'name', 'uri' ]
-    tag_name = 'author'
 
 class Entry(BaseXMLHandler):
 
     SIMPLE_PROPS = ['id', 'published', 'title', 'content', 'link']
     COMPLEX_PROPS = {'author': Author}
-
-    tag_name = 'entry'
 
     def gotTagStart(self, name, attrs):
         super(Entry, self).gotTagStart(name, attrs)
@@ -106,7 +104,7 @@ class Parser(sux.XMLParser):
     def gotTagStart(self, name, attrs):
         self.data=[]
         if name ==  self.toplevel_tag:
-            self.currentEntry = self.toplevel_type()
+            self.currentEntry = self.toplevel_type(name)
         elif self.currentEntry:
             self.currentEntry.gotTagStart(name, attrs)
 
