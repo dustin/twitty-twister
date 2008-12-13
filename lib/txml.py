@@ -55,7 +55,7 @@ class Author(BaseXMLHandler):
 
 class Entry(BaseXMLHandler):
 
-    SIMPLE_PROPS = ['id', 'published', 'title', 'content', 'link']
+    SIMPLE_PROPS = ['id', 'published', 'title', 'content', 'link', 'updated' ]
     COMPLEX_PROPS = {'author': Author}
 
     def gotTagStart(self, name, attrs):
@@ -71,7 +71,8 @@ class Entry(BaseXMLHandler):
 class Status(BaseXMLHandler):
 
     SIMPLE_PROPS = ['created_at', 'id', 'text', 'source', 'truncated',
-        'in_reply_to_status_id', 'in_reply_to_user_id', 'favorited']
+        'in_reply_to_status_id', 'in_reply_to_screen_name',
+        'in_reply_to_user_id', 'favorited']
 
 class User(BaseXMLHandler):
 
