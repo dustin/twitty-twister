@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<statuses type="array">
+<status>
+  <created_at>Sat Dec 13 04:10:57 +0000 2008</created_at>
+  <id>1054780802</id>
+  <text>Getting Jekyll ready for something special next week.</text>
+  <source>&lt;a href=&quot;http://www.tweetdeck.com/&quot;&gt;TweetDeck&lt;/a&gt;</source>
+  <truncated>false</truncated>
+  <in_reply_to_status_id></in_reply_to_status_id>
+  <in_reply_to_user_id></in_reply_to_user_id>
+  <favorited>false</favorited>
+  <in_reply_to_screen_name></in_reply_to_screen_name>
+  <user>
+    <id>5502392</id>
+    <name>Tom Preston-Werner</name>
+    <screen_name>mojombo</screen_name>
+    <location>iPhone: 37.813461,-122.416519</location>
+    <description>powerset ftw!</description>
+    <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/21599172/tom_prestonwerner_normal.jpg</profile_image_url>
+    <url>http://rubyisawesome.com</url>
+    <protected>false</protected>
+    <followers_count>516</followers_count>
+  </user>
+</status>
+<status>
+  <created_at>Sat Dec 13 04:05:34 +0000 2008</created_at>
+  <id>1054774543</id>
+  <text>Defeated by Mindy</text>
+  <source>&lt;a href=&quot;http://twitterhelp.blogspot.com/2008/05/twitter-via-mobile-web-mtwittercom.html&quot;&gt;mobile web&lt;/a&gt;</source>
+  <truncated>false</truncated>
+  <in_reply_to_status_id></in_reply_to_status_id>
+  <in_reply_to_user_id></in_reply_to_user_id>
+  <favorited>false</favorited>
+  <in_reply_to_screen_name></in_reply_to_screen_name>
+  <user>
+    <id>713263</id>
+    <name>Chris Wanstrath</name>
+    <screen_name>defunkt</screen_name>
+    <location>sf</location>
+    <description>hax</description>
+    <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/58344962/rock_normal.jpg</profile_image_url>
+    <url>http://github.com/defunkt</url>
+    <protected>false</protected>
+    <followers_count>1334</followers_count>
+  </user>
+</status>
+</statuses>

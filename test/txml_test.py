@@ -111,6 +111,38 @@ class XMLParserTest(unittest.TestCase):
         f.close()
         t.write(d)
 
+    def testParsingStatusList(self):
+        ts=self
+        def gotStatusItem(s):
+            if s.id == '1054780802':
+                ts.assertEquals('1054780802', s.id)
+                ts.assertEquals('Sat Dec 13 04:10:57 +0000 2008', s.created_at)
+                ts.assertEquals('Getting Jekyll ready for something '
+                    'special next week.', s.text)
+                ts.assertEquals('false', s.truncated)
+                ts.assertEquals('', s.in_reply_to_status_id)
+                ts.assertEquals('', s.in_reply_to_user_id)
+                ts.assertEquals('false', s.favorited)
+                ts.assertEquals('', s.in_reply_to_screen_name)
+                ts.assertEquals('5502392', s.user.id)
+                ts.assertEquals('Tom Preston-Werner', s.user.name)
+                ts.assertEquals('mojombo', s.user.screen_name)
+                ts.assertEquals('iPhone: 37.813461,-122.416519',
+                    s.user.location)
+                ts.assertEquals('powerset ftw!', s.user.description)
+                ts.assertEquals('http://s3.amazonaws.com/twitter_production/'
+                    'profile_images/21599172/tom_prestonwerner_normal.jpg',
+                    s.user.profile_image_url)
+                ts.assertEquals('http://rubyisawesome.com', s.user.url)
+                ts.assertEquals('false', s.user.protected)
+                ts.assertEquals('516', s.user.followers_count)
+
+        f=open("test/status_list.xml")
+        d=f.read()
+        t = txml.StatusList(gotStatusItem)
+        f.close()
+        t.write(d)
+
     def testStatusUpdateParse(self):
         with open("test/update.xml") as f:
             id = txml.parseUpdateResponse(f.read())

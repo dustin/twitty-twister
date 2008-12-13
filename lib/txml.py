@@ -80,6 +80,10 @@ class User(BaseXMLHandler):
         'profile_image_url', 'url', 'protected', 'followers_count']
     COMPLEX_PROPS = {'status': Status}
 
+# Hack to patch this in...
+
+Status.COMPLEX_PROPS = {'user': User}
+
 class Parser(sux.XMLParser):
 
     toplevel_tag = 'entry'
@@ -148,6 +152,11 @@ class Direct(Parser):
 
     toplevel_tag = 'direct_message'
     toplevel_type = DirectMessage
+
+class StatusList(Parser):
+
+    toplevel_tag = 'status'
+    toplevel_type = Status
 
 def parseXML(xml):
     return microdom.parseXMLString(xml)

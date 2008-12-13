@@ -77,8 +77,9 @@ class Twitter(object):
     def friends(self, delegate, params={}):
         """Get updates from friends.
 
-        See search for example of how results are returned."""
-        return self.__get("/statuses/friends_timeline.atom", delegate, params)
+        Calls the delgate once for each status object received."""
+        return self.__get("/statuses/friends_timeline.xml", delegate, params,
+            txml.StatusList)
 
     def user_timeline(self, delegate, user=None, params={}):
         """Get the most recent updates for a user.
