@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<direct-messages type="array">
+<direct_message>
+  <id>45010464</id>
+  <sender_id>24113688</sender_id>
+  <text>some stuff</text>
+  <recipient_id>14117412</recipient_id>
+  <created_at>Fri Dec 12 17:50:50 +0000 2008</created_at>
+  <sender_screen_name>somesender</sender_screen_name>
+  <recipient_screen_name>dlsspy</recipient_screen_name>
+  <sender>
+    <id>24113688</id>
+    <name>Some Sender</name>
+    <screen_name>somesender</screen_name>
+    <location>Some Place</location>
+    <description>I do stuff.</description>
+    <profile_image_url>http://www.spy.net/obama-hornz.jpg</profile_image_url>
+    <url>http://www.spy.net/</url>
+    <protected>false</protected>
+    <followers_count>76</followers_count>
+  </sender>
+  <recipient>
+    <id>14117412</id>
+    <name>Dustin Sallings</name>
+    <screen_name>dlsspy</screen_name>
+    <location>Santa Clara, CA</location>
+    <description>Probably writing code.</description>
+    <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/57455325/IMG_0596_2_normal.JPG</profile_image_url>
+    <url>http://bleu.west.spy.net/~dustin/</url>
+    <protected>false</protected>
+    <followers_count>198</followers_count>
+  </recipient>
+</direct_message>
+</direct-messages>

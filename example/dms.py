@@ -15,8 +15,7 @@ from twisted.internet import reactor, protocol, defer, task
 import twitter
 
 def gotEntry(msg):
-    print "Got a entry: %s" % (msg.title)
-    print "\t%s" % (msg.content)
+    print "Got a entry from %s: %s" % (msg.sender_screen_name, msg.text)
 
 twitter.Twitter(sys.argv[1], sys.argv[2]).direct_messages(gotEntry).addBoth(
     lambda x: reactor.stop())

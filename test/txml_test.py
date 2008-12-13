@@ -71,6 +71,46 @@ class XMLParserTest(unittest.TestCase):
         f.close()
         t.write(d)
 
+    def testParsingDirectMessages(self):
+        ts=self
+        def gotDirectMessage(dm):
+            ts.assertEquals('45010464', dm.id)
+            ts.assertEquals('24113688', dm.sender_id)
+            ts.assertEquals('some stuff', dm.text)
+            ts.assertEquals('14117412', dm.recipient_id)
+            ts.assertEquals('Fri Dec 12 17:50:50 +0000 2008', dm.created_at)
+            ts.assertEquals('somesender', dm.sender_screen_name)
+            ts.assertEquals('dlsspy', dm.recipient_screen_name)
+
+            ts.assertEquals('24113688', dm.sender.id)
+            ts.assertEquals('Some Sender', dm.sender.name)
+            ts.assertEquals('somesender', dm.sender.screen_name)
+            ts.assertEquals('Some Place', dm.sender.location)
+            ts.assertEquals('I do stuff.', dm.sender.description)
+            ts.assertEquals('http://www.spy.net/obama-hornz.jpg',
+                dm.sender.profile_image_url)
+            ts.assertEquals('http://www.spy.net/', dm.sender.url)
+            ts.assertEquals('false', dm.sender.protected)
+            ts.assertEquals('76', dm.sender.followers_count)
+
+            ts.assertEquals('14117412', dm.recipient.id)
+            ts.assertEquals('Dustin Sallings', dm.recipient.name)
+            ts.assertEquals('dlsspy', dm.recipient.screen_name)
+            ts.assertEquals('Santa Clara, CA', dm.recipient.location)
+            ts.assertEquals('Probably writing code.', dm.recipient.description)
+            ts.assertEquals('http://s3.amazonaws.com/twitter_production/'
+                'profile_images/57455325/IMG_0596_2_normal.JPG',
+                dm.recipient.profile_image_url)
+            ts.assertEquals('http://bleu.west.spy.net/~dustin/',
+                dm.recipient.url)
+            ts.assertEquals('false', dm.recipient.protected)
+            ts.assertEquals('198', dm.recipient.followers_count)
+        f=open("test/dm.xml")
+        d=f.read()
+        t = txml.Direct(gotDirectMessage)
+        f.close()
+        t.write(d)
+
     def testStatusUpdateParse(self):
         with open("test/update.xml") as f:
             id = txml.parseUpdateResponse(f.read())

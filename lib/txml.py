@@ -128,6 +128,12 @@ class Parser(sux.XMLParser):
         else:
             print "Unhandled entity reference: ", data
 
+class DirectMessage(BaseXMLHandler):
+
+    SIMPLE_PROPS = ['id', 'sender_id', 'text', 'recipient_id', 'created_at',
+        'sender_screen_name', 'recipient_screen_name']
+    COMPLEX_PROPS = {'sender': User, 'recipient': User}
+
 class Feed(Parser):
 
     toplevel_tag = 'entry'
@@ -137,6 +143,11 @@ class Users(Parser):
 
     toplevel_tag = 'user'
     toplevel_type = User
+
+class Direct(Parser):
+
+    toplevel_tag = 'direct_message'
+    toplevel_type = DirectMessage
 
 def parseXML(xml):
     return microdom.parseXMLString(xml)

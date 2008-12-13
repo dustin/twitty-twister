@@ -49,11 +49,11 @@ class Twitter(object):
         return client.getPage((BASE_URL + "%s") % path, method='POST',
             postdata=self.__urlencode(args), headers=self.__makeAuthHeader(h))
 
-    def __get(self, path, delegate, params={}):
+    def __get(self, path, delegate, params, feed_factory=txml.Feed):
         url = BASE_URL + path
         if params:
             url += '?' + self.__urlencode(params)
-        return client.downloadPage(url, txml.Feed(delegate),
+        return client.downloadPage(url, feed_factory(delegate),
             headers=self.__makeAuthHeader())
 
     def verify_credentials(self):
@@ -94,8 +94,9 @@ class Twitter(object):
     def direct_messages(self, delegate, params={}):
         """Get direct messages for the authenticating user.
 
-        See search for example of how results are returned."""
-        return self.__get("/direct_messages.atom", delegate, params)
+        Search results are returned one message at a time a DirectMessage
+        objects"""
+        return self.__get("/direct_messages.xml", delegate, params, txml.Direct)
 
     def replies(self, delegate, params={}):
         """Get the most recent replies for the authenticating user.
