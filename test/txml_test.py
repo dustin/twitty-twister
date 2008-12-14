@@ -16,6 +16,10 @@ import txml
 
 class XMLParserTest(unittest.TestCase):
 
+    def parse_test(self, filename, parser):
+        with open(filename) as f:
+            parser.write(f.read())
+
     def testParsingEntry(self):
         ts=self
         def gotEntry(e):
@@ -41,12 +45,7 @@ class XMLParserTest(unittest.TestCase):
                     'to run errands... If I can just stop tweeting... '
                     '&lt;b&gt;TWITTER&lt;/b&gt; IS LIKE CRACK!',
                      e.content)
-        t = txml.Feed(gotEntry)
-        f=open("test/search.atom")
-        d=f.read()
-        f.close()
-        t.write(d)
-        f.close()
+        self.parse_test('test/search.atom', txml.Feed(gotEntry))
 
     def testParsingUser(self):
         ts=self
@@ -65,11 +64,7 @@ class XMLParserTest(unittest.TestCase):
                 ts.assertEquals('http://www.imdb.com/name/nm0944981/', u.url)
                 ts.assertEquals('true', u.protected)
                 ts.assertEquals('36', u.followers_count)
-        f=open("test/friends.xml")
-        d=f.read()
-        t = txml.Users(gotUser)
-        f.close()
-        t.write(d)
+        self.parse_test('test/friends.xml', txml.Users(gotUser))
 
     def testParsingDirectMessages(self):
         ts=self
@@ -105,11 +100,7 @@ class XMLParserTest(unittest.TestCase):
                 dm.recipient.url)
             ts.assertEquals('false', dm.recipient.protected)
             ts.assertEquals('198', dm.recipient.followers_count)
-        f=open("test/dm.xml")
-        d=f.read()
-        t = txml.Direct(gotDirectMessage)
-        f.close()
-        t.write(d)
+        self.parse_test('test/dm.xml', txml.Direct(gotDirectMessage))
 
     def testParsingStatusList(self):
         ts=self
@@ -137,11 +128,7 @@ class XMLParserTest(unittest.TestCase):
                 ts.assertEquals('false', s.user.protected)
                 ts.assertEquals('516', s.user.followers_count)
 
-        f=open("test/status_list.xml")
-        d=f.read()
-        t = txml.StatusList(gotStatusItem)
-        f.close()
-        t.write(d)
+        self.parse_test('test/status_list.xml', txml.StatusList(gotStatusItem))
 
     def testStatusUpdateParse(self):
         with open("test/update.xml") as f:
