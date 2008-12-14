@@ -130,6 +130,50 @@ class XMLParserTest(unittest.TestCase):
 
         self.parse_test('test/status_list.xml', txml.StatusList(gotStatusItem))
 
+    def testParsingUser(self):
+        ts = self
+        def gotUser(u):
+            ts.assertEquals('14117412', u.id)
+            ts.assertEquals('Dustin Sallings', u.name)
+            ts.assertEquals('dlsspy', u.screen_name)
+            ts.assertEquals('Santa Clara, CA', u.location)
+            ts.assertEquals('Probably writing code.', u.description)
+            ts.assertEquals('http://s3.amazonaws.com/twitter_production/'
+                'profile_images/57455325/IMG_0596_2_normal.JPG',
+                u.profile_image_url)
+            ts.assertEquals('http://bleu.west.spy.net/~dustin/', u.url)
+            ts.assertEquals('false', u.protected)
+            ts.assertEquals('201', u.followers_count)
+            ts.assertEquals('9ae4e8', u.profile_background_color)
+            ts.assertEquals('000000', u.profile_text_color)
+            ts.assertEquals('0000ff', u.profile_link_color)
+            ts.assertEquals('e0ff92', u.profile_sidebar_fill_color)
+            ts.assertEquals('87bc44', u.profile_sidebar_border_color)
+            ts.assertEquals('54', u.friends_count)
+            ts.assertEquals('Mon Mar 10 20:57:07 +0000 2008', u.created_at)
+            ts.assertEquals('37', u.favourites_count)
+            ts.assertEquals('-28800', u.utc_offset)
+            # ts.assertEquals('Pacific Time (US & Canada)', u.time_zone)
+            ts.assertEquals('false', u.following)
+            ts.assertEquals('false', u.notifications)
+            ts.assertEquals('1583', u.statuses_count)
+            ts.assertEquals('Sun Dec 14 07:24:26 +0000 2008',
+                u.status.created_at)
+            ts.assertEquals('1056508954', u.status.id)
+            ts.assertEquals('Never before have so many people with so '
+                'little to say said so much to so few. '
+                'http://despair.com/blogging.html', u.status.text)
+            # ts.assertEquals(
+            #     '<a href="http://github.com/dustin/twitterspy">TwitterSpy< a>',
+            #     u.status.source)
+            ts.assertEquals('false', u.status.truncated)
+            ts.assertEquals('', u.status.in_reply_to_status_id)
+            ts.assertEquals('', u.status.in_reply_to_user_id)
+            ts.assertEquals('false', u.status.favorited)
+            ts.assertEquals('', u.status.in_reply_to_screen_name)
+
+        self.parse_test('test/user.xml', txml.Users(gotUser))
+
     def testStatusUpdateParse(self):
         with open("test/update.xml") as f:
             id = txml.parseUpdateResponse(f.read())

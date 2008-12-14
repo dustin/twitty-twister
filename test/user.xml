@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<user>
+  <id>14117412</id>
+  <name>Dustin Sallings</name>
+  <screen_name>dlsspy</screen_name>
+  <location>Santa Clara, CA</location>
+  <description>Probably writing code.</description>
+  <profile_image_url>http://s3.amazonaws.com/twitter_production/profile_images/57455325/IMG_0596_2_normal.JPG</profile_image_url>
+  <url>http://bleu.west.spy.net/~dustin/</url>
+  <protected>false</protected>
+  <followers_count>201</followers_count>
+  <profile_background_color>9ae4e8</profile_background_color>
+  <profile_text_color>000000</profile_text_color>
+  <profile_link_color>0000ff</profile_link_color>
+  <profile_sidebar_fill_color>e0ff92</profile_sidebar_fill_color>
+  <profile_sidebar_border_color>87bc44</profile_sidebar_border_color>
+  <friends_count>54</friends_count>
+  <created_at>Mon Mar 10 20:57:07 +0000 2008</created_at>
+  <favourites_count>37</favourites_count>
+  <utc_offset>-28800</utc_offset>
+  <time_zone>Pacific Time (US &amp; Canada)</time_zone>
+  <following>false</following>
+  <notifications>false</notifications>
+  <statuses_count>1583</statuses_count>
+  <status>
+    <created_at>Sun Dec 14 07:24:26 +0000 2008</created_at>
+    <id>1056508954</id>
+    <text>Never before have so many people with so little to say said so much to so few. http://despair.com/blogging.html</text>
+    <source>&lt;a href=&quot;http://github.com/dustin/twitterspy&quot;&gt;TwitterSpy&lt;/a&gt;</source>
+    <truncated>false</truncated>
+    <in_reply_to_status_id></in_reply_to_status_id>
+    <in_reply_to_user_id></in_reply_to_user_id>
+    <favorited>false</favorited>
+    <in_reply_to_screen_name></in_reply_to_screen_name>
+  </status>
+</user>
