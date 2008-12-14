@@ -143,6 +143,21 @@ class Twitter(object):
         return client.downloadPage(url, txml.Users(delegate),
             headers=self.__makeAuthHeader())
 
+    def show_user(self, user):
+        """Get the info for a specific user.
+
+        Returns a delegate that will receive the user in a callback."""
+
+        d = defer.Deferred()
+        if self.username and self.password:
+            h = self.__makeAuthHeader()
+        else:
+            h = {}
+        url = 'http://twitter.com/users/show/%s.xml' % user
+        client.downloadPage(url, txml.Users(lambda u: d.callback(u)),
+            headers={}).addErrback(lambda e: d.errback(e))
+        return d
+
     def search(self, query, delegate, args=None):
         """Perform a search query.
 
