@@ -20,6 +20,8 @@ SEARCH_URL="http://search.twitter.com/search.atom"
 
 class Twitter(object):
 
+    agent="twitty twister"
+
     def __init__(self, user=None, passwd=None,
         base_url=BASE_URL, search_url=SEARCH_URL):
 
@@ -47,6 +49,7 @@ class Twitter(object):
     def __post(self, path, args={}):
         h = {'Content-Type': 'application/x-www-form-urlencoded'}
         return client.getPage((BASE_URL + "%s") % path, method='POST',
+            agent=self.agent,
             postdata=self.__urlencode(args), headers=self.__makeAuthHeader(h))
 
     def __get(self, path, delegate, params, feed_factory=txml.Feed):
@@ -54,7 +57,7 @@ class Twitter(object):
         if params:
             url += '?' + self.__urlencode(params)
         return client.downloadPage(url, feed_factory(delegate),
-            headers=self.__makeAuthHeader())
+            agent=self.agent, headers=self.__makeAuthHeader())
 
     def verify_credentials(self):
         "Verify a user's credentials."
@@ -170,4 +173,4 @@ class Twitter(object):
             args = {}
         args['q'] = query
         return client.downloadPage(SEARCH_URL + '?' + self.__urlencode(args),
-            txml.Feed(delegate))
+            txml.Feed(delegate), agent=self.agent)
