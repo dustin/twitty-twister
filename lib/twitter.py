@@ -95,6 +95,12 @@ class Twitter(object):
             params['id'] = user
         return self.__get("/statuses/user_timeline.atom", delegate, params)
 
+    def public_timeline(self, delegate, params={}):
+        "Get the most recent public timeline."
+
+        return self.__get("/statuses/public_timeline.atom", delegate, params)
+        
+
     def direct_messages(self, delegate, params={}):
         """Get direct messages for the authenticating user.
 
