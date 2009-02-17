@@ -179,3 +179,15 @@ class Twitter(object):
         args['q'] = query
         return client.downloadPage(SEARCH_URL + '?' + self.__urlencode(args),
             txml.Feed(delegate), agent=self.agent)
+
+    def block(self, user):
+        """Block the given user.
+
+        Returns no useful data."""
+        return self.__post('/blocks/create/%s.xml' % user)
+
+    def unblock(self, user):
+        """Unblock the given user.
+
+        Returns no useful data."""
+        return self.__post('/blocks/destroy/%s.xml' % user)
