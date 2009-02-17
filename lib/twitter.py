@@ -99,7 +99,6 @@ class Twitter(object):
         "Get the most recent public timeline."
 
         return self.__get("/statuses/public_timeline.atom", delegate, params)
-        
 
     def direct_messages(self, delegate, params={}):
         """Get direct messages for the authenticating user.
