@@ -44,7 +44,10 @@ class BaseXMLHandler(object):
             self.done = True
             del self.current_ob
         elif name in self.SIMPLE_PROPS:
-            self.__dict__[name] = data
+            self.__dict__[self.cleanup(name)] = data
+
+    def cleanup(self, n):
+        return n.replace(':', '_')
 
     def __repr__(self):
         return "{%s %s}" % (self.tag_name, self.__dict__)
@@ -55,7 +58,8 @@ class Author(BaseXMLHandler):
 
 class Entry(BaseXMLHandler):
 
-    SIMPLE_PROPS = ['id', 'published', 'title', 'content', 'link', 'updated' ]
+    SIMPLE_PROPS = ['id', 'published', 'title', 'content', 'link', 'updated',
+                    'twitter:source']
     COMPLEX_PROPS = {'author': Author}
 
     def gotTagStart(self, name, attrs):

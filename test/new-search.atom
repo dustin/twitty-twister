@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns:google="http://base.google.com/ns/1.0" xml:lang="en-US" xmlns:openSearch="http://a9.com/-/spec/opensearch/1.1/" xmlns="http://www.w3.org/2005/Atom" xmlns:twitter="http://api.twitter.com/">
+  <id>tag:search.twitter.com,2005:search/"protocol buffers"</id>
+  <link type="text/html" rel="alternate" href="http://search.twitter.com/search?q=%22protocol+buffers%22"/>
+  <link type="application/atom+xml" rel="self" href="http://search.twitter.com/search.atom?q=%22protocol%20buffers%22"/>
+  <title>"protocol buffers" - Twitter Search</title>
+  <link type="application/opensearchdescription+xml" rel="search" href="http://search.twitter.com/opensearch.xml"/>
+  <link type="application/atom+xml" rel="refresh" href="http://search.twitter.com/search.atom?q=%22protocol+buffers%22&amp;since_id=1233070761"/>
+  <updated>2009-02-20T08:39:02Z</updated>
+  <openSearch:itemsPerPage>15</openSearch:itemsPerPage>
+  <link type="application/atom+xml" rel="next" href="http://search.twitter.com/search.atom?max_id=1233070761&amp;page=2&amp;q=%22protocol+buffers%22"/>
+  <entry>
+    <id>tag:search.twitter.com,2005:1229915194</id>
+    <published>2009-02-20T08:39:02Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/leeoades/statuses/1229915194"/>
+    <title>Listening to ".net Rocks" podcast about Protocol Buffers - a binary serialization format.</title>
+    <content type="html">Listening to &amp;quot;.net Rocks&amp;quot; podcast about &lt;b&gt;Protocol Buffers&lt;/b&gt; - a binary serialization format.</content>
+    <updated>2009-02-20T08:39:02Z</updated>
+    <link type="image/png" rel="image" href="http://s3.amazonaws.com/twitter_production/profile_images/34089362/Photo_010__normal.jpg"/>
+    <twitter:source>&lt;a href="http://www.twhirl.org/"&gt;twhirl&lt;/a&gt;</twitter:source>
+    <author>
+      <name>leeoades (Lee Oades)</name>
+      <uri>http://twitter.com/leeoades</uri>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:search.twitter.com,2005:1227491168</id>
+    <published>2009-02-19T17:59:51Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/billbrown/statuses/1227491168"/>
+    <title>Can't shake this whole protocol buffers thing. I'm a man possessed...</title>
+    <content type="html">Can't shake this whole &lt;b&gt;protocol buffers&lt;/b&gt; thing. I'm a man possessed...</content>
+    <updated>2009-02-19T17:59:51Z</updated>
+    <link type="image/png" rel="image" href="http://s3.amazonaws.com/twitter_production/profile_images/75273586/bill-head_normal.jpg"/>
+    <twitter:source>&lt;a href="http://twitter.com/"&gt;web&lt;/a&gt;</twitter:source>
+    <author>
+      <name>billbrown (Bill Brown)</name>
+      <uri>http://twitter.com/billbrown</uri>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:search.twitter.com,2005:1227478710</id>
+    <published>2009-02-19T17:56:14Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/titouille56/statuses/1227478710"/>
+    <title>Je travail sur mon CMS bas&#233; sur Protocol Buffers =D
+I'm working on my CMS based on Protocol Buffers</title>
+    <content type="html">Je travail sur mon CMS bas&#233; sur &lt;b&gt;Protocol Buffers&lt;/b&gt; =D
+I'm working on my CMS based on &lt;b&gt;Protocol Buffers&lt;/b&gt;</content>
+    <updated>2009-02-19T17:56:14Z</updated>
+    <link type="image/png" rel="image" href="http://static.twitter.com/images/default_profile_normal.png"/>
+    <twitter:source>&lt;a href="http://twitter.com/"&gt;web&lt;/a&gt;</twitter:source>
+    <author>
+      <name>titouille56 (Steven Le Rouzic)</name>
+      <uri>http://twitter.com/titouille56</uri>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:search.twitter.com,2005:1223248917</id>
+    <published>2009-02-18T16:02:33Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/titouille56/statuses/1223248917"/>
+    <title>Blog : D&#233;couverte de Protocol Buffers http://tinyurl.com/df85kf</title>
+    <content type="html">Blog : D&#233;couverte de &lt;b&gt;Protocol Buffers&lt;/b&gt; &lt;a href="http://tinyurl.com/df85kf"&gt;http://tinyurl.com/df85kf&lt;/a&gt;</content>
+    <updated>2009-02-18T16:02:33Z</updated>
+    <link type="image/png" rel="image" href="http://static.twitter.com/images/default_profile_normal.png"/>
+    <twitter:source>&lt;a href="http://twitterfeed.com"&gt;twitterfeed&lt;/a&gt;</twitter:source>
+    <author>
+      <name>titouille56 (Steven Le Rouzic)</name>
+      <uri>http://twitter.com/titouille56</uri>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:search.twitter.com,2005:1221915063</id>
+    <published>2009-02-18T06:01:01Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/DanushkaMenik/statuses/1221915063"/>
+    <title>Google Protocol Buffers - 3-10 times smaller and 20-100 faster than XML ... nice to have in a DS solution ...  http://tinyurl.com/b9poy6</title>
+    <content type="html">Google &lt;b&gt;Protocol Buffers&lt;/b&gt; - 3-10 times smaller and 20-100 faster than XML ... nice to have in a DS solution ...  &lt;a href="http://tinyurl.com/b9poy6"&gt;http://tinyurl.com/b9poy6&lt;/a&gt;</content>
+    <updated>2009-02-18T06:01:01Z</updated>
+    <link type="image/png" rel="image" href="http://s3.amazonaws.com/twitter_production/profile_images/66709601/my_icon_normal.JPG"/>
+    <twitter:source>&lt;a href="http://www.tweetdeck.com/"&gt;TweetDeck&lt;/a&gt;</twitter:source>
+    <author>
+      <name>DanushkaMenik (Danushka)</name>
+      <uri>http://twitter.com/DanushkaMenik</uri>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:search.twitter.com,2005:1220669060</id>
+    <published>2009-02-17T22:39:32Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/niksmit/statuses/1220669060"/>
+    <title>[Developer] Google's version of xml  - "protocol buffers" - http://code.google.com/apis/protocolbuffers/docs/overview.html</title>
+    <content type="html">[Developer] Google's version of xml  - &amp;quot;&lt;b&gt;protocol buffers&lt;/b&gt;&amp;quot; - &lt;a href="http://code.google.com/apis/protocolbuffers/docs/overview.html"&gt;http://code.google.com/apis/protocolbuffers/docs/overview.html&lt;/a&gt;</content>
+    <updated>2009-02-17T22:39:32Z</updated>
+    <link type="image/png" rel="image" href="http://s3.amazonaws.com/twitter_production/profile_images/72494359/stylized_2_normal.jpg"/>
+    <twitter:source>&lt;a href="http://www.tweetdeck.com/"&gt;TweetDeck&lt;/a&gt;</twitter:source>
+    <author>
+      <name>niksmit (Nik Smit)</name>
+      <uri>http://twitter.com/niksmit</uri>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:search.twitter.com,2005:1212913493</id>
+    <published>2009-02-15T18:42:15Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/dchud/statuses/1212913493"/>
+    <title>poking at protocol buffers</title>
+    <content type="html">poking at &lt;b&gt;protocol buffers&lt;/b&gt;</content>
+    <updated>2009-02-15T18:42:15Z</updated>
+    <link type="image/png" rel="image" href="http://s3.amazonaws.com/twitter_production/profile_images/68338378/ascii-dchud-small_normal.jpg"/>
+    <twitter:source>&lt;a href="http://www.natsulion.org/"&gt;NatsuLion&lt;/a&gt;</twitter:source>
+    <author>
+      <name>dchud (Dan Chudnov)</name>
+      <uri>http://twitter.com/dchud</uri>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:search.twitter.com,2005:1205360327</id>
+    <published>2009-02-13T04:50:58Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/buzypi/statuses/1205360327"/>
+    <title>Protocol Buffers - Google Code http://ff.im/-12egQ</title>
+    <content type="html">&lt;b&gt;Protocol Buffers&lt;/b&gt; - Google Code &lt;a href="http://ff.im/-12egQ"&gt;http://ff.im/-12egQ&lt;/a&gt;</content>
+    <updated>2009-02-13T04:50:58Z</updated>
+    <link type="image/png" rel="image" href="http://s3.amazonaws.com/twitter_production/profile_images/53779234/pi_normal.png"/>
+    <twitter:source>&lt;a href="http://friendfeed.com/"&gt;FriendFeed&lt;/a&gt;</twitter:source>
+    <author>
+      <name>buzypi (Gautham Pai)</name>
+      <uri>http://twitter.com/buzypi</uri>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:search.twitter.com,2005:1196462903</id>
+    <published>2009-02-10T19:12:35Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/hiteshs/statuses/1196462903"/>
+    <title>reading up on protocol buffers (http://tinyurl.com/afbrto</title>
+    <content type="html">reading up on &lt;b&gt;protocol buffers&lt;/b&gt; (&lt;a href="http://tinyurl.com/afbrto"&gt;http://tinyurl.com/afbrto&lt;/a&gt;</content>
+    <updated>2009-02-10T19:12:35Z</updated>
+    <link type="image/png" rel="image" href="http://static.twitter.com/images/default_profile_normal.png"/>
+    <twitter:source>&lt;a href="http://twitter.com/"&gt;web&lt;/a&gt;</twitter:source>
+    <author>
+      <name>hiteshs (&#2745;&#2751;&#2724;&#2759;&#2742;)</name>
+      <uri>http://twitter.com/hiteshs</uri>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:search.twitter.com,2005:1196060121</id>
+    <published>2009-02-10T17:08:57Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/xcbsmith/statuses/1196060121"/>
+    <title>Multicast + protocol buffers = greatness</title>
+    <content type="html">Multicast + &lt;b&gt;protocol buffers&lt;/b&gt; = greatness</content>
+    <updated>2009-02-10T17:08:57Z</updated>
+    <link type="image/png" rel="image" href="http://static.twitter.com/images/default_profile_normal.png"/>
+    <twitter:source>&lt;a href="http://help.twitter.com/index.php?pg=kb.page&amp;id=75"&gt;txt&lt;/a&gt;</twitter:source>
+    <author>
+      <name>xcbsmith (xcbsmith)</name>
+      <uri>http://twitter.com/xcbsmith</uri>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:search.twitter.com,2005:1195634597</id>
+    <published>2009-02-10T15:01:15Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/jasonwhaley/statuses/1195634597"/>
+    <title>protocol buffers support in Netbeans 6.5 now thanks to a phd student in Warsaw.  Neat-o --&gt;  http://is.gd/j2zD</title>
+    <content type="html">&lt;b&gt;protocol buffers&lt;/b&gt; support in Netbeans 6.5 now thanks to a phd student in Warsaw.  Neat-o --&amp;gt;  &lt;a href="http://is.gd/j2zD"&gt;http://is.gd/j2zD&lt;/a&gt;</content>
+    <updated>2009-02-10T15:01:15Z</updated>
+    <link type="image/png" rel="image" href="http://s3.amazonaws.com/twitter_production/profile_images/64724604/jamaica_drink_normal.jpg"/>
+    <twitter:source>&lt;a href="http://twitter.com/"&gt;web&lt;/a&gt;</twitter:source>
+    <author>
+      <name>jasonwhaley (whaley)</name>
+      <uri>http://twitter.com/jasonwhaley</uri>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:search.twitter.com,2005:1160955573</id>
+    <published>2009-01-30T06:17:31Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/LatinHeat/statuses/1160955573"/>
+    <title>figured out how to post data to a website from a django script. pretty simple actually.  i just gotta get protocol buffers involved somehow.</title>
+    <content type="html">figured out how to post data to a website from a django script. pretty simple actually.  i just gotta get &lt;b&gt;protocol buffers&lt;/b&gt; involved somehow.</content>
+    <updated>2009-01-30T06:17:31Z</updated>
+    <link type="image/png" rel="image" href="http://s3.amazonaws.com/twitter_production/profile_images/69109422/raffi_normal.jpg"/>
+    <twitter:source>&lt;a href="http://twitter.com/"&gt;web&lt;/a&gt;</twitter:source>
+    <author>
+      <name>LatinHeat (LatinHeat)</name>
+      <uri>http://twitter.com/LatinHeat</uri>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:search.twitter.com,2005:1131390927</id>
+    <published>2009-01-19T20:52:59Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/proggit/statuses/1131390927"/>
+    <title>Haskell Weekly News: curl, web frameworks, 1000 libraries, protocol buffers and more: submitted by dons [link] [.. http://tinyurl.com/7eb4qq</title>
+    <content type="html">Haskell Weekly News: curl, web frameworks, 1000 libraries, &lt;b&gt;protocol buffers&lt;/b&gt; and more: submitted by dons [link] [.. &lt;a href="http://tinyurl.com/7eb4qq"&gt;http://tinyurl.com/7eb4qq&lt;/a&gt;</content>
+    <updated>2009-01-19T20:52:59Z</updated>
+    <link type="image/png" rel="image" href="http://s3.amazonaws.com/twitter_production/profile_images/55479727/reddit-twitter-transp_normal.png"/>
+    <twitter:source>&lt;a href="http://twitterfeed.com"&gt;twitterfeed&lt;/a&gt;</twitter:source>
+    <author>
+      <name>proggit (proggit)</name>
+      <uri>http://twitter.com/proggit</uri>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:search.twitter.com,2005:1130534368</id>
+    <published>2009-01-19T14:46:36Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/BrianGenisio/statuses/1130534368"/>
+    <title>Has anyone played with Google Protocol Buffers (XML alternative)? http://code.google.com/p/protobuf/</title>
+    <content type="html">Has anyone played with Google &lt;b&gt;Protocol Buffers&lt;/b&gt; (XML alternative)? &lt;a href="http://code.google.com/p/protobuf/"&gt;http://code.google.com/p/protobuf/&lt;/a&gt;</content>
+    <updated>2009-01-19T14:46:36Z</updated>
+    <link type="image/png" rel="image" href="http://s3.amazonaws.com/twitter_production/profile_images/71633894/BrianGenisio_normal.jpg"/>
+    <twitter:source>&lt;a href="http://www.tweetdeck.com/"&gt;TweetDeck&lt;/a&gt;</twitter:source>
+    <author>
+      <name>BrianGenisio (Brian Genisio)</name>
+      <uri>http://twitter.com/BrianGenisio</uri>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:search.twitter.com,2005:1126663939</id>
+    <published>2009-01-17T19:12:19Z</published>
+    <link type="text/html" rel="alternate" href="http://twitter.com/ray247/statuses/1126663939"/>
+    <title>Generating a Protocol Buffers definition: Hi,
+ I have a large set of XML files of a propriatary schema -the XML .. http://tinyurl.com/7vfy3f</title>
+    <content type="html">Generating a &lt;b&gt;Protocol Buffers&lt;/b&gt; definition: Hi,
+ I have a large set of XML files of a propriatary schema -the XML .. &lt;a href="http://tinyurl.com/7vfy3f"&gt;http://tinyurl.com/7vfy3f&lt;/a&gt;</content>
+    <updated>2009-01-17T19:12:19Z</updated>
+    <link type="image/png" rel="image" href="http://static.twitter.com/images/default_profile_normal.png"/>
+    <twitter:source>&lt;a href="http://twitterfeed.com"&gt;twitterfeed&lt;/a&gt;</twitter:source>
+    <author>
+      <name>ray247 (ray247)</name>
+      <uri>http://twitter.com/ray247</uri>
+    </author>
+  </entry>
+</feed>

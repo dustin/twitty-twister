@@ -47,6 +47,14 @@ class XMLParserTest(unittest.TestCase):
                      e.content)
         self.parse_test('test/search.atom', txml.Feed(gotEntry))
 
+    def testNewParsingEntry(self):
+        ts=self
+        def gotEntry(e):
+            if e.id == 'tag:search.twitter.com,2005:1229915194':
+                ts.assertEquals('&lt;a href="http://www.twhirl.org/"&gt;twhirl&lt;/a&gt;',
+                                e.twitter_source)
+        self.parse_test('test/new-search.atom', txml.Feed(gotEntry))
+
     def testParsingUser(self):
         ts=self
         def gotUser(u):
