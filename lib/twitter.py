@@ -8,6 +8,8 @@ Copyright (c) 2008  Dustin Sallings <dustin@spy.net>
 import time
 import base64
 import urllib
+import mimetypes
+import mimetools
 
 from twisted.python import log
 from twisted.internet import reactor, defer
@@ -45,6 +47,44 @@ class Twitter(object):
                 (urllib.quote(k.encode("utf-8")),
                 urllib.quote(v.encode("utf-8"))))
         return '&'.join(rv)
+    
+    def __encodeMultipart(self, fields, files):
+        """
+        fields is a sequence of (name, value) elements for regular form fields.
+        files is a sequence of (name, filename, value) elements for data to be uploaded as files
+        Return (content_type, body) ready for httplib.HTTP instance
+        """
+        BOUNDARY = mimetools.choose_boundary()
+        CRLF = '\r\n'
+        L = []
+        for k, v in fields:
+            L.append('--' + BOUNDARY)
+            L.append('Content-Disposition: form-data; name="%s"' % k)
+            L.append('')
+            L.append(v)
+        for (k, f, v) in files:
+            L.append('--' + BOUNDARY)
+            L.append('Content-Disposition: form-data; name="%s"; filename="%s"' % (k, f))
+            L.append('Content-Type: %s' % self.__getContentType(f))
+            L.append('')
+            L.append(v)
+        L.append('--' + BOUNDARY + '--')
+        L.append('')
+        body = CRLF.join(L)
+        return BOUNDARY, body
+    
+    def __getContentType(self, filename):
+        return mimetypes.guess_type(filename)[0] or 'application/octet-stream'
+    
+    def __postMultipart(self, path, fields=(), files=()):
+        (boundary, body) = self.__encodeMultipart(fields, files)
+        h = {'Content-Type': 'multipart/form-data; boundary=%s' % boundary,
+            'Content-Length': str(len(body))
+            }
+        
+        return client.getPage((BASE_URL + "%s") % path, method='POST',
+            agent=self.agent,
+            postdata=body, headers=self.__makeAuthHeader(h))
 
     def __post(self, path, args={}):
         h = {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -191,3 +231,11 @@ class Twitter(object):
 
         Returns no useful data."""
         return self.__post('/blocks/destroy/%s.xml' % user)
+    
+    def update_profile_image(self, filename, image):
+        """Update the profile image of an authenticated user.
+        The image parameter must be raw data.
+        
+        Returns no useful data."""
+        
+        return self.__postMultipart('/account/update_profile_image.xml', files=(('image', filename, image),))
