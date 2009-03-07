@@ -231,11 +231,11 @@ class Twitter(object):
 
         Returns no useful data."""
         return self.__post('/blocks/destroy/%s.xml' % user)
-    
+
     def update_profile_image(self, filename, image):
         """Update the profile image of an authenticated user.
         The image parameter must be raw data.
-        
+
         Returns no useful data."""
-        
+
         return self.__postMultipart('/account/update_profile_image.xml', files=(('image', filename, image),))
