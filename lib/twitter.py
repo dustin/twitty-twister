@@ -82,18 +82,18 @@ class Twitter(object):
             'Content-Length': str(len(body))
             }
 
-        return client.getPage((BASE_URL + "%s") % path, method='POST',
+        return client.getPage((self.base_url + "%s") % path, method='POST',
             agent=self.agent,
             postdata=body, headers=self.__makeAuthHeader(h))
 
     def __post(self, path, args={}):
         h = {'Content-Type': 'application/x-www-form-urlencoded'}
-        return client.getPage((BASE_URL + "%s") % path, method='POST',
+        return client.getPage((self.base_url + "%s") % path, method='POST',
             agent=self.agent,
             postdata=self.__urlencode(args), headers=self.__makeAuthHeader(h))
 
     def __get(self, path, delegate, params, feed_factory=txml.Feed):
-        url = BASE_URL + path
+        url = self.base_url + path
         if params:
             url += '?' + self.__urlencode(params)
         return client.downloadPage(url, feed_factory(delegate),
@@ -170,9 +170,9 @@ class Twitter(object):
 
         Calls the delegate with each user object found."""
         if user:
-            url = BASE_URL + '/statuses/friends/' + user + '.xml'
+            url = self.base_url + '/statuses/friends/' + user + '.xml'
         else:
-            url = BASE_URL + '/statuses/friends.xml'
+            url = self.base_url + '/statuses/friends.xml'
         if params:
             url += '?' + self.__urlencode(params)
         return client.downloadPage(url, txml.Users(delegate),
@@ -183,9 +183,9 @@ class Twitter(object):
 
         Calls the delegate with each user object found."""
         if user:
-            url = BASE_URL + '/statuses/followers/' + user + '.xml'
+            url = self.base_url + '/statuses/followers/' + user + '.xml'
         else:
-            url = BASE_URL + '/statuses/followers.xml'
+            url = self.base_url + '/statuses/followers.xml'
         if params:
             url += '?' + self.__urlencode(params)
         return client.downloadPage(url, txml.Users(delegate),
