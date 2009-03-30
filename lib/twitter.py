@@ -201,7 +201,7 @@ class Twitter(object):
             h = self.__makeAuthHeader()
         else:
             h = {}
-        url = 'http://twitter.com/users/show/%s.xml' % user
+        url = '%s/users/show/%s.xml' % (self.base_url, user)
         client.downloadPage(url, txml.Users(lambda u: d.callback(u)),
             headers={}).addErrback(lambda e: d.errback(e))
         return d
