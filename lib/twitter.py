@@ -27,8 +27,8 @@ class Twitter(object):
     def __init__(self, user=None, passwd=None,
         base_url=BASE_URL, search_url=SEARCH_URL):
 
-        self.base_url = BASE_URL
-        self.search_Url = SEARCH_URL
+        self.base_url = base_url
+        self.search_Url = search_url
         self.username = user
         self.password = passwd
 
