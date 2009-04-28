@@ -59,7 +59,7 @@ class Author(BaseXMLHandler):
 class Entry(BaseXMLHandler):
 
     SIMPLE_PROPS = ['id', 'published', 'title', 'content', 'link', 'updated',
-                    'twitter:source']
+                    'twitter:source', 'twitter:lang']
     COMPLEX_PROPS = {'author': Author}
 
     def gotTagStart(self, name, attrs):
