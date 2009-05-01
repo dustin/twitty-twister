@@ -85,7 +85,8 @@ class User(BaseXMLHandler):
         'profile_background_color', 'profile_text_color', 'profile_link_color',
         'profile_sidebar_fill_color', 'profile_sidebar_border_color',
         'friends_count', 'created_at', 'favourites_count', 'utc_offset',
-        'time_zone', 'following', 'notifications', 'statuses_count']
+        'time_zone', 'following', 'notifications', 'statuses_count',
+        'profile_background_image_url', 'profile_background_tile']
     COMPLEX_PROPS = {'status': Status}
 
 # Hack to patch this in...
