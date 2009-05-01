@@ -169,6 +169,11 @@ class StatusList(Parser):
     toplevel_tag = 'status'
     toplevel_type = Status
 
+class HoseFeed(Parser):
+
+    toplevel_tag = 'status'
+    toplevel_type = Status
+
 def parseXML(xml):
     return microdom.parseXMLString(xml)
 

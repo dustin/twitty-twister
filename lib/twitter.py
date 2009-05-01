@@ -239,3 +239,31 @@ class Twitter(object):
         Returns no useful data."""
 
         return self.__postMultipart('/account/update_profile_image.xml', files=(('image', filename, image),))
+
+class TwitterFeed(Twitter):
+    """Realtime feed handling class.
+
+    Results are given one at a time to the delegate.  An example delegate
+    may look like this:
+
+    def exampleDelegate(entry):
+        print entry.text"""
+
+    def _rtfeed(self, url, delegate, args):
+        if args:
+            url += "?" + self._urlencode(args)
+        print "Fetching", url
+        return client.downloadPage(url, txml.HoseFeed(delegate), agent=self.agent,
+                                   headers=self._makeAuthHeader())
+
+    def spritzer(self, delegate, args=None):
+        """Get the spritzer feed."""
+        return self._rtfeed("http://stream.twitter.com/spritzer.xml", delegate, args)
+
+    def gardenhose(self, delegate, args=None):
+        """Get the gardenhose feed."""
+        return self._rtfeed("http://stream.twitter.com/gardenhose.xml", delegate, args)
+
+    def firehose(self, delegate, args=None):
+        """Get the firehose feed."""
+        return self._rtfeed("http://stream.twitter.com/firehose.xml", delegate, args)
