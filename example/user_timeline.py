@@ -24,7 +24,7 @@ def getSome(tw, user):
     def gotEntry(msg):
         global fetchCount
         fetchCount += 1
-        assert msg.title.startswith(user + ": ")
+        assert msg.title.lower().startswith(user.lower() + ": ")
         l = len(user)
         print msg.title[l+2:]
 
