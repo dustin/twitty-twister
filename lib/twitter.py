@@ -33,12 +33,10 @@ class Twitter(object):
         self.base_url = base_url
         self.search_url = search_url
 
-
-        self.username = user
-        self.password = passwd
-
         if user and passwd:
             self.use_oauth = False
+            self.username = user
+            self.password = passwd
         else:
             self.use_oauth = True
             self.consumer = consumer
@@ -78,6 +76,7 @@ class Twitter(object):
         """
         boundary = mimetools.choose_boundary()
         crlf = '\r\n'
+
         l = []
         for k, v in fields:
             l.append('--' + boundary)
@@ -93,6 +92,7 @@ class Twitter(object):
         l.append('--' + boundary + '--')
         l.append('')
         body = crlf.join(l)
+
         return boundary, body
 
     def __getContentType(self, filename):
@@ -241,10 +241,10 @@ class Twitter(object):
 
         d = defer.Deferred()
         if self.username and self.password:
-            h = self.__makeAuthHeader()
+            h = self._makeAuthHeader()
         else:
             h = {}
-        url = 'http://twitter.com/users/show/%s.xml' % user
+        url = '%s/users/show/%s.xml' % (self.base_url, user)
         client.downloadPage(url, txml.Users(lambda u: d.callback(u)),
             headers={}).addErrback(lambda e: d.errback(e))
         return d
@@ -282,3 +282,31 @@ class Twitter(object):
         Returns no useful data."""
 
         return self.__postMultipart('/account/update_profile_image.xml', files=(('image', filename, image),))
+
+class TwitterFeed(Twitter):
+    """Realtime feed handling class.
+
+    Results are given one at a time to the delegate.  An example delegate
+    may look like this:
+
+    def exampleDelegate(entry):
+        print entry.text"""
+
+    def _rtfeed(self, url, delegate, args):
+        if args:
+            url += "?" + self._urlencode(args)
+        print "Fetching", url
+        return client.downloadPage(url, txml.HoseFeed(delegate), agent=self.agent,
+                                   headers=self._makeAuthHeader())
+
+    def spritzer(self, delegate, args=None):
+        """Get the spritzer feed."""
+        return self._rtfeed("http://stream.twitter.com/spritzer.xml", delegate, args)
+
+    def gardenhose(self, delegate, args=None):
+        """Get the gardenhose feed."""
+        return self._rtfeed("http://stream.twitter.com/gardenhose.xml", delegate, args)
+
+    def firehose(self, delegate, args=None):
+        """Get the firehose feed."""
+        return self._rtfeed("http://stream.twitter.com/firehose.xml", delegate, args)
