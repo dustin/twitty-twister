@@ -98,8 +98,9 @@ class Parser(sux.XMLParser):
     toplevel_type = None
 
     """A file-like thingy that parses a friendfeed feed with SUX."""
-    def __init__(self, delegate):
+    def __init__(self, delegate, extra_args=None):
         self.delegate=delegate
+        self.extra_args=extra_args
 
         self.connectionMade()
         self.currentEntry=None
@@ -125,7 +126,10 @@ class Parser(sux.XMLParser):
         if name == self.toplevel_tag:
             self.currentEntry.done = True
             del self.currentEntry.current_ob
-            self.delegate(self.currentEntry)
+            if self.extra_args is None:
+                self.delegate(self.currentEntry)
+            else:
+                self.delegate(self.currentEntry, self.extra_args)
             self.currentEntry = None
         elif self.currentEntry:
             self.currentEntry.gotTagEnd(name, ''.join(self.data).decode('utf8'))
