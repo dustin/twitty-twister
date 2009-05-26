@@ -218,8 +218,14 @@ class Twitter(object):
             url = self.base_url + '/statuses/friends.xml'
         if params:
             url += '?' + self.__urlencode(params)
+
+        if self.use_oauth:
+            headers = self.__makeOAuthHeader('GET', url)
+        else:
+            headers = self.__makeAuthHeader()
+
         return client.downloadPage(url, txml.Users(delegate, extra_args),
-            headers=self.__makeAuthHeader())
+            headers=headers)
 
     def list_followers(self, delegate, user=None, params=None, extra_args=None):
         """Get the list of followers for a user.
@@ -231,8 +237,14 @@ class Twitter(object):
             url = self.base_url + '/statuses/followers.xml'
         if params:
             url += '?' + self.__urlencode(params)
+
+        if self.use_oauth:
+            headers = self.__makeOAuthHeader('GET', url)
+        else:
+            headers = self.__makeAuthHeader()
+
         return client.downloadPage(url, txml.Users(delegate, extra_args),
-            headers=self.__makeAuthHeader())
+            headers=headers)
 
     def show_user(self, user):
         """Get the info for a specific user.
