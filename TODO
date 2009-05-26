@@ -20,6 +20,7 @@
    * update_location 
    * update_delivery_device
    * rate_limit_status
+   * update_profile_image
 
 # Favorite Methods
 
