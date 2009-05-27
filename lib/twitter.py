@@ -28,7 +28,8 @@ class Twitter(object):
     agent="twitty twister"
 
     def __init__(self, user=None, passwd=None,
-        base_url=BASE_URL, search_url=SEARCH_URL, consumer=None, token=None, signature_method=SIGNATURE_METHOD):
+        base_url=BASE_URL, search_url=SEARCH_URL,
+                 consumer=None, token=None, signature_method=SIGNATURE_METHOD):
 
         self.base_url = base_url
         self.search_url = search_url
@@ -176,25 +177,29 @@ class Twitter(object):
         See search for example of how results are returned."""
         if user:
             params['id'] = user
-        return self.__get("/statuses/user_timeline.xml", delegate, params, txml.StatusList, extra_args=extra_args)
+        return self.__get("/statuses/user_timeline.xml", delegate, params,
+                          txml.StatusList, extra_args=extra_args)
 
     def public_timeline(self, delegate, params={}, extra_args=None):
         "Get the most recent public timeline."
 
-        return self.__get("/statuses/public_timeline.atom", delegate, params, extra_args=extra_args)
+        return self.__get("/statuses/public_timeline.atom", delegate, params,
+                          extra_args=extra_args)
 
     def direct_messages(self, delegate, params={}, extra_args=None):
         """Get direct messages for the authenticating user.
 
         Search results are returned one message at a time a DirectMessage
         objects"""
-        return self.__get("/direct_messages.xml", delegate, params, txml.Direct, extra_args=extra_args)
+        return self.__get("/direct_messages.xml", delegate, params,
+                          txml.Direct, extra_args=extra_args)
 
     def replies(self, delegate, params={}, extra_args=None):
         """Get the most recent replies for the authenticating user.
 
         See search for example of how results are returned."""
-        return self.__get("/statuses/replies.atom", delegate, params, extra_args=extra_args)
+        return self.__get("/statuses/replies.atom", delegate, params,
+                          extra_args=extra_args)
 
     def follow(self, user):
         """Follow the given user.
@@ -293,7 +298,8 @@ class Twitter(object):
 
         Returns no useful data."""
 
-        return self.__postMultipart('/account/update_profile_image.xml', files=(('image', filename, image),))
+        return self.__postMultipart('/account/update_profile_image.xml',
+                                    files=(('image', filename, image),))
 
 class TwitterFeed(Twitter):
     """Realtime feed handling class.
