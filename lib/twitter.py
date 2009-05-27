@@ -145,7 +145,7 @@ class Twitter(object):
 
     def verify_credentials(self):
         "Verify a user's credentials."
-        return self.__post("/account/verify_credentials.xml")
+        return self.__get("/account/verify_credentials.xml", None, None)
 
     def __parsed_post(self, hdef, parser):
         deferred = defer.Deferred()
