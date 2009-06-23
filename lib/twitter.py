@@ -341,3 +341,8 @@ class TwitterFeed(Twitter):
     def shadow(self, delegate, follow):
         """Follow up to 2,000 users in realtime."""
         return self.follow(delegate, follow, 'shadow')
+
+    def track(self, delegate, terms):
+        """Track up to 20 terms."""
+        return self._rtfeed('http://stream.twitter.com/track.xml',
+                            delegate, {'track': ','.join(terms)})
