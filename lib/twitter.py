@@ -55,13 +55,13 @@ class Twitter(object):
         #    headers[k] = v.encode('utf-8')
         return headers
 
-    def __makeAuthHeader(self, headers={}):
+    def _makeAuthHeader(self, headers={}):
         authorization = base64.encodestring('%s:%s'
             % (self.username, self.password))[:-1]
         headers['Authorization'] = "Basic %s" % authorization
         return headers
 
-    def __urlencode(self, h):
+    def _urlencode(self, h):
         rv = []
         for k,v in h.iteritems():
             rv.append('%s=%s' %
@@ -110,7 +110,7 @@ class Twitter(object):
         if self.use_oauth:
             headers = self.__makeOAuthHeader('POST', url, headers=headers)
         else:
-            headers = self.__makeAuthHeader(h)
+            headers = self._makeAuthHeader(h)
 
         return client.getPage(url, method='POST',
             agent=self.agent,
@@ -124,21 +124,21 @@ class Twitter(object):
         if self.use_oauth:
             headers = self.__makeOAuthHeader('POST', url, args, headers)
         else:
-            headers = self.__makeAuthHeader(headers)
+            headers = self._makeAuthHeader(headers)
 
         return client.getPage(url, method='POST',
             agent=self.agent,
-            postdata=self.__urlencode(args), headers=headers)
+            postdata=self._urlencode(args), headers=headers)
 
     def __get(self, path, delegate, params, feed_factory=txml.Feed, extra_args=None):
         url = self.base_url + path
         if params:
-            url += '?' + self.__urlencode(params)
+            url += '?' + self._urlencode(params)
 
         if self.use_oauth:
             headers = self.__makeOAuthHeader('GET', url)
         else:
-            headers = self.__makeAuthHeader()
+            headers = self._makeAuthHeader()
 
         return client.downloadPage(url, feed_factory(delegate, extra_args),
             agent=self.agent, headers=headers)
@@ -222,12 +222,12 @@ class Twitter(object):
         else:
             url = self.base_url + '/statuses/friends.xml'
         if params:
-            url += '?' + self.__urlencode(params)
+            url += '?' + self._urlencode(params)
 
         if self.use_oauth:
             headers = self.__makeOAuthHeader('GET', url)
         else:
-            headers = self.__makeAuthHeader()
+            headers = self._makeAuthHeader()
 
         return client.downloadPage(url, txml.Users(delegate, extra_args),
             headers=headers)
@@ -241,12 +241,12 @@ class Twitter(object):
         else:
             url = self.base_url + '/statuses/followers.xml'
         if params:
-            url += '?' + self.__urlencode(params)
+            url += '?' + self._urlencode(params)
 
         if self.use_oauth:
             headers = self.__makeOAuthHeader('GET', url)
         else:
-            headers = self.__makeAuthHeader()
+            headers = self._makeAuthHeader()
 
         return client.downloadPage(url, txml.Users(delegate, extra_args),
             headers=headers)
@@ -277,7 +277,7 @@ class Twitter(object):
         if args is None:
             args = {}
         args['q'] = query
-        return client.downloadPage(self.search_url + '?' + self.__urlencode(args),
+        return client.downloadPage(self.search_url + '?' + self._urlencode(args),
             txml.Feed(delegate, extra_args), agent=self.agent)
 
     def block(self, user):
