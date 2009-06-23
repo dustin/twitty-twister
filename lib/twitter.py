@@ -328,3 +328,16 @@ class TwitterFeed(Twitter):
     def firehose(self, delegate, args=None):
         """Get the firehose feed."""
         return self._rtfeed("http://stream.twitter.com/firehose.xml", delegate, args)
+
+    def follow(self, delegate, follow, method="follow"):
+        """Follow up to 200 users in realtime."""
+        return self._rtfeed("http://stream.twitter.com/%s.xml" % method,
+                            delegate, {'follow': ','.join(follow)})
+
+    def birddog(self, delegate, follow):
+        """Follow up to 200,000 users in realtime."""
+        return self.follow(delegate, follow, 'birddog')
+
+    def shadow(self, delegate, follow):
+        """Follow up to 2,000 users in realtime."""
+        return self.follow(delegate, follow, 'shadow')
