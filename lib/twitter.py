@@ -34,15 +34,21 @@ class Twitter(object):
         self.base_url = base_url
         self.search_url = search_url
 
+        self.use_auth = False
+        self.use_oauth = False
+
         if user and passwd:
-            self.use_oauth = False
+            self.use_auth = True
             self.username = user
             self.password = passwd
-        else:
+        
+        if consumer and token:
+            self.use_auth = True
             self.use_oauth = True
             self.consumer = consumer
             self.token = token
             self.signature_method = signature_method
+          
 
     def __makeOAuthHeader(self, method, url, parameters={}, headers={}):
         oauth_request = oauth.OAuthRequest.from_consumer_and_token(self.consumer,
@@ -51,8 +57,6 @@ class Twitter(object):
 
         headers = dict(headers.items() + oauth_request.to_header().items())
 
-        #for k, v in headers.iteritems():
-        #    headers[k] = v.encode('utf-8')
         return headers
 
     def _makeAuthHeader(self, headers={}):
@@ -135,17 +139,20 @@ class Twitter(object):
         if params:
             url += '?' + self._urlencode(params)
 
-        if self.use_oauth:
-            headers = self.__makeOAuthHeader('GET', url)
+        if self.use_auth:
+            if self.use_oauth:
+                headers = self.__makeOAuthHeader('GET', url)
+            else:
+                headers = self._makeAuthHeader()
         else:
-            headers = self._makeAuthHeader()
+            headers = {}
 
         return client.downloadPage(url, feed_factory(delegate, extra_args),
             agent=self.agent, headers=headers)
 
     def verify_credentials(self):
         "Verify a user's credentials."
-        return self.__get("/account/verify_credentials.xml", None, None)
+        return self.__get('/account/verify_credentials.xml', None, None)
 
     def __parsed_post(self, hdef, parser):
         deferred = defer.Deferred()
@@ -158,14 +165,14 @@ class Twitter(object):
         params={'status': status}
         if source:
             params['source'] = source
-        return self.__parsed_post(self.__post("/statuses/update.xml", params),
+        return self.__parsed_post(self.__post('/statuses/update.xml', params),
             txml.parseUpdateResponse)
 
     def friends(self, delegate, params={}, extra_args=None):
         """Get updates from friends.
 
         Calls the delgate once for each status object received."""
-        return self.__get("/statuses/friends_timeline.xml", delegate, params,
+        return self.__get('/statuses/friends_timeline.xml', delegate, params,
             txml.StatusList, extra_args=extra_args)
 
     def user_timeline(self, delegate, user=None, params={}, extra_args=None):
@@ -177,13 +184,13 @@ class Twitter(object):
         See search for example of how results are returned."""
         if user:
             params['id'] = user
-        return self.__get("/statuses/user_timeline.xml", delegate, params,
+        return self.__get('/statuses/user_timeline.xml', delegate, params,
                           txml.StatusList, extra_args=extra_args)
 
     def public_timeline(self, delegate, params={}, extra_args=None):
         "Get the most recent public timeline."
 
-        return self.__get("/statuses/public_timeline.atom", delegate, params,
+        return self.__get('/statuses/public_timeline.atom', delegate, params,
                           extra_args=extra_args)
 
     def direct_messages(self, delegate, params={}, extra_args=None):
@@ -191,14 +198,14 @@ class Twitter(object):
 
         Search results are returned one message at a time a DirectMessage
         objects"""
-        return self.__get("/direct_messages.xml", delegate, params,
+        return self.__get('/direct_messages.xml', delegate, params,
                           txml.Direct, extra_args=extra_args)
 
     def replies(self, delegate, params={}, extra_args=None):
         """Get the most recent replies for the authenticating user.
 
         See search for example of how results are returned."""
-        return self.__get("/statuses/replies.atom", delegate, params,
+        return self.__get('/statuses/replies.atom', delegate, params,
                           extra_args=extra_args)
 
     def follow(self, user):
@@ -256,14 +263,19 @@ class Twitter(object):
 
         Returns a delegate that will receive the user in a callback."""
 
+        url = '%s/users/show/%s.xml' % (self.base_url, user)
         d = defer.Deferred()
-        if self.username and self.password:
-            h = self._makeAuthHeader()
+        if self.use_auth:
+            if self.use_oauth:
+                h = self.__makeOAuthHeader('GET', url)
+            else:
+                h = self._makeAuthHeader()
         else:
             h = {}
-        url = '%s/users/show/%s.xml' % (self.base_url, user)
+        
         client.downloadPage(url, txml.Users(lambda u: d.callback(u)),
-            headers={}).addErrback(lambda e: d.errback(e))
+            headers=h).addErrback(lambda e: d.errback(e))
+        
         return d
 
     def search(self, query, delegate, args=None, extra_args=None):
@@ -312,27 +324,27 @@ class TwitterFeed(Twitter):
 
     def _rtfeed(self, url, delegate, args):
         if args:
-            url += "?" + self._urlencode(args)
-        print "Fetching", url
+            url += '?' + self._urlencode(args)
+        print 'Fetching', url
         return client.downloadPage(url, txml.HoseFeed(delegate), agent=self.agent,
                                    headers=self._makeAuthHeader())
 
     def spritzer(self, delegate, args=None):
         """Get the spritzer feed."""
-        return self._rtfeed("http://stream.twitter.com/spritzer.xml", delegate, args)
+        return self._rtfeed('http://stream.twitter.com/spritzer.xml', delegate, args)
 
     def gardenhose(self, delegate, args=None):
         """Get the gardenhose feed."""
-        return self._rtfeed("http://stream.twitter.com/gardenhose.xml", delegate, args)
+        return self._rtfeed('http://stream.twitter.com/gardenhose.xml', delegate, args)
 
     def firehose(self, delegate, args=None):
         """Get the firehose feed."""
 
-        return self._rtfeed("http://stream.twitter.com/firehose.xml", delegate, args)
+        return self._rtfeed('http://stream.twitter.com/firehose.xml', delegate, args)
 
     def follow(self, delegate, follow, method="follow"):
         """Follow up to 200 users in realtime."""
-        return self._rtfeed("http://stream.twitter.com/%s.xml" % method,
+        return self._rtfeed('http://stream.twitter.com/%s.xml' % method,
                             delegate, {'follow': ','.join(follow)})
 
     def birddog(self, delegate, follow):
