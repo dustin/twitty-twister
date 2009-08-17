@@ -41,14 +41,14 @@ class Twitter(object):
             self.use_auth = True
             self.username = user
             self.password = passwd
-        
+
         if consumer and token:
             self.use_auth = True
             self.use_oauth = True
             self.consumer = consumer
             self.token = token
             self.signature_method = signature_method
-          
+
 
     def __makeOAuthHeader(self, method, url, parameters={}, headers={}):
         oauth_request = oauth.OAuthRequest.from_consumer_and_token(self.consumer,
@@ -272,10 +272,10 @@ class Twitter(object):
                 h = self._makeAuthHeader()
         else:
             h = {}
-        
+
         client.downloadPage(url, txml.Users(lambda u: d.callback(u)),
             headers=h).addErrback(lambda e: d.errback(e))
-        
+
         return d
 
     def search(self, query, delegate, args=None, extra_args=None):
