@@ -314,13 +314,15 @@ class Twitter(object):
                                     files=(('image', filename, image),))
 
 class TwitterFeed(Twitter):
-    """Realtime feed handling class.
+    """
+    Realtime feed handling class.
 
-    Results are given one at a time to the delegate.  An example delegate
-    may look like this:
+    Results are given one at a time to the delegate. An example delegate
+    may look like this::
 
-    def exampleDelegate(entry):
-        print entry.text"""
+        def exampleDelegate(entry):
+            print entry.text
+    """
 
     def _rtfeed(self, url, delegate, args):
         if args:
@@ -329,33 +331,95 @@ class TwitterFeed(Twitter):
         return client.downloadPage(url, txml.HoseFeed(delegate), agent=self.agent,
                                    headers=self._makeAuthHeader())
 
+
+    def sample(self, delegate, args=None):
+        """
+        Returns a random sample of all public statuses.
+
+        The actual access level determines the portion of the firehose.
+        """
+        return self._rtfeed('http://stream.twitter.com/1/statuses/sample.xml',
+                            delegate,
+                            args)
+
+
     def spritzer(self, delegate, args=None):
-        """Get the spritzer feed."""
-        return self._rtfeed('http://stream.twitter.com/spritzer.xml', delegate, args)
+        """
+        Get the spritzer feed.
+
+        The API method 'spritzer' is deprecated. This method is provided for
+        backwards compatibility. Use L{sample} instead.
+        """
+        return self.sample(delegate, args)
+
 
     def gardenhose(self, delegate, args=None):
-        """Get the gardenhose feed."""
-        return self._rtfeed('http://stream.twitter.com/gardenhose.xml', delegate, args)
+        """
+        Get the gardenhose feed.
+
+        The API method 'gardenhose' is deprecated. This method is provided for
+        backwards compatibility. Use L{sample} instead.
+        """
+        return self.sample(delegate, args=None)
+
 
     def firehose(self, delegate, args=None):
-        """Get the firehose feed."""
+        """
+        Returns all public statuses.
+        """
+        return self._rtfeed('http://stream.twitter.com/1/statuses/firehose.xml',
+                            delegate,
+                            args)
 
-        return self._rtfeed('http://stream.twitter.com/firehose.xml', delegate, args)
 
-    def follow(self, delegate, follow, method="follow"):
-        """Follow up to 200 users in realtime."""
-        return self._rtfeed('http://stream.twitter.com/%s.xml' % method,
-                            delegate, {'follow': ','.join(follow)})
+    def filter(self, delegate, args=None):
+        """
+        Returns public statuses that match one or more filter predicates.
+        """
+        return self._rtfeed('http://stream.twitter.com/1/statuses/filter.xml',
+                            delegate,
+                            args)
+
+
+    def follow(self, delegate, follow):
+        """
+        Returns public statuses from or in reply to a set of users.
+
+        Note that the old API method 'follow' is deprecated. This method
+        is backwards compatible and provides a shorthand to L{filter}. The
+        actual allowed number of user IDs depends on the access level of the
+        used account.
+        """
+        return self.filter(delegate, {'follow': ','.join(follow)})
+
 
     def birddog(self, delegate, follow):
-        """Follow up to 200,000 users in realtime."""
-        return self.follow(delegate, follow, 'birddog')
+        """
+        Follow up to 200,000 users in realtime.
+
+        The API method `birddog` is deprecated. This method is provided for
+        backwards compatibility. Use L{follow} or L{filter} instead.
+        """
+        return self.follow(delegate, follow)
+
 
     def shadow(self, delegate, follow):
-        """Follow up to 2,000 users in realtime."""
+        """
+        Follow up to 2,000 users in realtime.
+
+        The API method `birddog` is deprecated. This method is provided for
+        backwards compatibility. Use L{follow} or L{filter} instead.
+        """
         return self.follow(delegate, follow, 'shadow')
 
+
     def track(self, delegate, terms):
-        """Track up to 20 terms."""
-        return self._rtfeed('http://stream.twitter.com/track.xml',
-                            delegate, {'track': ','.join(terms)})
+        """
+        Returns public statuses matching a set of keywords.
+
+        Note that the old API method 'follow' is deprecated. This method is
+        backwards compatible and provides a shorthand to L{filter}. The actual
+        allowed number of keywords in C{terms} depends on the access level of
+        the used account.
+        """
+        return self.filter(delegate, {'track': ','.join(terms)})
