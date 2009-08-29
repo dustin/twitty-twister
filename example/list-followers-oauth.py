@@ -7,12 +7,9 @@ Copyright (c) 2009  Kevin Dunglas <dunglas@gmail.com>
 import os
 import sys
 
-sys.path.append(os.path.join(sys.path[0], '..', 'lib'))
-sys.path.append('lib')
-
 from twisted.internet import reactor
 
-import twitter
+from twittytwister import twitter
 import oauth
 
 def gotUser(user):

@@ -6,10 +6,6 @@ Copyright (c) 2008  Dustin Sallings <dustin@spy.net>
 
 from __future__ import with_statement
 
-import sys
-sys.path.append("lib")
-sys.path.append("../lib")
-
 import unittest
 
 import txml
