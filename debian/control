@@ -1,0 +1,18 @@
+Source: twittytwister
+Section: python
+Priority: optional
+Maintainer: Dustin Sallings <dustin@spy.net>
+Build-Depends: cdbs, debhelper (>= 7), python-central (>= 0.6.0)
+Standards-Version: 3.8.0
+Homepage: http://github.com/dustin/twitty-twister
+
+Package: python-twittytwister
+Architecture: all
+XB-Python-Version: ${python:Versions}
+Depends: ${python:Depends}, ${misc:Depends}, python-oauth, python-twisted-core, python-twisted-web
+Description: A set of enhancements to Twisted Words' Jabber/XMPP
+ It serves as a testing ground for new features and enhancements which will
+ eventually end up in Twisted Words.  It currently provides sub-protocols,
+ XMPP client and component support leveraging sub-protocols, and
+ sub-protocol implementations for generic stanza handling, rosters, 
+ service discovery, publish-subscribe, and software version.
