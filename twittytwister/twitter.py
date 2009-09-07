@@ -11,7 +11,7 @@ import urllib
 import mimetypes
 import mimetools
 
-import oauth
+from oauth import oauth
 
 from twisted.internet import defer
 from twisted.web import client
