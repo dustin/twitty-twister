@@ -1,5 +1,5 @@
-wokkel (0.6.3-0ubuntu1) jaunty; urgency=low
+python-twittytwister (0.1-0ubuntu1) karmic; urgency=low
 
   * Initial release.
 
- -- Ralph Meijer <ralphm@ik.nu>  Mon, 24 Aug 2009 15:16:24 +0200
+ -- Ralph Meijer <ralphm@ik.nu>  Tue, 01 Sep 2009 11:11:57 +0200
