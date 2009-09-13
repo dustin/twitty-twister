@@ -10,14 +10,14 @@ import sys
 sys.path.append("lib")
 sys.path.append("../lib")
 
-import unittest
+from twisted.trial import unittest
 
 import txml
 
 class XMLParserTest(unittest.TestCase):
 
     def parse_test(self, filename, parser):
-        with open(filename) as f:
+        with open("../test/" + filename) as f:
             parser.write(f.read())
 
     def testParsingEntry(self):
@@ -45,7 +45,7 @@ class XMLParserTest(unittest.TestCase):
                     'to run errands... If I can just stop tweeting... '
                     '&lt;b&gt;TWITTER&lt;/b&gt; IS LIKE CRACK!',
                      e.content)
-        self.parse_test('test/search.atom', txml.Feed(gotEntry))
+        self.parse_test('search.atom', txml.Feed(gotEntry))
 
     def testNewParsingEntry(self):
         ts=self
@@ -53,7 +53,7 @@ class XMLParserTest(unittest.TestCase):
             if e.id == 'tag:search.twitter.com,2005:1229915194':
                 ts.assertEquals('&lt;a href="http://www.twhirl.org/"&gt;twhirl&lt;/a&gt;',
                                 e.twitter_source)
-        self.parse_test('test/new-search.atom', txml.Feed(gotEntry))
+        self.parse_test('new-search.atom', txml.Feed(gotEntry))
 
     def testParsingUser(self):
         ts=self
@@ -72,7 +72,7 @@ class XMLParserTest(unittest.TestCase):
                 ts.assertEquals('http://www.imdb.com/name/nm0944981/', u.url)
                 ts.assertEquals('true', u.protected)
                 ts.assertEquals('36', u.followers_count)
-        self.parse_test('test/friends.xml', txml.Users(gotUser))
+        self.parse_test('friends.xml', txml.Users(gotUser))
 
     def testParsingDirectMessages(self):
         ts=self
@@ -108,7 +108,7 @@ class XMLParserTest(unittest.TestCase):
                 dm.recipient.url)
             ts.assertEquals('false', dm.recipient.protected)
             ts.assertEquals('198', dm.recipient.followers_count)
-        self.parse_test('test/dm.xml', txml.Direct(gotDirectMessage))
+        self.parse_test('dm.xml', txml.Direct(gotDirectMessage))
 
     def testParsingStatusList(self):
         ts=self
@@ -136,7 +136,7 @@ class XMLParserTest(unittest.TestCase):
                 ts.assertEquals('false', s.user.protected)
                 ts.assertEquals('516', s.user.followers_count)
 
-        self.parse_test('test/status_list.xml', txml.StatusList(gotStatusItem))
+        self.parse_test('status_list.xml', txml.StatusList(gotStatusItem))
 
     def testParsingUser(self):
         ts = self
@@ -180,10 +180,10 @@ class XMLParserTest(unittest.TestCase):
             ts.assertEquals('false', u.status.favorited)
             ts.assertEquals('', u.status.in_reply_to_screen_name)
 
-        self.parse_test('test/user.xml', txml.Users(gotUser))
+        self.parse_test('user.xml', txml.Users(gotUser))
 
     def testStatusUpdateParse(self):
-        with open("test/update.xml") as f:
+        with open("../test/update.xml") as f:
             id = txml.parseUpdateResponse(f.read())
             self.assertEquals('1045518625', id)
 
