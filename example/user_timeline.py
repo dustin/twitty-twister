@@ -24,14 +24,12 @@ def getSome(tw, user):
     def gotEntry(msg):
         global fetchCount
         fetchCount += 1
-        assert msg.title.lower().startswith(user.lower() + ": ")
-        l = len(user)
-        print msg.title[l+2:]
+        sys.stdout.write(msg.text.encode("utf8") + "\n")
 
     page = 1
     while True:
         fetchCount = 0
-        sys.stderr.write("Fetching page %d\n" % page)
+        sys.stderr.write("Fetching page %d for %s\n" % (page, user))
         d = tw.user_timeline(gotEntry, user, {'count': '200', 'page': str(page)})
         page += 1
         wfd = defer.waitForDeferred(d)
@@ -41,7 +39,7 @@ def getSome(tw, user):
         if fetchCount == 0:
             reactor.stop()
 
-user = None
+user = sys.argv[1]
 if len(sys.argv) > 3:
     user = sys.argv[3]
 
