@@ -13,13 +13,13 @@ sys.path.append('lib')
 from twisted.internet import reactor
 
 import twitter
-import toauth
+from oauth import oauth
 
 def gotEntry(msg):
     print "%s" % (msg.text)
 
-consumer = toauth.OAuthConsumer(sys.argv[1], sys.argv[2])
-token = toauth.OAuthToken(sys.argv[3], sys.argv[4])
+consumer = oauth.OAuthConsumer(sys.argv[1], sys.argv[2])
+token = oauth.OAuthToken(sys.argv[3], sys.argv[4])
 
 user = None
 if len(sys.argv) > 5:

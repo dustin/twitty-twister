@@ -13,13 +13,13 @@ sys.path.append('lib')
 from twisted.internet import reactor
 
 import twitter
-import toauth
+from oauth import oauth
 
 def gotUser(u):
     print "Got a user: %s" % u
 
-consumer = toauth.OAuthConsumer(sys.argv[1], sys.argv[2])
-token = toauth.OAuthToken(sys.argv[3], sys.argv[4])
+consumer = oauth.OAuthConsumer(sys.argv[1], sys.argv[2])
+token = oauth.OAuthToken(sys.argv[3], sys.argv[4])
 
 twitter.Twitter(consumer=consumer, token=token).show_user(sys.argv[5]).addCallback(
     gotUser).addBoth(lambda x: reactor.stop())
