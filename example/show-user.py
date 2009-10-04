@@ -7,8 +7,8 @@ Copyright (c) 2008  Dustin Sallings <dustin@spy.net>
 import os
 import sys
 
-sys.path.append(os.path.join(sys.path[0], '..', 'lib'))
-sys.path.append('lib')
+sys.path.append(os.path.join(sys.path[0], '..', 'twittytwister'))
+sys.path.append('twittytwister')
 
 from twisted.internet import reactor, protocol, defer, task
 
