@@ -187,3 +187,5 @@ def parseXML(xml):
 
 def parseUpdateResponse(xml):
     return parseXML(xml).getElementsByTagName("id")[0].firstChild().data
+
+# vim: set expandtab:

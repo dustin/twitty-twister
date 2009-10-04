@@ -24,21 +24,21 @@ BASE_URL="http://twitter.com"
 SEARCH_URL="http://search.twitter.com/search.atom"
 
 class TwitterClientInfo:
-	def __init__ (self, name, version = None, url = None):
-		self.name = name
-		self.version = version
-		self.url = url
-	
-	def get_headers (self):
-		headers = [
-				('X-Twitter-Client',self.name),
-				('X-Twitter-Client-Version',self.version),
-				('X-Twitter-Client-URL',self.url),
-				]
-		return dict(filter(lambda x: x[1] != None, headers))
+    def __init__ (self, name, version = None, url = None):
+        self.name = name
+        self.version = version
+        self.url = url
 
-	def get_source (self):
-		return self.name
+    def get_headers (self):
+        headers = [
+                ('X-Twitter-Client',self.name),
+                ('X-Twitter-Client-Version',self.version),
+                ('X-Twitter-Client-URL',self.url),
+                ]
+        return dict(filter(lambda x: x[1] != None, headers))
+
+    def get_source (self):
+        return self.name
 
 class Twitter(object):
 
@@ -448,3 +448,5 @@ class TwitterFeed(Twitter):
         the used account.
         """
         return self.filter(delegate, {'track': ','.join(terms)})
+
+# vim: set expandtab:
