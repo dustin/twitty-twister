@@ -23,19 +23,37 @@ SIGNATURE_METHOD = oauth.OAuthSignatureMethod_HMAC_SHA1()
 BASE_URL="http://twitter.com"
 SEARCH_URL="http://search.twitter.com/search.atom"
 
+class TwitterClientInfo:
+	def __init__ (self, name, version = None, url = None):
+		self.name = name
+		self.version = version
+		self.url = url
+	
+	def get_headers (self):
+		headers = [
+				('X-Twitter-Client',self.name),
+				('X-Twitter-Client-Version',self.version),
+				('X-Twitter-Client-URL',self.url),
+				]
+		return dict(filter(lambda x: x[1] != None, headers))
+
+	def get_source (self):
+		return self.name
+
 class Twitter(object):
 
     agent="twitty twister"
 
     def __init__(self, user=None, passwd=None,
         base_url=BASE_URL, search_url=SEARCH_URL,
-                 consumer=None, token=None, signature_method=SIGNATURE_METHOD):
+                 consumer=None, token=None, signature_method=SIGNATURE_METHOD,client_info = None):
 
         self.base_url = base_url
         self.search_url = search_url
 
         self.use_auth = False
         self.use_oauth = False
+        self.client_info = None
 
         if user and passwd:
             self.use_auth = True
@@ -48,6 +66,9 @@ class Twitter(object):
             self.consumer = consumer
             self.token = token
             self.signature_method = signature_method
+
+        if client_info != None:
+            self.client_info = client_info
 
 
     def __makeOAuthHeader(self, method, url, parameters={}, headers={}):
@@ -129,6 +150,10 @@ class Twitter(object):
             headers = self.__makeOAuthHeader('POST', url, args, headers)
         else:
             headers = self._makeAuthHeader(headers)
+
+        if self.client_info != None:
+            headers.update(self.client_info.get_headers())
+            args['source'] = self.client_info.get_source()
 
         return client.getPage(url, method='POST',
             agent=self.agent,
