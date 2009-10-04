@@ -12,7 +12,7 @@ sys.path.append('lib')
 from twisted.internet import reactor
 
 import twitter
-import oauth
+import toauth
 
 def cb(x):
     print "Avatar updated"
@@ -25,8 +25,8 @@ def both(x):
     reactor.stop()
 
 
-consumer = oauth.OAuthConsumer(sys.argv[1], sys.argv[2])
-token = oauth.OAuthToken(sys.argv[3], sys.argv[4])
+consumer = toauth.OAuthConsumer(sys.argv[1], sys.argv[2])
+token = toauth.OAuthToken(sys.argv[3], sys.argv[4])
 avatar = open(sys.argv[5], 'r')
 
 
