@@ -76,7 +76,7 @@ class Status(BaseXMLHandler):
 
     SIMPLE_PROPS = ['created_at', 'id', 'text', 'source', 'truncated',
         'in_reply_to_status_id', 'in_reply_to_screen_name',
-        'in_reply_to_user_id', 'favorited', 'user_id']
+        'in_reply_to_user_id', 'favorited']
 
 class User(BaseXMLHandler):
 
@@ -122,10 +122,6 @@ class Parser(sux.XMLParser):
             self.currentEntry = self.toplevel_type(name)
         elif self.currentEntry:
             self.currentEntry.gotTagStart(name, attrs)
-        else:
-            # We got a top-level tag with another name than expected. This
-            # is not supported, yet.
-            pass
 
     def gotTagEnd(self, name):
         if name == self.toplevel_tag:
@@ -143,11 +139,11 @@ class Parser(sux.XMLParser):
         self.data.append(data)
 
     def gotEntityReference(self, data):
-        e = {'quot': '"', 'lt': '<', 'gt': '>', 'amp': '&'}
-        if data in e:
+        e = {'quot': '"', 'lt': '&lt;', 'gt': '&gt;', 'amp': '&amp;'}
+        if e.has_key(data):
             self.data.append(e[data])
         elif data[0] == '#':
-            self.data.append(unichr(int(data[1:])).encode('utf8'))
+            self.data.append('&' + data + ';')
         else:
             print "Unhandled entity reference: ", data
 
