@@ -22,7 +22,6 @@ SIGNATURE_METHOD = oauth.OAuthSignatureMethod_HMAC_SHA1()
 
 BASE_URL="http://twitter.com"
 SEARCH_URL="http://search.twitter.com/search.atom"
-DEFAULT_TIMEOUT=0 #default timeout for twisted webclient is 0
 
 class TwitterClientInfo:
     def __init__ (self, name, version = None, url = None):
@@ -47,18 +46,14 @@ class Twitter(object):
 
     def __init__(self, user=None, passwd=None,
         base_url=BASE_URL, search_url=SEARCH_URL,
-        consumer=None, token=None, signature_method=SIGNATURE_METHOD,
-        client_info=None, timeout=DEFAULT_TIMEOUT):
+                 consumer=None, token=None, signature_method=SIGNATURE_METHOD,client_info = None):
 
         self.base_url = base_url
         self.search_url = search_url
 
         self.use_auth = False
         self.use_oauth = False
-
         self.client_info = None
-
-        self.timeout = timeout
 
         if user and passwd:
             self.use_auth = True
@@ -142,9 +137,6 @@ class Twitter(object):
         else:
             headers = self._makeAuthHeader(h)
 
-        #FIXME: timeouts should be added here too, but since this
-        #multipart post takes longer for obvious reasons, maybe use a
-        #different timeout setting?
         return client.getPage(url, method='POST',
             agent=self.agent,
             postdata=body, headers=headers)
@@ -165,8 +157,7 @@ class Twitter(object):
 
         return client.getPage(url, method='POST',
             agent=self.agent,
-            postdata=self._urlencode(args), headers=headers,
-            timeout=self.timeout)
+            postdata=self._urlencode(args), headers=headers)
 
     def __get(self, path, delegate, params, feed_factory=txml.Feed, extra_args=None):
         url = self.base_url + path
@@ -182,7 +173,7 @@ class Twitter(object):
             headers = {}
 
         return client.downloadPage(url, feed_factory(delegate, extra_args),
-            agent=self.agent, headers=headers, timeout=self.timeout)
+            agent=self.agent, headers=headers)
 
     def verify_credentials(self):
         "Verify a user's credentials."
