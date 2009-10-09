@@ -76,7 +76,7 @@ class Status(BaseXMLHandler):
 
     SIMPLE_PROPS = ['created_at', 'id', 'text', 'source', 'truncated',
         'in_reply_to_status_id', 'in_reply_to_screen_name',
-        'in_reply_to_user_id', 'favorited']
+        'in_reply_to_user_id', 'favorited', 'user_id', 'geo']
 
 class User(BaseXMLHandler):
 
@@ -86,7 +86,8 @@ class User(BaseXMLHandler):
         'profile_sidebar_fill_color', 'profile_sidebar_border_color',
         'friends_count', 'created_at', 'favourites_count', 'utc_offset',
         'time_zone', 'following', 'notifications', 'statuses_count',
-        'profile_background_image_url', 'profile_background_tile', 'verified']
+        'profile_background_image_url', 'profile_background_tile', 'verified',
+        'geo_enabled']
     COMPLEX_PROPS = {'status': Status}
 
 # Hack to patch this in...
