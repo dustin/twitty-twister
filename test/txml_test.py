@@ -40,10 +40,10 @@ class XMLParserTest(unittest.TestCase):
                     ' If I can just stop tweeting...'
                     ' TWITTER IS LIKE CRACK!', e.title)
                 ts.assertEquals(
-                    '<a href="http://twitter.com/americac2c">'
-                    '@americac2c</a> getting ready to go out '
+                    '&lt;a href="http://twitter.com/americac2c"&gt;'
+                    '@americac2c&lt;/a&gt; getting ready to go out '
                     'to run errands... If I can just stop tweeting... '
-                    '<b>TWITTER</b> IS LIKE CRACK!',
+                    '&lt;b&gt;TWITTER&lt;/b&gt; IS LIKE CRACK!',
                      e.content)
         self.parse_test('search.atom', txml.Feed(gotEntry))
 
@@ -51,7 +51,7 @@ class XMLParserTest(unittest.TestCase):
         ts=self
         def gotEntry(e):
             if e.id == 'tag:search.twitter.com,2005:1229915194':
-                ts.assertEquals('<a href="http://www.twhirl.org/">twhirl</a>',
+                ts.assertEquals('&lt;a href="http://www.twhirl.org/"&gt;twhirl&lt;/a&gt;',
                                 e.twitter_source)
         self.parse_test('new-search.atom', txml.Feed(gotEntry))
 
