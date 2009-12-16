@@ -132,20 +132,22 @@ class DirectMessage(BaseXMLHandler):
         'sender_screen_name', 'recipient_screen_name']
     COMPLEX_PROPS = {'sender': SenderUser, 'recipient': RecipientUser}
 
+def topLevelXMLHandler(toplevel_tag, toplevel_type):
+    """Used to create a BaseXMLHandler object that just handles a single type of tag"""
+    p = BaseXMLHandler(None)
+    p.COMPLEX_PROPS = {toplevel_tag:toplevel_type}
+    p.enter_unknown = True
+    return p
+
 
 class Parser(sux.XMLParser):
 
-    toplevel_tag = 'entry'
-    toplevel_type = None
-
     """A file-like thingy that parses a friendfeed feed with SUX."""
-    def __init__(self, delegate, extra_args=None):
-        self.delegate=delegate
-        self.extra_args=extra_args
-
+    def __init__(self, handler):
         self.connectionMade()
-        self.currentEntry=None
         self.data=[]
+        self.handler=handler
+
     def write(self, b):
         self.dataReceived(b)
     def close(self):
@@ -158,22 +160,10 @@ class Parser(sux.XMLParser):
     # XML Callbacks
     def gotTagStart(self, name, attrs):
         self.data=[]
-        if name ==  self.toplevel_tag:
-            self.currentEntry = self.toplevel_type(name)
-        elif self.currentEntry:
-            self.currentEntry.gotTagStart(name, attrs)
+        self.handler.gotTagStart(name, attrs)
 
     def gotTagEnd(self, name):
-        if name == self.toplevel_tag:
-            self.currentEntry.done = True
-            del self.currentEntry.current_ob
-            if self.extra_args is None:
-                self.delegate(self.currentEntry)
-            else:
-                self.delegate(self.currentEntry, self.extra_args)
-            self.currentEntry = None
-        elif self.currentEntry:
-            self.currentEntry.gotTagEnd(name, ''.join(self.data).decode('utf8'))
+        self.handler.gotTagEnd(name, ''.join(self.data).decode('utf8'))
 
     def gotText(self, data):
         self.data.append(data)
@@ -188,14 +178,24 @@ class Parser(sux.XMLParser):
             sys.stderr.write("Unhandled entity reference: %s\n" % (data))
 
 
+def createParser(toplevel_tag, toplevel_type, delegate, extra_args=None):
+    if extra_args:
+        args = (extra_args,)
+    else:
+        args = ()
+
+    def do_delegate(e):
+        delegate(e, *args)
+
+    handler = topLevelXMLHandler(toplevel_tag, toplevel_type)
+    handler.setAfterDelegate(toplevel_tag, do_delegate)
+    return Parser(handler)
+
 def simpleParserFactory(toplevel_tag, toplevel_type):
     """Used for simple toplevel_tag/toplevel_type parsers"""
     def create(delegate, extra_args=None):
         """Create a Parser object for the specific tag type, on the fly"""
-        p = Parser(delegate, extra_args)
-        p.toplevel_tag = toplevel_tag
-        p.toplevel_type = toplevel_type
-        return p
+        return createParser(toplevel_tag, toplevel_type, delegate, extra_args)
     return create
 
 
