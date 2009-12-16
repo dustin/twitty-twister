@@ -10,11 +10,12 @@ import sys
 sys.path.append("twittytwister")
 sys.path.append("../twittytwister")
 
-from twisted.trial import unittest
+from twisted.trial import unittest as twunit
+import unittest
 
 import txml
 
-class XMLParserTest(unittest.TestCase):
+class XMLParserTest(twunit.TestCase):
 
     def parse_test(self, filename, parser):
         with open("../test/" + filename) as f:
