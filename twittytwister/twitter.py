@@ -80,7 +80,7 @@ class Twitter(object):
 
         return headers
 
-    def _makeAuthHeader(self, headers={}):
+    def __makeAuthHeader(self, headers={}):
         authorization = base64.encodestring('%s:%s'
             % (self.username, self.password))[:-1]
         headers['Authorization'] = "Basic %s" % authorization
@@ -135,7 +135,7 @@ class Twitter(object):
         if self.use_oauth:
             headers = self.__makeOAuthHeader('POST', url, headers=headers)
         else:
-            headers = self._makeAuthHeader(h)
+            headers = self.__makeAuthHeader(h)
 
         return client.getPage(url, method='POST',
             agent=self.agent,
@@ -149,7 +149,7 @@ class Twitter(object):
         if self.use_oauth:
             headers = self.__makeOAuthHeader('POST', url, args, headers)
         else:
-            headers = self._makeAuthHeader(headers)
+            headers = self.__makeAuthHeader(headers)
 
         if self.client_info != None:
             headers.update(self.client_info.get_headers())
@@ -168,7 +168,7 @@ class Twitter(object):
             if self.use_oauth:
                 headers = self.__makeOAuthHeader('GET', url)
             else:
-                headers = self._makeAuthHeader()
+                headers = self.__makeAuthHeader()
         else:
             headers = {}
 
@@ -342,7 +342,7 @@ class TwitterFeed(Twitter):
             url += '?' + self._urlencode(args)
         print 'Fetching', url
         return client.downloadPage(url, txml.HoseFeed(delegate), agent=self.agent,
-                                   headers=self._makeAuthHeader())
+                                   headers=self.__makeAuthHeader())
 
 
     def sample(self, delegate, args=None):
