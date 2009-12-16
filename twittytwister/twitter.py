@@ -143,7 +143,7 @@ class Twitter(object):
             'Content-Length': str(len(body))
             }
 
-        headers = self._makeAuthHeader('POST', url, headers=headers)
+        self._makeAuthHeader('POST', url, headers=headers)
 
         return client.getPage(url, method='POST',
             agent=self.agent,
@@ -154,7 +154,7 @@ class Twitter(object):
 
         url = self.base_url + path
 
-        headers = self._makeAuthHeader('POST', url, args, headers)
+        self._makeAuthHeader('POST', url, args, headers)
 
         if self.client_info != None:
             headers.update(self.client_info.get_headers())
