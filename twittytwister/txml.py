@@ -1,3 +1,5 @@
+import sys
+
 from twisted.internet import error
 from twisted.web import sux, microdom
 
@@ -30,7 +32,7 @@ class BaseXMLHandler(object):
         elif name in self.SIMPLE_PROPS:
             pass
         else:
-            print "Got unknown tag", name, "in", self.__class__
+            sys.stderr.write("Got unknown tag %s in %s\n" % (name, self.__class__))
             self.current_ob = NoopParser(name)
 
     def gotTagEnd(self, name, data):
@@ -153,7 +155,7 @@ class Parser(sux.XMLParser):
         elif data[0] == '#':
             self.data.append('&' + data + ';')
         else:
-            print "Unhandled entity reference: ", data
+            sys.stderr.write("Unhandled entity reference: %s\n" % (data))
 
 class Feed(Parser):
 
