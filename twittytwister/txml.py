@@ -94,6 +94,13 @@ class User(BaseXMLHandler):
 
 Status.COMPLEX_PROPS = {'user': User}
 
+class DirectMessage(BaseXMLHandler):
+
+    SIMPLE_PROPS = ['id', 'sender_id', 'text', 'recipient_id', 'created_at',
+        'sender_screen_name', 'recipient_screen_name']
+    COMPLEX_PROPS = {'sender': User, 'recipient': User}
+
+
 class Parser(sux.XMLParser):
 
     toplevel_tag = 'entry'
@@ -147,12 +154,6 @@ class Parser(sux.XMLParser):
             self.data.append('&' + data + ';')
         else:
             print "Unhandled entity reference: ", data
-
-class DirectMessage(BaseXMLHandler):
-
-    SIMPLE_PROPS = ['id', 'sender_id', 'text', 'recipient_id', 'created_at',
-        'sender_screen_name', 'recipient_screen_name']
-    COMPLEX_PROPS = {'sender': User, 'recipient': User}
 
 class Feed(Parser):
 
