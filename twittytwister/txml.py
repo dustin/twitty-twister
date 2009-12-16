@@ -21,16 +21,33 @@ class BaseXMLHandler(object):
         self.done = False
         self.current_ob = None
         self.tag_name = n
+        self.before_delegates = {}
+        self.after_delegates = {}
         for p in self.SIMPLE_PROPS:
             self.__dict__[p] = None
+
+    def setBeforeDelegate(self, name, fn):
+        self.before_delegates[name] = fn
+
+    def setAfterDelegate(self, name, fn):
+        self.after_delegates[name] = fn
+
+    def objectStarted(self, name, o):
+        if name in self.before_delegates:
+            self.before_delegates[name](o)
+
+    def objectFinished(self, name, o):
+        if name in self.after_delegates:
+            self.after_delegates[name](o)
 
     def gotTagStart(self, name, attrs):
         if self.current_ob:
             self.current_ob.gotTagStart(name, attrs)
         elif name in self.COMPLEX_PROPS:
             self.current_ob = self.COMPLEX_PROPS[name](name)
+            self.objectStarted(name, self.current_ob)
         elif name in self.SIMPLE_PROPS:
-            pass
+            self.objectStarted(name, '')
         else:
             sys.stderr.write("Got unknown tag %s in %s\n" % (name, self.__class__))
             self.current_ob = NoopParser(name)
@@ -41,12 +58,14 @@ class BaseXMLHandler(object):
             if self.current_ob.done:
                 if name in self.COMPLEX_PROPS:
                     self.__dict__[name] = self.current_ob
+                    self.objectFinished(name, self.current_ob)
                 self.current_ob = None
         elif name == self.tag_name:
             self.done = True
             del self.current_ob
         elif name in self.SIMPLE_PROPS:
             self.__dict__[self.cleanup(name)] = data
+            self.objectFinished(name, data)
 
     def cleanup(self, n):
         return n.replace(':', '_')
