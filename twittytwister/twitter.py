@@ -92,6 +92,12 @@ class Twitter(object):
         else:
             return self.__makeAuthHeader(headers)
 
+    def makeAuthHeader(self, method, url, parameters={}, headers={}):
+        if self.use_auth:
+            return self._makeAuthHeader(method, url, parameters, headers)
+        else:
+            return headers
+
     def _urlencode(self, h):
         rv = []
         for k,v in h.iteritems():
@@ -164,10 +170,7 @@ class Twitter(object):
         if params:
             url += '?' + self._urlencode(params)
 
-        if self.use_auth:
-            headers = self._makeAuthHeader('GET', url)
-        else:
-            headers = {}
+        headers = self.makeAuthHeader('GET', url)
 
         return client.downloadPage(url, parser,
             agent=self.agent, headers=headers)
