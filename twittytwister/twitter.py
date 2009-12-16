@@ -76,8 +76,7 @@ class Twitter(object):
             token=self.token, http_method=method, http_url=url, parameters=parameters)
         oauth_request.sign_request(self.signature_method, self.consumer, self.token)
 
-        headers = dict(headers.items() + oauth_request.to_header().items())
-
+        headers.update(oauth_request.to_header())
         return headers
 
     def __makeAuthHeader(self, headers={}):
