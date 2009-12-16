@@ -159,7 +159,7 @@ class Twitter(object):
             agent=self.agent,
             postdata=self._urlencode(args), headers=headers)
 
-    def __downloadPage(self, path, parser, params):
+    def __downloadPage(self, path, parser, params=None):
         url = self.base_url + path
         if params:
             url += '?' + self._urlencode(params)
@@ -261,56 +261,33 @@ class Twitter(object):
 
         Calls the delegate with each user object found."""
         if user:
-            url = self.base_url + '/statuses/friends/' + user + '.xml'
+            url = '/statuses/friends/' + user + '.xml'
         else:
-            url = self.base_url + '/statuses/friends.xml'
-        if params:
-            url += '?' + self._urlencode(params)
+            url = '/statuses/friends.xml'
 
-        if self.use_oauth:
-            headers = self.__makeOAuthHeader('GET', url)
-        else:
-            headers = self._makeAuthHeader()
-
-        return client.downloadPage(url, txml.Users(delegate, extra_args),
-            headers=headers)
+        return self.__downloadPage(url, txml.Users(delegate, extra_args), params)
 
     def list_followers(self, delegate, user=None, params=None, extra_args=None):
         """Get the list of followers for a user.
 
         Calls the delegate with each user object found."""
         if user:
-            url = self.base_url + '/statuses/followers/' + user + '.xml'
+            url = '/statuses/followers/' + user + '.xml'
         else:
-            url = self.base_url + '/statuses/followers.xml'
-        if params:
-            url += '?' + self._urlencode(params)
+            url = '/statuses/followers.xml'
 
-        if self.use_oauth:
-            headers = self.__makeOAuthHeader('GET', url)
-        else:
-            headers = self._makeAuthHeader()
-
-        return client.downloadPage(url, txml.Users(delegate, extra_args),
-            headers=headers)
+        return self.__downloadPage(url, txml.Users(delegate, extra_args), params)
 
     def show_user(self, user):
         """Get the info for a specific user.
 
         Returns a delegate that will receive the user in a callback."""
 
-        url = '%s/users/show/%s.xml' % (self.base_url, user)
+        url = '/users/show/%s.xml' % (user)
         d = defer.Deferred()
-        if self.use_auth:
-            if self.use_oauth:
-                h = self.__makeOAuthHeader('GET', url)
-            else:
-                h = self._makeAuthHeader()
-        else:
-            h = {}
 
-        client.downloadPage(url, txml.Users(lambda u: d.callback(u)),
-            headers=h).addErrback(lambda e: d.errback(e))
+        self.__downloadPage(url, txml.Users(lambda u: d.callback(u))) \
+            .addErrback(lambda e: d.errback(e))
 
         return d
 
