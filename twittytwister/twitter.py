@@ -159,9 +159,7 @@ class Twitter(object):
             agent=self.agent,
             postdata=self._urlencode(args), headers=headers)
 
-    def __get(self, path, delegate, params, parser_factory=txml.Feed, extra_args=None):
-        parser = parser_factory(delegate, extra_args)
-
+    def __downloadPage(self, path, parser, params):
         url = self.base_url + path
         if params:
             url += '?' + self._urlencode(params)
@@ -176,6 +174,10 @@ class Twitter(object):
 
         return client.downloadPage(url, parser,
             agent=self.agent, headers=headers)
+
+    def __get(self, path, delegate, params, parser_factory=txml.Feed, extra_args=None):
+        parser = parser_factory(delegate, extra_args)
+        return self.__downloadPage(path, parser, params)
 
     def verify_credentials(self):
         "Verify a user's credentials."
