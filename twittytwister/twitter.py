@@ -86,6 +86,12 @@ class Twitter(object):
         headers['Authorization'] = "Basic %s" % authorization
         return headers
 
+    def _makeAuthHeader(self, method, url, parameters={}, headers={}):
+        if self.use_oauth:
+            return self.__makeOAuthHeader(method, url, parameters, headers)
+        else:
+            return self.__makeAuthHeader(headers)
+
     def _urlencode(self, h):
         rv = []
         for k,v in h.iteritems():
@@ -132,10 +138,7 @@ class Twitter(object):
             'Content-Length': str(len(body))
             }
 
-        if self.use_oauth:
-            headers = self.__makeOAuthHeader('POST', url, headers=headers)
-        else:
-            headers = self.__makeAuthHeader(h)
+        headers = self._makeAuthHeader('POST', url, headers=headers)
 
         return client.getPage(url, method='POST',
             agent=self.agent,
@@ -146,10 +149,7 @@ class Twitter(object):
 
         url = self.base_url + path
 
-        if self.use_oauth:
-            headers = self.__makeOAuthHeader('POST', url, args, headers)
-        else:
-            headers = self.__makeAuthHeader(headers)
+        headers = self._makeAuthHeader('POST', url, args, headers)
 
         if self.client_info != None:
             headers.update(self.client_info.get_headers())
@@ -165,10 +165,7 @@ class Twitter(object):
             url += '?' + self._urlencode(params)
 
         if self.use_auth:
-            if self.use_oauth:
-                headers = self.__makeOAuthHeader('GET', url)
-            else:
-                headers = self.__makeAuthHeader()
+            headers = self._makeAuthHeader('GET', url)
         else:
             headers = {}
 
