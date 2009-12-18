@@ -41,6 +41,9 @@ class BaseXMLHandler(object):
         if after:
             self.setAfterDelegate(name, after)
 
+    def setPredefDelegate(self, type, before=None, after=None):
+        self.setDelegate(type.MY_TAG, before, after)
+
     def objectStarted(self, name, o):
         if name in self.before_delegates:
             self.before_delegates[name](o)
@@ -220,7 +223,7 @@ def createParser(toplevel_type, delegate, extra_args=None):
         delegate(e, *args)
 
     handler = topLevelXMLHandler(toplevel_type)
-    handler.setAfterDelegate(toplevel_type.MY_TAG, do_delegate)
+    handler.setPredefDelegate(toplevel_type, after=do_delegate)
     return Parser(handler)
 
 def simpleParserFactory(toplevel_type):
