@@ -11,21 +11,23 @@ class NoopParser(object):
         pass
     def gotTagEnd(self, name, data):
         self.done = (name == self.name)
+    def value(self):
+        # don't store anything on the object after parsing this
+        return None
 
 class BaseXMLHandler(object):
 
-    def __init__(self, n, simple_props=[], complex_dict={}, enter_unknown=False):
+    def __init__(self, n, handler_dict={}, enter_unknown=False):
         self.done = False
         self.current_ob = None
         self.tag_name = n
         self.before_delegates = {}
         self.after_delegates = {}
-        self.simple_props = simple_props
-        self.complex_dict = complex_dict
+        self.handler_dict = handler_dict
         self.enter_unknown = enter_unknown
 
-        for p in self.simple_props:
-            self.__dict__[p] = None
+        for p in self.handler_dict:
+            self.__dict__[self.cleanup(p)] = None
 
     def setBeforeDelegate(self, name, fn):
         self.before_delegates[name] = fn
@@ -50,11 +52,9 @@ class BaseXMLHandler(object):
     def gotTagStart(self, name, attrs):
         if self.current_ob:
             self.current_ob.gotTagStart(name, attrs)
-        elif name in self.complex_dict:
-            self.current_ob = self.complex_dict[name](name)
+        elif name in self.handler_dict:
+            self.current_ob = self.handler_dict[name](name)
             self.objectStarted(name, self.current_ob)
-        elif name in self.simple_props:
-            self.objectStarted(name, '')
         elif not self.enter_unknown:
             sys.stderr.write("Got unknown tag %s in %s\n" % (name, self.__class__))
             self.current_ob = NoopParser(name)
@@ -63,22 +63,38 @@ class BaseXMLHandler(object):
         if self.current_ob:
             self.current_ob.gotTagEnd(name, data)
             if self.current_ob.done:
-                if name in self.complex_dict:
-                    self.__dict__[name] = self.current_ob
-                    self.objectFinished(name, self.current_ob)
+                v = self.current_ob.value()
+                if v is not None:
+                    self.__dict__[self.cleanup(name)] = v
+                    self.objectFinished(name, v)
                 self.current_ob = None
         elif name == self.tag_name:
             self.done = True
             del self.current_ob
-        elif name in self.simple_props:
-            self.__dict__[self.cleanup(name)] = data
-            self.objectFinished(name, data)
+            self.gotFinalData(data)
+
+    def gotFinalData(self, data):
+        pass
+
+    def value(self):
+        # by default, the resulting value is the handler object itself,
+        # but XMLStringHandler overwrites this
+        return self
 
     def cleanup(self, n):
         return n.replace(':', '_')
 
     def __repr__(self):
         return "{%s %s}" % (self.tag_name, self.__dict__)
+
+class XMLStringHandler(BaseXMLHandler):
+    """XML data handler for simple string fields"""
+    def gotFinalData(self, data):
+        self.data = data
+
+    def value(self):
+        return self.data
+
 
 class PredefinedXMLHandler(BaseXMLHandler):
     SIMPLE_PROPS = []
@@ -90,7 +106,9 @@ class PredefinedXMLHandler(BaseXMLHandler):
     ENTER_UNKNOWN = False
 
     def __init__(self, n):
-        super(PredefinedXMLHandler, self).__init__(n, self.SIMPLE_PROPS, self.COMPLEX_PROPS, self.ENTER_UNKNOWN)
+        handler_dict = dict(simple.COMPLEX_PROPS)
+        handler_dict.update([(p,XMLStringHandler) for p in self.SIMPLE_PROPS])
+        super(PredefinedXMLHandler, self).__init__(n, handler_dict, self.ENTER_UNKNOWN)
 
 class Author(PredefinedXMLHandler):
 
@@ -148,10 +166,9 @@ class DirectMessage(PredefinedXMLHandler):
 
 def topLevelXMLHandler(toplevel_tag, toplevel_type):
     """Used to create a BaseXMLHandler object that just handles a single type of tag"""
-    p = BaseXMLHandler(None)
-    p.COMPLEX_PROPS = {toplevel_tag:toplevel_type}
-    p.enter_unknown = True
-    return p
+    return BaseXMLHandler(None,
+                          handler_dict={toplevel_type.MY_TAG:toplevel_type},
+                          enter_unknown=True)
 
 
 class Parser(sux.XMLParser):
