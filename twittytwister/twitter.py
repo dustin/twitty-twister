@@ -255,7 +255,34 @@ class Twitter(object):
         Returns no useful data."""
         return self.__post('/friendships/destroy/%s.xml' % user)
 
-    def list_friends(self, delegate, user=None, params=None, extra_args=None):
+    def __paging_get(self, url, delegate, params, pager, page_delegate=None):
+        def end_page(p):
+            if page_delegate:
+                page_delegate(p.next_cursor, p.previous_cursor)
+
+        parser = pager.pagingParser(delegate, page_delegate=end_page)
+        return self.__downloadPage(url, parser, params)
+
+    def __nopaging_get(self, url, delegate, params, pager):
+        parser = pager.noPagingParser(delegate)
+        return self.__downloadPage(url, parser, params)
+
+    def __get_maybe_paging(self, url, delegate, params, pager, extra_args=None, page_delegate=None):
+        if extra_args is None:
+            eargs = ()
+        else:
+            eargs = (extra_args,)
+
+        def do_delegate(i):
+            delegate(i, *eargs)
+
+        if params.has_key('cursor'):
+            return self.__paging_get(url, delegate, params, pager, page_delegate)
+        else:
+            return self.__nopaging_get(url, delegate, params, pager)
+
+
+    def list_friends(self, delegate, user=None, params={}, extra_args=None, page_delegate=None):
         """Get the list of friends for a user.
 
         Calls the delegate with each user object found."""
@@ -264,9 +291,9 @@ class Twitter(object):
         else:
             url = '/statuses/friends.xml'
 
-        return self.__downloadPage(url, txml.Users(delegate, extra_args), params)
+        return self.__get_maybe_paging(url, delegate, params, txml.PagedUserList, extra_args, page_delegate)
 
-    def list_followers(self, delegate, user=None, params=None, extra_args=None):
+    def list_followers(self, delegate, user=None, params=None, extra_args=None, page_delegate=None):
         """Get the list of followers for a user.
 
         Calls the delegate with each user object found."""
@@ -275,7 +302,7 @@ class Twitter(object):
         else:
             url = '/statuses/followers.xml'
 
-        return self.__downloadPage(url, txml.Users(delegate, extra_args), params)
+        return self.__get_maybe_paging(url, delegate, params, txml.PagedUserList, extra_args, page_delegate)
 
     def show_user(self, user):
         """Get the info for a specific user.
