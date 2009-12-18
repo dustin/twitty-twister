@@ -189,6 +189,23 @@ class SimpleListHandler(BaseXMLHandler):
         super(SimpleListHandler, self).__init__(n,
                  handler_dict={tag:type}, enter_unknown=True)
 
+class EntryList(SimpleListHandler):
+    MY_TAG = 'feed'
+    ITEM_TYPE = Entry
+
+class UserList(SimpleListHandler):
+    MY_TAG = 'users'
+    ITEM_TYPE = User
+
+class DirectMessageList(SimpleListHandler):
+    MY_TAG = 'direct-messages'
+    ITEM_TYPE = DirectMessage
+
+class StatusList(SimpleListHandler):
+    MY_TAG = 'statuses'
+    ITEM_TYPE = Status
+
+
 def topLevelXMLHandler(toplevel_type):
     """Used to create a BaseXMLHandler object that just handles a single type of tag"""
     return BaseXMLHandler(None,
@@ -234,7 +251,9 @@ class Parser(sux.XMLParser):
             sys.stderr.write("Unhandled entity reference: %s\n" % (data))
 
 
-def createParser(toplevel_type, delegate, extra_args=None):
+def listParser(list_type, delegate, extra_args=None):
+    toplevel_type = list_type.ITEM_TYPE
+
     if extra_args:
         args = (extra_args,)
     else:
@@ -243,28 +262,28 @@ def createParser(toplevel_type, delegate, extra_args=None):
     def do_delegate(e):
         delegate(e, *args)
 
-    handler = topLevelXMLHandler(toplevel_type)
+    handler = list_type(None)
     handler.setPredefDelegate(toplevel_type, after=do_delegate)
     return Parser(handler)
 
-def simpleParserFactory(toplevel_type):
-    """Used for simple toplevel_tag/toplevel_type parsers"""
+def simpleListFactory(list_type):
+    """Used for simple parsers that support only one type of object"""
     def create(delegate, extra_args=None):
         """Create a Parser object for the specific tag type, on the fly"""
-        return createParser(toplevel_type, delegate, extra_args)
+        return listParser(list_type, delegate, extra_args)
     return create
 
 
 
-Feed       = simpleParserFactory(Entry)
+Feed     = simpleListFactory(EntryList)
 
-Users      = simpleParserFactory(User)
+Users    = simpleListFactory(UserList)
 
-Direct     = simpleParserFactory(DirectMessage)
+Direct   = simpleListFactory(DirectMessageList)
 
-Statuses = simpleParserFactory(Status)
+Statuses = simpleListFactory(StatusList)
 
-HoseFeed   = simpleParserFactory(Status)
+HoseFeed = simpleListFactory(StatusList)
 
 
 def parseXML(xml):
