@@ -175,30 +175,19 @@ def simpleParserFactory(toplevel_tag, toplevel_type):
     return create
 
 
-class Feed(Parser):
 
-    toplevel_tag = 'entry'
-    toplevel_type = Entry
 
-class Users(Parser):
 
-    toplevel_tag = 'user'
-    toplevel_type = User
+Feed       = simpleParserFactory('entry', Entry)
 
-class Direct(Parser):
+Users      = simpleParserFactory('user', User)
 
-    toplevel_tag = 'direct_message'
-    toplevel_type = DirectMessage
+Direct     = simpleParserFactory('direct_message', DirectMessage)
 
-class StatusList(Parser):
+StatusList = simpleParserFactory('status', Status)
 
-    toplevel_tag = 'status'
-    toplevel_type = Status
+HoseFeed   = simpleParserFactory('status', Status)
 
-class HoseFeed(Parser):
-
-    toplevel_tag = 'status'
-    toplevel_type = Status
 
 def parseXML(xml):
     return microdom.parseXMLString(xml)
