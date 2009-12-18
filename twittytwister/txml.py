@@ -97,8 +97,9 @@ class XMLStringHandler(BaseXMLHandler):
 
 
 class PredefinedXMLHandler(BaseXMLHandler):
+    MY_TAG = ''
     SIMPLE_PROPS = []
-    COMPLEX_PROPS = {}
+    COMPLEX_PROPS = []
 
     # if set to True, contents inside unknown tags
     # will be parsed as if the unknown tags weren't
@@ -106,19 +107,19 @@ class PredefinedXMLHandler(BaseXMLHandler):
     ENTER_UNKNOWN = False
 
     def __init__(self, n):
-        handler_dict = dict(simple.COMPLEX_PROPS)
+        handler_dict = dict([(p.MY_TAG,p) for p in self.COMPLEX_PROPS])
         handler_dict.update([(p,XMLStringHandler) for p in self.SIMPLE_PROPS])
         super(PredefinedXMLHandler, self).__init__(n, handler_dict, self.ENTER_UNKNOWN)
 
 class Author(PredefinedXMLHandler):
-
+    MY_TAG = 'author'
     SIMPLE_PROPS = [ 'name', 'uri' ]
 
 class Entry(PredefinedXMLHandler):
-
+    MY_TAG = 'entry'
     SIMPLE_PROPS = ['id', 'published', 'title', 'content', 'link', 'updated',
                     'twitter:source', 'twitter:lang']
-    COMPLEX_PROPS = {'author': Author}
+    COMPLEX_PROPS = [Author]
 
     def gotTagStart(self, name, attrs):
         super(Entry, self).gotTagStart(name, attrs)
@@ -131,13 +132,13 @@ class Entry(PredefinedXMLHandler):
             del self.link
 
 class Status(PredefinedXMLHandler):
-
+    MY_TAG = 'status'
     SIMPLE_PROPS = ['created_at', 'id', 'text', 'source', 'truncated',
         'in_reply_to_status_id', 'in_reply_to_screen_name',
         'in_reply_to_user_id', 'favorited', 'user_id', 'geo']
 
 class User(PredefinedXMLHandler):
-
+    MY_TAG = 'user'
     SIMPLE_PROPS = ['id', 'name', 'screen_name', 'location', 'description',
         'profile_image_url', 'url', 'protected', 'followers_count',
         'profile_background_color', 'profile_text_color', 'profile_link_color',
@@ -146,25 +147,25 @@ class User(PredefinedXMLHandler):
         'time_zone', 'following', 'notifications', 'statuses_count',
         'profile_background_image_url', 'profile_background_tile', 'verified',
         'geo_enabled']
-    COMPLEX_PROPS = {'status': Status}
+    COMPLEX_PROPS = [Status]
 
 # Hack to patch this in...
 
-Status.COMPLEX_PROPS = {'user': User}
+Status.COMPLEX_PROPS = [User]
 
 class SenderUser(User):
-    pass
+    MY_TAG = 'sender'
 
 class RecipientUser(User):
-    pass
+    MY_TAG = 'recipient'
 
 class DirectMessage(PredefinedXMLHandler):
-
+    MY_TAG = 'direct_message'
     SIMPLE_PROPS = ['id', 'sender_id', 'text', 'recipient_id', 'created_at',
         'sender_screen_name', 'recipient_screen_name']
-    COMPLEX_PROPS = {'sender': SenderUser, 'recipient': RecipientUser}
+    COMPLEX_PROPS = [SenderUser, RecipientUser]
 
-def topLevelXMLHandler(toplevel_tag, toplevel_type):
+def topLevelXMLHandler(toplevel_type):
     """Used to create a BaseXMLHandler object that just handles a single type of tag"""
     return BaseXMLHandler(None,
                           handler_dict={toplevel_type.MY_TAG:toplevel_type},
@@ -209,7 +210,7 @@ class Parser(sux.XMLParser):
             sys.stderr.write("Unhandled entity reference: %s\n" % (data))
 
 
-def createParser(toplevel_tag, toplevel_type, delegate, extra_args=None):
+def createParser(toplevel_type, delegate, extra_args=None):
     if extra_args:
         args = (extra_args,)
     else:
@@ -218,30 +219,28 @@ def createParser(toplevel_tag, toplevel_type, delegate, extra_args=None):
     def do_delegate(e):
         delegate(e, *args)
 
-    handler = topLevelXMLHandler(toplevel_tag, toplevel_type)
-    handler.setAfterDelegate(toplevel_tag, do_delegate)
+    handler = topLevelXMLHandler(toplevel_type)
+    handler.setAfterDelegate(toplevel_type.MY_TAG, do_delegate)
     return Parser(handler)
 
-def simpleParserFactory(toplevel_tag, toplevel_type):
+def simpleParserFactory(toplevel_type):
     """Used for simple toplevel_tag/toplevel_type parsers"""
     def create(delegate, extra_args=None):
         """Create a Parser object for the specific tag type, on the fly"""
-        return createParser(toplevel_tag, toplevel_type, delegate, extra_args)
+        return createParser(toplevel_type, delegate, extra_args)
     return create
 
 
 
+Feed       = simpleParserFactory(Entry)
 
+Users      = simpleParserFactory(User)
 
-Feed       = simpleParserFactory('entry', Entry)
+Direct     = simpleParserFactory(DirectMessage)
 
-Users      = simpleParserFactory('user', User)
+StatusList = simpleParserFactory(Status)
 
-Direct     = simpleParserFactory('direct_message', DirectMessage)
-
-StatusList = simpleParserFactory('status', Status)
-
-HoseFeed   = simpleParserFactory('status', Status)
+HoseFeed   = simpleParserFactory(Status)
 
 
 def parseXML(xml):
