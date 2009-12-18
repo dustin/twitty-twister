@@ -178,9 +178,10 @@ class Twitter(object):
         parser = parser_factory(delegate, extra_args)
         return self.__downloadPage(path, parser, params)
 
-    def verify_credentials(self):
+    def verify_credentials(self, delegate=None):
         "Verify a user's credentials."
-        return self.__get('/account/verify_credentials.xml', None, None)
+        parser = txml.Users(delegate)
+        return self.__downloadPage('/account/verify_credentials.xml', parser)
 
     def __parsed_post(self, hdef, parser):
         deferred = defer.Deferred()
