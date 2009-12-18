@@ -280,6 +280,14 @@ class Twitter(object):
         parser = txml.Users(delegate)
         return self.__postPage('/friendships/create/%s.xml' % (user), parser)
 
+    def unfollow_user(self, user, delegate):
+        """Unfollow the given user.
+
+        Returns the user info back to the given delegate
+        """
+        parser = txml.Users(delegate)
+        return self.__postPage('/friendships/destroy/%s.xml' % (user), parser)
+
     def __paging_get(self, url, delegate, params, pager, page_delegate=None):
         def end_page(p):
             if page_delegate:
