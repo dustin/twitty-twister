@@ -37,6 +37,12 @@ class BaseXMLHandler(object):
     def setAfterDelegate(self, name, fn):
         self.after_delegates[name] = fn
 
+    def setDelegate(self, name, before=None, after=None):
+        if before:
+            self.setBeforeDelegate(name, before)
+        if after:
+            self.setAfterDelegate(name, after)
+
     def objectStarted(self, name, o):
         if name in self.before_delegates:
             self.before_delegates[name](o)
