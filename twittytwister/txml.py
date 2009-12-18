@@ -17,6 +17,11 @@ class BaseXMLHandler(object):
     SIMPLE_PROPS = []
     COMPLEX_PROPS = {}
 
+    # if set to True, contents inside unknown tags
+    # will be parsed as if the unknown tags weren't
+    # around it.
+    enter_unknown = False
+
     def __init__(self, n):
         self.done = False
         self.current_ob = None
@@ -48,7 +53,7 @@ class BaseXMLHandler(object):
             self.objectStarted(name, self.current_ob)
         elif name in self.SIMPLE_PROPS:
             self.objectStarted(name, '')
-        else:
+        elif not self.enter_unknown:
             sys.stderr.write("Got unknown tag %s in %s\n" % (name, self.__class__))
             self.current_ob = NoopParser(name)
 
