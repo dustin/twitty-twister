@@ -96,11 +96,17 @@ class User(BaseXMLHandler):
 
 Status.COMPLEX_PROPS = {'user': User}
 
+class SenderUser(User):
+    pass
+
+class RecipientUser(User):
+    pass
+
 class DirectMessage(BaseXMLHandler):
 
     SIMPLE_PROPS = ['id', 'sender_id', 'text', 'recipient_id', 'created_at',
         'sender_screen_name', 'recipient_screen_name']
-    COMPLEX_PROPS = {'sender': User, 'recipient': User}
+    COMPLEX_PROPS = {'sender': SenderUser, 'recipient': RecipientUser}
 
 
 class Parser(sux.XMLParser):
