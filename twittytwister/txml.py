@@ -241,7 +241,7 @@ Users      = simpleParserFactory(User)
 
 Direct     = simpleParserFactory(DirectMessage)
 
-StatusList = simpleParserFactory(Status)
+Statuses = simpleParserFactory(Status)
 
 HoseFeed   = simpleParserFactory(Status)
 

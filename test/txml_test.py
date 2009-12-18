@@ -137,7 +137,7 @@ class XMLParserTest(twunit.TestCase):
                 ts.assertEquals('false', s.user.protected)
                 ts.assertEquals('516', s.user.followers_count)
 
-        self.parse_test('status_list.xml', txml.StatusList(gotStatusItem))
+        self.parse_test('status_list.xml', txml.Statuses(gotStatusItem))
 
     def testParsingUser(self):
         ts = self

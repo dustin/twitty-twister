@@ -198,14 +198,14 @@ class Twitter(object):
 
         Calls the delgate once for each status object received."""
         return self.__get('/statuses/friends_timeline.xml', delegate, params,
-            txml.StatusList, extra_args=extra_args)
+            txml.Statuses, extra_args=extra_args)
 
     def home_timeline(self, delegate, params={}, extra_args=None):
         """Get updates from friends.
 
         Calls the delgate once for each status object received."""
         return self.__get('/statuses/home_timeline.xml', delegate, params,
-            txml.StatusList, extra_args=extra_args)
+            txml.Statuses, extra_args=extra_args)
 
     def user_timeline(self, delegate, user=None, params={}, extra_args=None):
         """Get the most recent updates for a user.
@@ -217,7 +217,7 @@ class Twitter(object):
         if user:
             params['id'] = user
         return self.__get('/statuses/user_timeline.xml', delegate, params,
-                          txml.StatusList, extra_args=extra_args)
+                          txml.Statuses, extra_args=extra_args)
 
     def public_timeline(self, delegate, params={}, extra_args=None):
         "Get the most recent public timeline."
