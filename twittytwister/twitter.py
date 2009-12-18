@@ -149,6 +149,7 @@ class Twitter(object):
             agent=self.agent,
             postdata=body, headers=headers)
 
+    #TODO: deprecate __post()?
     def __post(self, path, args={}):
         headers = {'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'}
 
@@ -161,6 +162,21 @@ class Twitter(object):
             args['source'] = self.client_info.get_source()
 
         return client.getPage(url, method='POST',
+            agent=self.agent,
+            postdata=self._urlencode(args), headers=headers)
+
+    def __postPage(self, path, parser, args={}, params=None):
+        url = self.base_url + path
+        if params:
+            url += '?' + self._urlencode(params)
+
+        headers = self.makeAuthHeader('GET', url)
+
+        if self.client_info != None:
+            headers.update(self.client_info.get_headers())
+            args['source'] = self.client_info.get_source()
+
+        return client.downloadPage(url, parser, method='POST',
             agent=self.agent,
             postdata=self._urlencode(args), headers=headers)
 
