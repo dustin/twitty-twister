@@ -168,6 +168,27 @@ class DirectMessage(PredefinedXMLHandler):
         'sender_screen_name', 'recipient_screen_name']
     COMPLEX_PROPS = [SenderUser, RecipientUser]
 
+
+### simple object list handlers:
+
+class SimpleListHandler(BaseXMLHandler):
+    """Class for simple handlers that work with just a single type of element"""
+    ITEM_TYPE = Entry
+    ITEM_TAG = None
+
+    @classmethod
+    def item_tag(klass):
+        tag = klass.ITEM_TAG
+        if tag is None:
+            tag = klass.ITEM_TYPE.MY_TAG
+        return tag
+
+    def __init__(self, n):
+        type = self.ITEM_TYPE
+        tag = self.item_tag()
+        super(SimpleListHandler, self).__init__(n,
+                 handler_dict={tag:type}, enter_unknown=True)
+
 def topLevelXMLHandler(toplevel_type):
     """Used to create a BaseXMLHandler object that just handles a single type of tag"""
     return BaseXMLHandler(None,
