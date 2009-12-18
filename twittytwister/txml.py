@@ -44,6 +44,15 @@ class BaseXMLHandler(object):
     def setPredefDelegate(self, type, before=None, after=None):
         self.setDelegate(type.MY_TAG, before, after)
 
+    def setSubDelegates(self, namelist, before=None, after=None):
+        """Set a delegate for a sub-sub-item, according to a list of names"""
+        if len(namelist) > 1:
+            def set_sub(i):
+                i.setSubDelegates(namelist[1:], before, after)
+            self.setBeforeDelegate(namelist[0], set_sub)
+        elif len(namelist) == 1:
+            self.setDelegate(namelist[0], before, after)
+
     def objectStarted(self, name, o):
         if name in self.before_delegates:
             self.before_delegates[name](o)
@@ -205,6 +214,24 @@ class StatusList(SimpleListHandler):
     MY_TAG = 'statuses'
     ITEM_TYPE = Status
 
+class IDList(SimpleListHandler):
+    MY_TAG = 'ids'
+    ITEM_TYPE = XMLStringHandler
+    ITEM_TAG = 'id'
+
+
+class ListPage(PredefinedXMLHandler):
+    """Base class for the classes of paging items"""
+    SIMPLE_PROPS = ['next_cursor', 'previous_cursor']
+
+class UserListPage(ListPage):
+    MY_TAG = 'users_list'
+    COMPLEX_PROPS = [UserList]
+
+class IDListPage(ListPage):
+    MY_TAG = 'id_list'
+    COMPLEX_PROPS = [IDList]
+
 
 def topLevelXMLHandler(toplevel_type):
     """Used to create a BaseXMLHandler object that just handles a single type of tag"""
@@ -284,6 +311,30 @@ Direct   = simpleListFactory(DirectMessageList)
 Statuses = simpleListFactory(StatusList)
 
 HoseFeed = simpleListFactory(StatusList)
+
+
+class Pager:
+    """Able to create parsers that support paging, and parsers that don't"""
+    def __init__(self, page_type, list_type):
+        self.page_type = page_type
+        self.list_type = list_type
+
+    def pagingParser(self, delegate, page_delegate):
+        item_tag = self.list_type.item_tag()
+        root_handler = topLevelXMLHandler(self.page_type)
+        root_handler.setPredefDelegate(self.page_type, after=page_delegate)
+        root_handler.setSubDelegates([self.page_type.MY_TAG, self.list_type.MY_TAG, item_tag], after=delegate)
+        return Parser(root_handler)
+
+    def noPagingParser(self, delegate):
+        item_tag = self.list_type.item_tag()
+        root_handler = topLevelXMLHandler(self.list_type)
+        root_handler.setSubDelegates([self.list_type.MY_TAG, item_tag], after=delegate)
+        return Parser(root_handler)
+
+
+PagedUserList = Pager(UserListPage, UserList)
+PagedIDList = Pager(IDListPage, IDList)
 
 
 def parseXML(xml):
