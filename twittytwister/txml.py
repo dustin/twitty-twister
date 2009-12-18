@@ -163,6 +163,18 @@ class Parser(sux.XMLParser):
         else:
             sys.stderr.write("Unhandled entity reference: %s\n" % (data))
 
+
+def simpleParserFactory(toplevel_tag, toplevel_type):
+    """Used for simple toplevel_tag/toplevel_type parsers"""
+    def create(delegate, extra_args=None):
+        """Create a Parser object for the specific tag type, on the fly"""
+        p = Parser(delegate, extra_args)
+        p.toplevel_tag = toplevel_tag
+        p.toplevel_type = toplevel_type
+        return p
+    return create
+
+
 class Feed(Parser):
 
     toplevel_tag = 'entry'
