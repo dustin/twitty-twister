@@ -1,7 +1,8 @@
-import sys
-
 from twisted.internet import error
 from twisted.web import sux, microdom
+
+import logging
+logger = logging.getLogger('twittytwister.txml')
 
 class NoopParser(object):
     def __init__(self, n):
@@ -68,7 +69,7 @@ class BaseXMLHandler(object):
             self.current_ob = self.handler_dict[name](name)
             self.objectStarted(name, self.current_ob)
         elif not self.enter_unknown:
-            sys.stderr.write("Got unknown tag %s in %s\n" % (name, self.__class__))
+            logger.warning("Got unknown tag %s in %s\n" % (name, self.__class__))
             self.current_ob = NoopParser(name)
 
     def gotTagEnd(self, name, data):
@@ -275,7 +276,7 @@ class Parser(sux.XMLParser):
         elif data[0] == '#':
             self.data.append('&' + data + ';')
         else:
-            sys.stderr.write("Unhandled entity reference: %s\n" % (data))
+            logger.error("Unhandled entity reference: %s\n" % (data))
 
 
 def listParser(list_type, delegate, extra_args=None):
