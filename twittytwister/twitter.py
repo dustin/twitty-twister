@@ -325,6 +325,11 @@ class Twitter(object):
         return self.__get('/statuses/user_timeline.xml', delegate, params,
                           txml.Statuses, extra_args=extra_args)
 
+    def list_timeline(self, delegate, user, list_name, params={},
+            extra_args=None):
+        return self.__get('/%s/lists/%s/statuses.xml' % (user, list_name),
+                delegate, params, txml.Statuses, extra_args=extra_args)
+
     def public_timeline(self, delegate, params={}, extra_args=None):
         "Get the most recent public timeline."
 
