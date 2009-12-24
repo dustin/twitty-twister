@@ -313,6 +313,10 @@ class Twitter(object):
         return self.__get('/statuses/home_timeline.xml', delegate, params,
             txml.Statuses, extra_args=extra_args)
 
+    def mentions(self, delegate, params={}, extra_args=None):
+        return self.__get('/statuses/mentions.xml', delegate, params,
+            txml.Statuses, extra_args=extra_args)
+
     def user_timeline(self, delegate, user=None, params={}, extra_args=None):
         """Get the most recent updates for a user.
 
