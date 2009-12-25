@@ -149,6 +149,14 @@ class Status(PredefinedXMLHandler):
     SIMPLE_PROPS = ['created_at', 'id', 'text', 'source', 'truncated',
         'in_reply_to_status_id', 'in_reply_to_screen_name',
         'in_reply_to_user_id', 'favorited', 'user_id', 'geo']
+    COMPLEX_PROPS = []
+
+class RetweetedStatus(Status):
+    MY_TAG = 'retweeted_status'
+
+# circular reference:
+Status.COMPLEX_PROPS.append(RetweetedStatus)
+
 
 class User(PredefinedXMLHandler):
     MY_TAG = 'user'
@@ -162,9 +170,9 @@ class User(PredefinedXMLHandler):
         'geo_enabled']
     COMPLEX_PROPS = [Status]
 
-# Hack to patch this in...
+# circular reference:
+Status.COMPLEX_PROPS.append(User)
 
-Status.COMPLEX_PROPS = [User]
 
 class SenderUser(User):
     MY_TAG = 'sender'
