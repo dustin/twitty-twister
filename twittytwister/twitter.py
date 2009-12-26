@@ -187,6 +187,9 @@ class Twitter(object):
         return boundary, body
 
     def gotHeaders(self, headers):
+        if headers is None:
+            return
+
         logger.debug("hdrs: %r", headers)
 
         def ih(hdr):
@@ -248,7 +251,11 @@ class Twitter(object):
             self.gotHeaders(c.response_headers)
             return d.callback(*args, **kwargs)
 
-        c.deferred.addCallbacks(done, d.errback)
+        def error(e):
+            self.gotHeaders(c.response_headers)
+            d.errback(e)
+
+        c.deferred.addCallbacks(done, error)
         return d
 
     def __postPage(self, path, parser, args={}, params=None):
