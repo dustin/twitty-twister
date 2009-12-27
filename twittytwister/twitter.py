@@ -258,11 +258,8 @@ class Twitter(object):
         c.deferred.addCallbacks(done, error)
         return d
 
-    def __postPage(self, path, parser, args={}, params=None):
+    def __postPage(self, path, parser, args={}):
         url = self.base_url + path
-        if params:
-            url += '?' + self._urlencode(params)
-
         headers = self.makeAuthHeader('POST', url)
 
         if self.client_info != None:
