@@ -271,10 +271,10 @@ class Twitter(object):
 
     def __downloadPage(self, path, parser, params=None):
         url = self.base_url + path
+
+        headers = self.makeAuthHeader('GET', url, params)
         if params:
             url += '?' + self._urlencode(params)
-
-        headers = self.makeAuthHeader('GET', url)
 
         return self.__doDownloadPage(url, parser,
             agent=self.agent, headers=headers)
