@@ -263,7 +263,7 @@ class Twitter(object):
         if params:
             url += '?' + self._urlencode(params)
 
-        headers = self.makeAuthHeader('GET', url)
+        headers = self.makeAuthHeader('POST', url)
 
         if self.client_info != None:
             headers.update(self.client_info.get_headers())
