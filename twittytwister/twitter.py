@@ -352,6 +352,20 @@ class Twitter(object):
         return self.__get('/direct_messages.xml', delegate, params,
                           txml.Direct, extra_args=extra_args)
 
+    def send_direct_message(self, text, user=None, delegate=None, screen_name=None, user_id=None, params={}):
+        """Send a direct message
+        """
+        params = params.copy()
+        if user is not None:
+            params['user'] = user
+        if user_id is not None:
+            params['user_id'] = user_id
+        if screen_name is not None:
+            params['screen_name'] = screen_name
+        params['text'] = text
+        parser = txml.Direct(delegate)
+        return self.__postPage('/direct_messages/new.xml', parser, params)
+
     def replies(self, delegate, params={}, extra_args=None):
         """Get the most recent replies for the authenticating user.
 
