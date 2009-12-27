@@ -187,10 +187,9 @@ class Twitter(object):
         return boundary, body
 
     def gotHeaders(self, headers):
+        logger.debug("hdrs: %r", headers)
         if headers is None:
             return
-
-        logger.debug("hdrs: %r", headers)
 
         def ih(hdr):
             r = headers.get(hdr)
