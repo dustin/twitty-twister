@@ -259,7 +259,7 @@ class Twitter(object):
 
     def __postPage(self, path, parser, args={}):
         url = self.base_url + path
-        headers = self.makeAuthHeader('POST', url)
+        headers = self.makeAuthHeader('POST', url, args)
 
         if self.client_info != None:
             headers.update(self.client_info.get_headers())
