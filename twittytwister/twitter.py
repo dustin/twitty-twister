@@ -294,9 +294,10 @@ class Twitter(object):
         hdef.addCallback(lambda p: deferred.callback(parser(p)))
         return deferred
 
-    def update(self, status, source=None):
+    def update(self, status, source=None, params={}):
         "Update your status.  Returns the ID of the new post."
-        params={'status': status}
+        params = params.copy()
+        params['status'] = status
         if source:
             params['source'] = source
         return self.__parsed_post(self.__post('/statuses/update.xml', params),
