@@ -191,16 +191,19 @@ class Twitter(object):
         if headers is None:
             return
 
-        def ih(hdr):
+        def ratelimit_header(name):
+            hdr = 'x-ratelimit-%s' % (name)
+            field = 'rate_limit_%s' % (name)
             r = headers.get(hdr)
             if r is not None and len(r) > 0 and r[0]:
-                return int(r[0])
+                v = int(r[0])
+                setattr(self, field, v)
             else:
                 return None
 
-        self.rate_limit_limit = ih('x-ratelimit-limit')
-        self.rate_limit_remaining = ih('x-ratelimit-remaining')
-        self.rate_limit_reset = ih('x-ratelimit-reset')
+        ratelimit_header('limit')
+        ratelimit_header('remaining')
+        ratelimit_header('reset')
 
         logger.debug('hdrs end')
 
