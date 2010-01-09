@@ -244,7 +244,7 @@ class Twitter(object):
     def __doDownloadPage(self, *args, **kwargs):
         """Works like client.downloadPage(), but handle incoming headers
         """
-        logger.debug("download page: %r, %r" % (args, kwargs))
+        logger.debug("download page: %r, %r", args, kwargs)
 
         d = defer.Deferred()
         c = downloadPage(*args, **kwargs)
