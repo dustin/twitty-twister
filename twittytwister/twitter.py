@@ -226,9 +226,9 @@ class Twitter(object):
 
         self._makeAuthHeader('POST', url, headers=headers)
 
-        return client.getPage(url, method='POST',
+        return getPage(url, method='POST',
             agent=self.agent,
-            postdata=body, headers=headers)
+            postdata=body, headers=headers).deferred
 
     #TODO: deprecate __post()?
     def __post(self, path, args={}):
@@ -242,9 +242,9 @@ class Twitter(object):
             headers.update(self.client_info.get_headers())
             args['source'] = self.client_info.get_source()
 
-        return client.getPage(url, method='POST',
+        return getPage(url, method='POST',
             agent=self.agent,
-            postdata=self._urlencode(args), headers=headers)
+            postdata=self._urlencode(args), headers=headers).deferred
 
     def __doDownloadPage(self, *args, **kwargs):
         """Works like client.downloadPage(), but handle incoming headers
