@@ -67,7 +67,7 @@ class TwitterClientInfo:
         return self.name
 
 
-def downloadPage(url, file, **kwargs):
+def __downloadPage(factory, *args, **kwargs):
     """Start a HTTP download, returning a HTTPDownloader object"""
 
     # The Twisted API is weird:
@@ -77,7 +77,7 @@ def downloadPage(url, file, **kwargs):
 
     #TODO: convert getPage() usage to something similar, too
 
-    downloader = client.HTTPDownloader(url, file, **kwargs)
+    downloader = factory(*args, **kwargs)
     if downloader.scheme == 'https':
         from twisted.internet import ssl
         contextFactory = ssl.ClientContextFactory()
@@ -88,6 +88,11 @@ def downloadPage(url, file, **kwargs):
                            downloader)
     return downloader
 
+def downloadPage(url, file, **kwargs):
+    return __downloadPage(client.HTTPDownloader, url, file, **kwargs)
+
+def getPage(url, *args, **kwargs):
+    return __downloadPage(client.HTTPClientFactory, url, *args, **kwargs)
 
 class Twitter(object):
 
