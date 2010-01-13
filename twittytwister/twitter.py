@@ -88,8 +88,13 @@ def __downloadPage(factory, *args, **kwargs):
                            downloader)
     return downloader
 
-def downloadPage(url, file, **kwargs):
-    return __downloadPage(client.HTTPDownloader, url, file, **kwargs)
+def downloadPage(url, file, timeout=0, **kwargs):
+    c = __downloadPage(client.HTTPDownloader, url, file, **kwargs)
+    # HTTPDownloader doesn't have the 'timeout' keyword parameter on
+    # Twisted 8.2.0, so set it directly:
+    if timeout:
+        c.timeout = timeout
+    return c
 
 def getPage(url, *args, **kwargs):
     return __downloadPage(client.HTTPClientFactory, url, *args, **kwargs)
@@ -100,7 +105,7 @@ class Twitter(object):
 
     def __init__(self, user=None, passwd=None,
         base_url=BASE_URL, search_url=SEARCH_URL,
-                 consumer=None, token=None, signature_method=SIGNATURE_METHOD,client_info = None):
+                 consumer=None, token=None, signature_method=SIGNATURE_METHOD,client_info = None, timeout=0):
 
         self.base_url = base_url
         self.search_url = search_url
@@ -108,6 +113,7 @@ class Twitter(object):
         self.use_auth = False
         self.use_oauth = False
         self.client_info = None
+        self.timeout = timeout
 
         # rate-limit info:
         self.rate_limit_limit = None
@@ -236,7 +242,7 @@ class Twitter(object):
 
         c = getPage(url, method='POST',
             agent=self.agent,
-            postdata=body, headers=headers)
+            postdata=body, headers=headers, timeout=self.timeout)
         return self.__clientDefer(c)
 
     #TODO: deprecate __post()?
@@ -253,7 +259,7 @@ class Twitter(object):
 
         c = getPage(url, method='POST',
             agent=self.agent,
-            postdata=self._urlencode(args), headers=headers)
+            postdata=self._urlencode(args), headers=headers, timeout=self.timeout)
         return self.__clientDefer(c)
 
     def __doDownloadPage(self, *args, **kwargs):
@@ -273,7 +279,7 @@ class Twitter(object):
 
         return self.__doDownloadPage(url, parser, method='POST',
             agent=self.agent,
-            postdata=self._urlencode(args), headers=headers)
+            postdata=self._urlencode(args), headers=headers, timeout=self.timeout)
 
     def __downloadPage(self, path, parser, params=None):
         url = self.base_url + path
@@ -283,7 +289,7 @@ class Twitter(object):
             url += '?' + self._urlencode(params)
 
         return self.__doDownloadPage(url, parser,
-            agent=self.agent, headers=headers)
+            agent=self.agent, headers=headers, timeout=self.timeout)
 
     def __get(self, path, delegate, params, parser_factory=txml.Feed, extra_args=None):
         parser = parser_factory(delegate, extra_args)
