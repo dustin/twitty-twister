@@ -216,6 +216,14 @@ class Twitter(object):
     def __getContentType(self, filename):
         return mimetypes.guess_type(filename)[0] or 'application/octet-stream'
 
+    def __clientDefer(self, c):
+        """Return a deferred for a HTTP client, after handling incoming headers"""
+        def handle_headers(r):
+            self.gotHeaders(c.response_headers)
+            return r
+
+        return c.deferred.addBoth(handle_headers)
+
     def __postMultipart(self, path, fields=(), files=()):
         url = self.base_url + path
 
@@ -226,9 +234,10 @@ class Twitter(object):
 
         self._makeAuthHeader('POST', url, headers=headers)
 
-        return getPage(url, method='POST',
+        c = getPage(url, method='POST',
             agent=self.agent,
-            postdata=body, headers=headers).deferred
+            postdata=body, headers=headers)
+        return self.__clientDefer(c)
 
     #TODO: deprecate __post()?
     def __post(self, path, args={}):
@@ -242,28 +251,17 @@ class Twitter(object):
             headers.update(self.client_info.get_headers())
             args['source'] = self.client_info.get_source()
 
-        return getPage(url, method='POST',
+        c = getPage(url, method='POST',
             agent=self.agent,
-            postdata=self._urlencode(args), headers=headers).deferred
+            postdata=self._urlencode(args), headers=headers)
+        return self.__clientDefer(c)
 
     def __doDownloadPage(self, *args, **kwargs):
         """Works like client.downloadPage(), but handle incoming headers
         """
         logger.debug("download page: %r, %r", args, kwargs)
 
-        d = defer.Deferred()
-        c = downloadPage(*args, **kwargs)
-
-        def done(*args, **kwargs):
-            self.gotHeaders(c.response_headers)
-            return d.callback(*args, **kwargs)
-
-        def error(e):
-            self.gotHeaders(c.response_headers)
-            d.errback(e)
-
-        c.deferred.addCallbacks(done, error)
-        return d
+        return self.__clientDefer(downloadPage(*args, **kwargs))
 
     def __postPage(self, path, parser, args={}):
         url = self.base_url + path
