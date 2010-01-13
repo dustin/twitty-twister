@@ -530,8 +530,8 @@ class TwitterFeed(Twitter):
         if args:
             url += '?' + self._urlencode(args)
         print 'Fetching', url
-        return client.downloadPage(url, txml.HoseFeed(delegate), agent=self.agent,
-                                   headers=self.__makeAuthHeader())
+        return downloadPage(url, txml.HoseFeed(delegate), agent=self.agent,
+                                   headers=self.__makeAuthHeader()).deferred
 
 
     def sample(self, delegate, args=None):
