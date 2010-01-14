@@ -315,6 +315,14 @@ class Twitter(object):
         return self.__parsed_post(self.__post('/statuses/update.xml', params),
             txml.parseUpdateResponse)
 
+    def retweet(self, id, delegate):
+        """Retweet a post
+
+        Returns the retweet status info back to the given delegate
+        """
+        parser = txml.Statuses(delegate)
+        return self.__postPage('/statuses/retweet/%s.xml' % (id), parser)
+
     def friends(self, delegate, params={}, extra_args=None):
         """Get updates from friends.
 
