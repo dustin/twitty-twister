@@ -69,7 +69,7 @@ class BaseXMLHandler(object):
             self.current_ob = self.handler_dict[name](name)
             self.objectStarted(name, self.current_ob)
         elif not self.enter_unknown:
-            logger.warning("Got unknown tag %s in %s\n" % (name, self.__class__))
+            logger.warning("Got unknown tag %s in %s", name, self.__class__)
             self.current_ob = NoopParser(name)
 
     def gotTagEnd(self, name, data):

@@ -67,7 +67,7 @@ class TwitterClientInfo:
         return self.name
 
 
-def downloadPage(url, file, **kwargs):
+def __downloadPage(factory, *args, **kwargs):
     """Start a HTTP download, returning a HTTPDownloader object"""
 
     # The Twisted API is weird:
@@ -77,7 +77,7 @@ def downloadPage(url, file, **kwargs):
 
     #TODO: convert getPage() usage to something similar, too
 
-    downloader = client.HTTPDownloader(url, file, **kwargs)
+    downloader = factory(*args, **kwargs)
     if downloader.scheme == 'https':
         from twisted.internet import ssl
         contextFactory = ssl.ClientContextFactory()
@@ -88,6 +88,16 @@ def downloadPage(url, file, **kwargs):
                            downloader)
     return downloader
 
+def downloadPage(url, file, timeout=0, **kwargs):
+    c = __downloadPage(client.HTTPDownloader, url, file, **kwargs)
+    # HTTPDownloader doesn't have the 'timeout' keyword parameter on
+    # Twisted 8.2.0, so set it directly:
+    if timeout:
+        c.timeout = timeout
+    return c
+
+def getPage(url, *args, **kwargs):
+    return __downloadPage(client.HTTPClientFactory, url, *args, **kwargs)
 
 class Twitter(object):
 
@@ -95,7 +105,7 @@ class Twitter(object):
 
     def __init__(self, user=None, passwd=None,
         base_url=BASE_URL, search_url=SEARCH_URL,
-                 consumer=None, token=None, signature_method=SIGNATURE_METHOD,client_info = None):
+                 consumer=None, token=None, signature_method=SIGNATURE_METHOD,client_info = None, timeout=0):
 
         self.base_url = base_url
         self.search_url = search_url
@@ -103,6 +113,7 @@ class Twitter(object):
         self.use_auth = False
         self.use_oauth = False
         self.client_info = None
+        self.timeout = timeout
 
         # rate-limit info:
         self.rate_limit_limit = None
@@ -211,6 +222,14 @@ class Twitter(object):
     def __getContentType(self, filename):
         return mimetypes.guess_type(filename)[0] or 'application/octet-stream'
 
+    def __clientDefer(self, c):
+        """Return a deferred for a HTTP client, after handling incoming headers"""
+        def handle_headers(r):
+            self.gotHeaders(c.response_headers)
+            return r
+
+        return c.deferred.addBoth(handle_headers)
+
     def __postMultipart(self, path, fields=(), files=()):
         url = self.base_url + path
 
@@ -221,9 +240,10 @@ class Twitter(object):
 
         self._makeAuthHeader('POST', url, headers=headers)
 
-        return client.getPage(url, method='POST',
+        c = getPage(url, method='POST',
             agent=self.agent,
-            postdata=body, headers=headers)
+            postdata=body, headers=headers, timeout=self.timeout)
+        return self.__clientDefer(c)
 
     #TODO: deprecate __post()?
     def __post(self, path, args={}):
@@ -237,28 +257,17 @@ class Twitter(object):
             headers.update(self.client_info.get_headers())
             args['source'] = self.client_info.get_source()
 
-        return client.getPage(url, method='POST',
+        c = getPage(url, method='POST',
             agent=self.agent,
-            postdata=self._urlencode(args), headers=headers)
+            postdata=self._urlencode(args), headers=headers, timeout=self.timeout)
+        return self.__clientDefer(c)
 
     def __doDownloadPage(self, *args, **kwargs):
         """Works like client.downloadPage(), but handle incoming headers
         """
-        logger.debug("download page: %r, %r" % (args, kwargs))
+        logger.debug("download page: %r, %r", args, kwargs)
 
-        d = defer.Deferred()
-        c = downloadPage(*args, **kwargs)
-
-        def done(*args, **kwargs):
-            self.gotHeaders(c.response_headers)
-            return d.callback(*args, **kwargs)
-
-        def error(e):
-            self.gotHeaders(c.response_headers)
-            d.errback(e)
-
-        c.deferred.addCallbacks(done, error)
-        return d
+        return self.__clientDefer(downloadPage(*args, **kwargs))
 
     def __postPage(self, path, parser, args={}):
         url = self.base_url + path
@@ -270,7 +279,7 @@ class Twitter(object):
 
         return self.__doDownloadPage(url, parser, method='POST',
             agent=self.agent,
-            postdata=self._urlencode(args), headers=headers)
+            postdata=self._urlencode(args), headers=headers, timeout=self.timeout)
 
     def __downloadPage(self, path, parser, params=None):
         url = self.base_url + path
@@ -280,7 +289,7 @@ class Twitter(object):
             url += '?' + self._urlencode(params)
 
         return self.__doDownloadPage(url, parser,
-            agent=self.agent, headers=headers)
+            agent=self.agent, headers=headers, timeout=self.timeout)
 
     def __get(self, path, delegate, params, parser_factory=txml.Feed, extra_args=None):
         parser = parser_factory(delegate, extra_args)
@@ -305,6 +314,14 @@ class Twitter(object):
             params['source'] = source
         return self.__parsed_post(self.__post('/statuses/update.xml', params),
             txml.parseUpdateResponse)
+
+    def retweet(self, id, delegate):
+        """Retweet a post
+
+        Returns the retweet status info back to the given delegate
+        """
+        parser = txml.Statuses(delegate)
+        return self.__postPage('/statuses/retweet/%s.xml' % (id), parser)
 
     def friends(self, delegate, params={}, extra_args=None):
         """Get updates from friends.
@@ -525,8 +542,8 @@ class TwitterFeed(Twitter):
         if args:
             url += '?' + self._urlencode(args)
         print 'Fetching', url
-        return client.downloadPage(url, txml.HoseFeed(delegate), agent=self.agent,
-                                   headers=self.__makeAuthHeader())
+        return downloadPage(url, txml.HoseFeed(delegate), agent=self.agent,
+                                   headers=self.__makeAuthHeader()).deferred
 
 
     def sample(self, delegate, args=None):
