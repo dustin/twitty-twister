@@ -541,7 +541,7 @@ class TwitterFeed(Twitter):
     def _rtfeed(self, url, delegate, args):
         if args:
             url += '?' + self._urlencode(args)
-        headers = headers=self._makeAuthHeader("GET", url, args)
+        headers = self._makeAuthHeader("GET", url, args)
         print 'Fetching', url
         return downloadPage(url, txml.HoseFeed(delegate), agent=self.agent,
                                    headers=headers).deferred
