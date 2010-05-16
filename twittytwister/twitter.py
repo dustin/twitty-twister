@@ -459,7 +459,7 @@ class Twitter(object):
 
         return self.__get_maybe_paging(url, delegate, params, txml.PagedUserList, extra_args, page_delegate)
 
-    def list_followers(self, delegate, user=None, params=None, extra_args=None, page_delegate=None):
+    def list_followers(self, delegate, user=None, params={}, extra_args=None, page_delegate=None):
         """Get the list of followers for a user.
 
         Calls the delegate with each user object found."""
