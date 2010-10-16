@@ -4,10 +4,9 @@
 Copyright (c) 2008  Dustin Sallings <dustin@spy.net>
 """
 
-import os
 import sys
 
-from twisted.internet import reactor, protocol, defer, task
+from twisted.internet import reactor
 from twisted.python import log
 
 from twittytwister import twitter

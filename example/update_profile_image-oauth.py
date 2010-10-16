@@ -3,7 +3,6 @@
 Copyright (c) 2009  Kevin Dunglas <dunglas@gmail.com>
 """
 
-import os
 import sys
 
 from twisted.internet import reactor

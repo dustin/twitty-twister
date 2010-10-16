@@ -6,10 +6,9 @@ Copyright (c) 2009  Eduardo Habkost <ehabkost@raisama.net>
 
 """
 
-import os
 import sys
 
-from twisted.internet import reactor, protocol, defer, task
+from twisted.internet import reactor
 
 from twittytwister import twitter
 

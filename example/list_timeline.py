@@ -5,10 +5,9 @@ Copyright (c) 2008  Dustin Sallings <dustin@spy.net>
 Copyright (c) 2009  Bogdano Arendartchuk <debogdano@gmail.com>
 """
 
-import os
 import sys
 
-from twisted.internet import reactor, protocol, defer, task
+from twisted.internet import reactor, defer
 
 from twittytwister import twitter
 

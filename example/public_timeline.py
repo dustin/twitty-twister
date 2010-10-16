@@ -4,10 +4,9 @@
 Copyright (c) 2009  tsing <tsing@jianqing.org>
 """
 
-import os
 import sys
 
-from twisted.internet import reactor, protocol, defer, task
+from twisted.internet import reactor
 
 from twittytwister import twitter
 
