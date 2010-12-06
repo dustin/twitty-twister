@@ -15,9 +15,9 @@ import logging
 from oauth import oauth
 
 from twisted.internet import defer, reactor
-from twisted.web import client
+from twisted.web import client, error, http_headers
 
-import txml
+from twittytwister import streaming, txml
 
 SIGNATURE_METHOD = oauth.OAuthSignatureMethod_HMAC_SHA1()
 
@@ -538,13 +538,31 @@ class TwitterFeed(Twitter):
             print entry.text
     """
 
+    def __init__(self, *args, **kwargs):
+        Twitter.__init__(self, *args, **kwargs)
+        self.agent = client.Agent(reactor)
+
     def _rtfeed(self, url, delegate, args):
-        if args:
-            url += '?' + self._urlencode(args)
-        headers = self._makeAuthHeader("GET", url, args)
+        def cb(response):
+            if response.code == 200:
+                protocol = streaming.TwitterStream(delegate)
+                response.deliverBody(protocol)
+                return protocol
+            else:
+                raise error.Error(response.code, response.phrase)
+
+        args = args or {}
+        args['delimited'] = 'length'
+        url += '?' + self._urlencode(args)
+        authHeaders = self._makeAuthHeader("GET", url, args)
+        rawHeaders = dict([(name, [value])
+                           for name, value
+                           in authHeaders.iteritems()])
+        headers = http_headers.Headers(rawHeaders)
         print 'Fetching', url
-        return downloadPage(url, txml.HoseFeed(delegate), agent=self.agent,
-                                   headers=headers).deferred
+        d = self.agent.request('GET', url, headers, None)
+        d.addCallback(cb)
+        return d
 
 
     def sample(self, delegate, args=None):
@@ -553,7 +571,7 @@ class TwitterFeed(Twitter):
 
         The actual access level determines the portion of the firehose.
         """
-        return self._rtfeed('http://stream.twitter.com/1/statuses/sample.xml',
+        return self._rtfeed('http://stream.twitter.com/1/statuses/sample.json',
                             delegate,
                             args)
 
@@ -582,7 +600,7 @@ class TwitterFeed(Twitter):
         """
         Returns all public statuses.
         """
-        return self._rtfeed('http://stream.twitter.com/1/statuses/firehose.xml',
+        return self._rtfeed('http://stream.twitter.com/1/statuses/firehose.json',
                             delegate,
                             args)
 
@@ -591,7 +609,7 @@ class TwitterFeed(Twitter):
         """
         Returns public statuses that match one or more filter predicates.
         """
-        return self._rtfeed('http://stream.twitter.com/1/statuses/filter.xml',
+        return self._rtfeed('http://stream.twitter.com/1/statuses/filter.json',
                             delegate,
                             args)
 
