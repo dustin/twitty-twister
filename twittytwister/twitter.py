@@ -536,7 +536,12 @@ class TwitterFeed(Twitter):
 
         def exampleDelegate(entry):
             print entry.text
+
+    @cvar protocol: The protocol class to instantiate and deliver the response
+        body to. Defaults to L{streaming.TwitterStream}.
     """
+
+    protocol = streaming.TwitterStream
 
     def __init__(self, *args, **kwargs):
         Twitter.__init__(self, *args, **kwargs)
@@ -545,7 +550,7 @@ class TwitterFeed(Twitter):
     def _rtfeed(self, url, delegate, args):
         def cb(response):
             if response.code == 200:
-                protocol = streaming.TwitterStream(delegate)
+                protocol = self.protocol(delegate)
                 response.deliverBody(protocol)
                 return protocol
             else:
