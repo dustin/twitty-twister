@@ -576,7 +576,7 @@ class TwitterFeed(Twitter):
 
         The actual access level determines the portion of the firehose.
         """
-        return self._rtfeed('http://stream.twitter.com/1/statuses/sample.json',
+        return self._rtfeed('https://stream.twitter.com/1/statuses/sample.json',
                             delegate,
                             args)
 
@@ -605,7 +605,7 @@ class TwitterFeed(Twitter):
         """
         Returns all public statuses.
         """
-        return self._rtfeed('http://stream.twitter.com/1/statuses/firehose.json',
+        return self._rtfeed('https://stream.twitter.com/1/statuses/firehose.json',
                             delegate,
                             args)
 
@@ -614,7 +614,7 @@ class TwitterFeed(Twitter):
         """
         Returns public statuses that match one or more filter predicates.
         """
-        return self._rtfeed('http://stream.twitter.com/1/statuses/filter.json',
+        return self._rtfeed('https://stream.twitter.com/1/statuses/filter.json',
                             delegate,
                             args)
 
