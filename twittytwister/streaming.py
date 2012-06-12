@@ -1,6 +1,6 @@
 # -*- test-case-name: twittytwister.test.test_streaming -*-
 #
-# Copyright (c) 2010 Ralph Meijer <ralphm@ik.nu>
+# Copyright (c) 2010-2012 Ralph Meijer <ralphm@ik.nu>
 # See LICENSE.txt for details
 
 """
@@ -94,6 +94,9 @@ class TwitterObject(object):
     A Twitter object.
     """
     raw = None
+    SIMPLE_PROPS = None
+    COMPLEX_PROPS = None
+    LIST_PROPS = None
 
     @classmethod
     def fromDict(cls, data):
@@ -103,13 +106,95 @@ class TwitterObject(object):
         obj = cls()
         obj.raw = data
         for name, value in data.iteritems():
-            if name in cls.SIMPLE_PROPS:
+            if cls.SIMPLE_PROPS and name in cls.SIMPLE_PROPS:
                 setattr(obj, name, value)
-            elif name in cls.COMPLEX_PROPS:
+            elif cls.COMPLEX_PROPS and name in cls.COMPLEX_PROPS:
                 value = cls.COMPLEX_PROPS[name].fromDict(value)
+                setattr(obj, name, value)
+            elif cls.LIST_PROPS and name in cls.LIST_PROPS:
+                value = [cls.LIST_PROPS[name].fromDict(item)
+                         for item in value]
                 setattr(obj, name, value)
 
         return obj
+
+
+
+class Indices(TwitterObject):
+    """
+    Indices for tweet entities.
+    """
+    start = None
+    end = None
+
+    @classmethod
+    def fromDict(cls, data):
+        obj = cls()
+        obj.raw = data
+        try:
+            obj.start, obj.end = data
+        except (TypeError, ValueError):
+            log.err()
+        return obj
+
+
+
+class Size(TwitterObject):
+    """
+    Size of a media object.
+    """
+    SIMPLE_PROPS = set(['w', 'h', 'resize'])
+
+
+
+class Sizes(TwitterObject):
+    """
+    Available sizes for a media object.
+    """
+    COMPLEX_PROPS = {'large': Size,
+                     'medium': Size,
+                     'small': Size,
+                     'thumb': Size}
+
+
+
+class Media(TwitterObject):
+    """
+    Media entity.
+    """
+    SIMPLE_PROPS = set(['id', 'media_url', 'media_url_https', 'url',
+                        'display_url', 'expanded_url', 'type'])
+    COMPLEX_PROPS = {'indices': Indices, 'sizes': Sizes}
+
+
+
+class URL(TwitterObject):
+    """
+    URL entity.
+    """
+    SIMPLE_PROPS = set(['url', 'display_url', 'expanded_url'])
+    COMPLEX_PROPS = {'indices': Indices}
+
+
+
+class UserMention(TwitterObject):
+    SIMPLE_PROPS = set(['id', 'screen_name', 'name'])
+    COMPLEX_PROPS = {'indices': Indices}
+
+
+
+class HashTag(TwitterObject):
+    SIMPLE_PROPS = set(['text'])
+    COMPLEX_PROPS = {'indices': Indices}
+
+
+
+class Entities(TwitterObject):
+    """
+    Tweet entities.
+    """
+    LIST_PROPS = {'media': Media, 'urls': URL,
+                  'user_mentions': UserMention, 'hashtags': HashTag}
 
 
 
@@ -120,7 +205,7 @@ class Status(TwitterObject):
     SIMPLE_PROPS = set(['created_at', 'id', 'text', 'source', 'truncated',
         'in_reply_to_status_id', 'in_reply_to_screen_name',
         'in_reply_to_user_id', 'favorited', 'user_id', 'geo'])
-    COMPLEX_PROPS = {}
+    COMPLEX_PROPS = {'entities': Entities}
 
 # circular reference:
 Status.COMPLEX_PROPS['retweeted_status'] = Status

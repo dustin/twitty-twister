@@ -1,4 +1,4 @@
-# Copyright (c) 2010 Ralph Meijer <ralphm@ik.nu>
+# Copyright (c) 2010-2012 Ralph Meijer <ralphm@ik.nu>
 # See LICENSE.txt for details
 
 """
@@ -84,7 +84,8 @@ class TwitterObjectTest(unittest.TestCase):
     """
 
     def setUp(self):
-        self.data = {
+        self.data = [
+            {
                 'contributors': None,
                 'coordinates': None,
                 'created_at': 'Mon Dec 06 11:46:33 +0000 2010',
@@ -137,17 +138,175 @@ class TwitterObjectTest(unittest.TestCase):
                     'time_zone': None,
                     'url': None,
                     'utc_offset': None,
-                    'verified': False}}
+                    'verified': False}},
+            {
+                "text": "#Photos on Twitter: taking flight http://t.co/qbJx26r",
+                "entities": {
+                    "media": [
+                        {
+                            "id": 76360760611180544,
+                            "id_str": "76360760611180544",
+                            "media_url": "http://p.twimg.com/AQ9JtQsCEAA7dEN.jpg",
+                            "media_url_https": "https://p.twimg.com/AQ9JtQsCEAA7dEN.jpg",
+                            "url": "http://t.co/qbJx26r",
+                            "display_url": "pic.twitter.com/qbJx26r",
+                            "expanded_url": "http://twitter.com/twitter/status/76360760606986241/photo/1",
+                            "sizes": {
+                                "large": {
+                                    "w": 700,
+                                    "resize": "fit",
+                                    "h": 466
+                                },
+                                "medium": {
+                                    "w": 600,
+                                    "resize": "fit",
+                                    "h": 399
+                                },
+                                "small": {
+                                    "w": 340,
+                                    "resize": "fit",
+                                    "h": 226
+                                },
+                                "thumb": {
+                                    "w": 150,
+                                    "resize": "crop",
+                                    "h": 150
+                                }
+                            },
+                            "type": "photo",
+                            "indices": [
+                                34,
+                                53
+                            ]
+                        }
+                    ],
+                    "urls": [],
+                    "user_mentions": [],
+                    "hashtags": []
+                }
+            }
+        ]
 
 
     def test_fromDictBasic(self):
         """
         A tweet is a Status with a user attribute holding a User.
         """
-        status = streaming.Status.fromDict(self.data)
+
+        status = streaming.Status.fromDict(self.data[0])
         self.assertEquals(u'Test #1', status.text)
         self.assertEquals(70393696, status.user.id)
         self.assertEquals(u'ikdisplay', status.user.screen_name)
+
+
+    def test_fromDictEntitiesMediaBasic(self):
+        """
+        Media entities are parsed, simple properties are available.
+        """
+
+        status = streaming.Status.fromDict(self.data[1])
+        self.assertTrue(hasattr(status.entities, 'media'))
+        self.assertTrue(hasattr(status.entities, 'urls'))
+        self.assertTrue(hasattr(status.entities, 'user_mentions'))
+        self.assertTrue(hasattr(status.entities, 'hashtags'))
+        self.assertEqual(1, len(status.entities.media))
+        mediaItem = status.entities.media[0]
+        self.assertEqual(76360760611180544, mediaItem.id)
+        self.assertEqual('http://p.twimg.com/AQ9JtQsCEAA7dEN.jpg',
+                         mediaItem.media_url)
+
+
+    def test_fromDictEntitiesMediaIndices(self):
+        """
+        Media entities are parsed, simple properties are available.
+        """
+
+        status = streaming.Status.fromDict(self.data[1])
+        mediaItem = status.entities.media[0]
+        self.assertEquals(34, mediaItem.indices.start)
+        self.assertEquals(53, mediaItem.indices.end)
+
+
+    def test_fromDictEntitiesMediaSizes(self):
+        """
+        Media sizes are extracted.
+        """
+
+        status = streaming.Status.fromDict(self.data[1])
+        mediaItem = status.entities.media[0]
+        self.assertEquals(700, mediaItem.sizes.large.w)
+        self.assertEquals(466, mediaItem.sizes.large.h)
+        self.assertEquals('fit', mediaItem.sizes.large.resize)
+
+
+    def test_fromDictEntitiesURL(self):
+        """
+        URL entities are extracted.
+        """
+        data = {
+            "urls": [
+                {
+                    "url": "http://t.co/0JG5Mcq",
+                    "display_url": u"blog.twitter.com/2011/05/twitte\xe2",
+                    "expanded_url": "http://blog.twitter.com/2011/05/twitter-for-mac-update.html",
+                    "indices": [
+                        84,
+                        103
+                    ]
+                }
+            ],
+        }
+        entities = streaming.Entities.fromDict(data)
+        self.assertEquals('http://t.co/0JG5Mcq', entities.urls[0].url)
+
+
+    def test_fromDictEntitiesUserMention(self):
+        """
+        User mention entities are extracted.
+        """
+        data = {
+            "user_mentions": [
+                {
+                    "id": 22548447,
+                    "id_str": "22548447",
+                    "screen_name": "rno",
+                    "name": "Arnaud Meunier",
+                    "indices": [
+                        0,
+                        4
+                    ]
+                }
+            ],
+        }
+        entities = streaming.Entities.fromDict(data)
+        user_mention = entities.user_mentions[0]
+        self.assertEquals(22548447, user_mention.id)
+        self.assertEquals('rno', user_mention.screen_name)
+        self.assertEquals('Arnaud Meunier', user_mention.name)
+        self.assertEquals(0, user_mention.indices.start)
+        self.assertEquals(4, user_mention.indices.end)
+
+
+    def test_fromDictEntitiesHashTag(self):
+        """
+        Hash tag entities are extracted.
+        """
+        data = {
+            "hashtags": [
+                {
+                    "text": "devnestSF",
+                    "indices": [
+                        6,
+                        16
+                    ]
+                }
+            ]
+        }
+        entities = streaming.Entities.fromDict(data)
+        hashTag = entities.hashtags[0]
+        self.assertEquals('devnestSF', hashTag.text)
+        self.assertEquals(6, hashTag.indices.start)
+        self.assertEquals(16, hashTag.indices.end)
 
 
 
