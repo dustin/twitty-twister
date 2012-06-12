@@ -119,6 +119,43 @@ class TwitterObject(object):
         return obj
 
 
+    def __repr__(self):
+        bodyParts = []
+        for name in dir(self):
+            if self.SIMPLE_PROPS and name in self.SIMPLE_PROPS:
+                if hasattr(self, name):
+                    bodyParts.append("%s=%s" % (name,
+                                                repr(getattr(self, name))))
+
+            elif self.COMPLEX_PROPS and name in self.COMPLEX_PROPS:
+                if hasattr(self, name):
+                    bodyParts.append("%s=%s" % (name,
+                                                repr(getattr(self, name))))
+            elif self.LIST_PROPS and name in self.LIST_PROPS:
+                if hasattr(self, name):
+                    items = getattr(self, name)
+
+                    itemBodyParts = []
+                    for item in items:
+                        itemBodyParts.append(repr(item))
+
+                    itemBody = ',\n'.join(itemBodyParts)
+                    lines = itemBody.splitlines()
+                    itemBody = '\n    '.join(lines)
+
+                    if itemBody:
+                        itemBody = '\n    %s\n' % (itemBody,)
+
+                    bodyParts.append("%s=[%s]" % (name, itemBody))
+
+        body = ',\n'.join(bodyParts)
+        lines = body.splitlines()
+        body = '\n    '.join(lines)
+
+        result = "%s(\n    %s\n)" % (self.__class__.__name__, body)
+        return result
+
+
 
 class Indices(TwitterObject):
     """
@@ -136,6 +173,10 @@ class Indices(TwitterObject):
         except (TypeError, ValueError):
             log.err()
         return obj
+
+    def __repr__(self):
+        return "%s(start=%s, end=%s)" % (self.__class__.__name__,
+                                         self.start, self.end)
 
 
 

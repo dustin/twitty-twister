@@ -309,6 +309,72 @@ class TwitterObjectTest(unittest.TestCase):
         self.assertEquals(16, hashTag.indices.end)
 
 
+    def test_repr(self):
+        data = {
+                'created_at': 'Mon Dec 06 11:46:33 +0000 2010',
+                'entities': {'hashtags': [], 'urls': [], 'user_mentions': []},
+                'id': 11748322888908800,
+                'text': 'Test #1',
+                'user': {
+                    'id': 70393696,
+                    'screen_name': 'ikdisplay',
+                    }
+                }
+        status = streaming.Status.fromDict(data)
+        result = repr(status)
+        expected = """Status(
+    created_at='Mon Dec 06 11:46:33 +0000 2010',
+    entities=Entities(
+        hashtags=[],
+        urls=[],
+        user_mentions=[]
+    ),
+    id=11748322888908800,
+    text='Test #1',
+    user=User(
+        id=70393696,
+        screen_name='ikdisplay'
+    )
+)"""
+        self.assertEqual(expected, result)
+
+
+    def test_reprIndices(self):
+        data = [6, 16]
+        indices = streaming.Indices.fromDict(data)
+        result = repr(indices)
+        expected = """Indices(start=6, end=16)"""
+        self.assertEqual(expected, result)
+
+
+    def test_reprEntities(self):
+        data = {
+            "urls": [
+                {
+                    "url": "http://t.co/0JG5Mcq",
+                    "display_url": u"blog.twitter.com/2011/05/twitte\xe2",
+                    "expanded_url": "http://blog.twitter.com/2011/05/twitter-for-mac-update.html",
+                    "indices": [
+                        84,
+                        103
+                    ]
+                }
+            ],
+        }
+        entities = streaming.Entities.fromDict(data)
+        result = repr(entities)
+        expected = """Entities(
+    urls=[
+        URL(
+            display_url=u'blog.twitter.com/2011/05/twitte\\xe2',
+            expanded_url='http://blog.twitter.com/2011/05/twitter-for-mac-update.html',
+            indices=Indices(start=84, end=103),
+            url='http://t.co/0JG5Mcq'
+        )
+    ]
+)"""
+        self.assertEqual(expected, result)
+
 
 class TestableTwitterStream(streaming.TwitterStream):
 
