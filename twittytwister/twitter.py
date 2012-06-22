@@ -14,7 +14,7 @@ import logging
 
 from oauth import oauth
 
-from twisted.internet import defer, reactor
+from twisted.internet import defer, reactor, endpoints, ssl
 from twisted.web import client, error, http_headers
 
 from twittytwister import streaming, txml
@@ -544,8 +544,27 @@ class TwitterFeed(Twitter):
     protocol = streaming.TwitterStream
 
     def __init__(self, *args, **kwargs):
+        self.proxy_username = None
+        if "proxy_host" in kwargs:
+            port = 80
+            if "proxy_port" in kwargs:
+                port = kwargs["proxy_port"] 
+                del kwargs["proxy_port"]
+            if "proxy_username" in kwargs:
+                self.proxy_username = kwargs["proxy_username"] 
+                del kwargs["proxy_username"]
+            if "proxy_password" in kwargs:
+                self.proxy_password = kwargs["proxy_password"] 
+                del kwargs["proxy_password"]
+
+            endpoint = endpoints.TCP4ClientEndpoint(reactor, kwargs["proxy_host"], port)
+            #endpoint = endpoints.SSL4ClientEndpoint(reactor, kwargs["proxy_host"], port, ssl.ClientContextFactory())
+            self.agent = client.ProxyAgent(endpoint)
+            del kwargs["proxy_host"]
+        else:
+            self.agent = client.Agent(reactor)
+
         Twitter.__init__(self, *args, **kwargs)
-        self.agent = client.Agent(reactor)
 
     def _rtfeed(self, url, delegate, args):
         def cb(response):
@@ -555,6 +574,9 @@ class TwitterFeed(Twitter):
                 return protocol
             else:
                 raise error.Error(response.code, response.phrase)
+
+        def eb(err):
+            print err
 
         args = args or {}
         args['delimited'] = 'length'
@@ -567,8 +589,17 @@ class TwitterFeed(Twitter):
         print 'Fetching', url
         d = self.agent.request('GET', url, headers, None)
         d.addCallback(cb)
+        d.addErrback(eb)
         return d
 
+    def _makeAuthHeader(self, method, url, args):
+        items = {}
+        if self.proxy_username != None:
+            proxyAuth = base64.b64encode('%s:%s' % (self.proxy_username, self.proxy_password))
+            items['Proxy-Authorization'] = 'Basic ' + proxyAuth.strip()
+
+        items.update(Twitter._makeAuthHeader(self, method, url, args))
+        return items
 
     def sample(self, delegate, args=None):
         """
