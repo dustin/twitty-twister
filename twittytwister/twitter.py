@@ -662,4 +662,21 @@ class TwitterFeed(Twitter):
         """
         return self.filter(delegate, {'track': ','.join(terms)})
 
+
+    def user(self, delegate, withFollowings=False, allReplies=False,
+                   follow=None, terms=None):
+        args = {}
+        if withFollowings:
+            args['with'] = 'followings'
+        if allReplies:
+            args['replies'] = 'all'
+        if follow:
+            args['follow'] = ','.join(follow)
+        if terms:
+            args['track'] = ','.join(terms)
+
+        return self._rtfeed('https://userstream.twitter.com/2/user.json',
+                            delegate,
+                            args)
+
 # vim: set expandtab:
