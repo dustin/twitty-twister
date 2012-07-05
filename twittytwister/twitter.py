@@ -14,7 +14,7 @@ import logging
 
 from oauth import oauth
 
-from twisted.internet import defer, reactor, endpoints, ssl
+from twisted.internet import defer, reactor, endpoints
 from twisted.web import client, error, http_headers
 
 from twittytwister import streaming, txml
@@ -558,7 +558,6 @@ class TwitterFeed(Twitter):
                 del kwargs["proxy_password"]
 
             endpoint = endpoints.TCP4ClientEndpoint(reactor, kwargs["proxy_host"], port)
-            #endpoint = endpoints.SSL4ClientEndpoint(reactor, kwargs["proxy_host"], port, ssl.ClientContextFactory())
             self.agent = client.ProxyAgent(endpoint)
             del kwargs["proxy_host"]
         else:
@@ -575,9 +574,6 @@ class TwitterFeed(Twitter):
             else:
                 raise error.Error(response.code, response.phrase)
 
-        def eb(err):
-            print err
-
         args = args or {}
         args['delimited'] = 'length'
         url += '?' + self._urlencode(args)
@@ -589,7 +585,6 @@ class TwitterFeed(Twitter):
         print 'Fetching', url
         d = self.agent.request('GET', url, headers, None)
         d.addCallback(cb)
-        d.addErrback(eb)
         return d
 
     def _makeAuthHeader(self, method, url, args):
