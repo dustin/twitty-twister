@@ -691,4 +691,22 @@ class TwitterFeed(Twitter):
                             delegate,
                             args)
 
+
+    def site(self, delegate, args):
+        """
+        Return all statuses of the specified users.
+
+        This uses the Site Stream API endpoint. The users to follow are
+        specified using the (mandatory) C{'follow'} argument in C{args}.
+        Without additional arguments it returns all statuses of the specified
+        users, in real-time.
+
+        Depending on the arguments, it can also send the statuses of the
+        accounts the users follow and/or all replies to accounts the users
+        follow.
+        """
+        return self._rtfeed('https://sitestream.twitter.com/2b/site.json',
+                            delegate,
+                            args)
+
 # vim: set expandtab:
