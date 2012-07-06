@@ -1,9 +1,12 @@
-#!/usr/bin/env python
+# -*- test-case-name: twittytwister.test.test_streaming -*-
+#
+# Copyright (c) 2008  Dustin Sallings <dustin@spy.net>
+# Copyright (c) 2009  Kevin Dunglas <dunglas@gmail.com>
+# Copyright (c) 2010-2012  Ralph Meijer <ralphm@ik.nu>
+# See LICENSE.txt for details
+
 """
 Twisted Twitter interface.
-
-Copyright (c) 2008  Dustin Sallings <dustin@spy.net>
-Copyright (c) 2009  Kevin Dunglas <dunglas@gmail.com>
 """
 
 import base64
@@ -527,6 +530,8 @@ class Twitter(object):
         return self.__postMultipart('/account/update_profile_image.xml',
                                     files=(('image', filename, image),))
 
+
+
 class TwitterFeed(Twitter):
     """
     Realtime feed handling class.
@@ -536,6 +541,11 @@ class TwitterFeed(Twitter):
 
         def exampleDelegate(entry):
             print entry.text
+
+    Several methods take an optional C{args} parameter with a dictionary
+    of request arguments that are passed along in the request. See
+    U{https://dev.twitter.com/docs/streaming-apis/parameters} for a
+    description of the parameters and for which methods they apply.
 
     @cvar protocol: The protocol class to instantiate and deliver the response
         body to. Defaults to L{streaming.TwitterStream}.
@@ -564,6 +574,7 @@ class TwitterFeed(Twitter):
             self.agent = client.Agent(reactor)
 
         Twitter.__init__(self, *args, **kwargs)
+
 
     def _rtfeed(self, url, delegate, args):
         def cb(response):
@@ -681,11 +692,47 @@ class TwitterFeed(Twitter):
         """
         Returns public statuses matching a set of keywords.
 
-        Note that the old API method 'follow' is deprecated. This method is
+        Note that the old API method 'track' is deprecated. This method is
         backwards compatible and provides a shorthand to L{filter}. The actual
         allowed number of keywords in C{terms} depends on the access level of
         the used account.
         """
         return self.filter(delegate, {'track': ','.join(terms)})
+
+
+    def user(self, delegate, args=None):
+        """
+        Return all statuses of the connecting user.
+
+        This uses the User Stream API endpoint. Without arguments it returns
+        all statuses of the user itself, in real-time.
+
+        Depending on the arguments, it can also send the statuses of the
+        accounts the user follows and/or all replies to accounts the user
+        follows. On top of that, it takes the same arguments as L{filter} to
+        also track certain keywords, follow additional accounts or filter by
+        location.
+        """
+        return self._rtfeed('https://userstream.twitter.com/2/user.json',
+                            delegate,
+                            args)
+
+
+    def site(self, delegate, args):
+        """
+        Return all statuses of the specified users.
+
+        This uses the Site Stream API endpoint. The users to follow are
+        specified using the (mandatory) C{'follow'} argument in C{args}.
+        Without additional arguments it returns all statuses of the specified
+        users, in real-time.
+
+        Depending on the arguments, it can also send the statuses of the
+        accounts the users follow and/or all replies to accounts the users
+        follow.
+        """
+        return self._rtfeed('https://sitestream.twitter.com/2b/site.json',
+                            delegate,
+                            args)
 
 # vim: set expandtab:
