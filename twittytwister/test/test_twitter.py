@@ -217,7 +217,7 @@ class TwitterMonitorTest(unittest.TestCase):
         """
         Cannot transition to an unknown state.
         """
-        self.assertRaises(ValueError, self.monitor.toState, "unknown")
+        self.assertRaises(ValueError, self.monitor._toState, "unknown")
 
 
     def test_setFilters(self):
@@ -393,7 +393,6 @@ class TwitterMonitorTest(unittest.TestCase):
         # No reconnect should be attempted.
         self.clock.advance(DELAY_INITIAL)
         self.assertEqual(1, len(self.api.filterCalls))
-        self.assertIdentical(None, self.monitor.reconnectDelayedCall)
 
 
     def test_stopServiceWaiting(self):

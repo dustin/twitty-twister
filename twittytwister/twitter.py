@@ -753,10 +753,10 @@ class TwitterMonitor(service.Service):
     consumer = None
     protocol = None
 
-    delay = None
-    state = None
-    errorState = None
-    reconnectDelayedCall = None
+    _delay = None
+    _state = None
+    _errorState = None
+    _reconnectDelayedCall = None
 
     backOffs = {
             # Back off settings from clean disconnects
@@ -796,18 +796,18 @@ class TwitterMonitor(service.Service):
         if reactor is None:
             from twisted.internet import reactor
         self.reactor = reactor
-        self.state = 'stopped'
+        self._state = 'stopped'
 
 
     def startService(self):
         service.Service.startService(self)
-        self.toState('idle')
+        self._toState('idle')
         self.connect()
 
 
     def stopService(self):
         service.Service.stopService(self)
-        self.toState('stopped')
+        self._toState('stopped')
 
 
     def connect(self, forceReconnect=False):
@@ -825,52 +825,52 @@ class TwitterMonitor(service.Service):
         @type forceReconnect: C{False}
         """
 
-        if self.state == 'stopped':
+        if self._state == 'stopped':
             log.msg("This service is not running. Not connecting.")
             return False
-        if self.state == 'connected':
+        if self._state == 'connected':
             if forceReconnect:
-                self.toState('disconnecting')
+                self._toState('disconnecting')
                 return True
             else:
                 log.msg("Already connected.")
                 return False
-        elif self.state == 'aborting':
+        elif self._state == 'aborting':
             log.msg("Aborting connection in progress.")
             return False
-        elif self.state == 'disconnecting':
+        elif self._state == 'disconnecting':
             log.msg("Disconnect in progress.")
             return False
-        elif self.state == 'connecting':
+        elif self._state == 'connecting':
             if forceReconnect:
-                self.toState('aborting')
+                self._toState('aborting')
                 return True
             else:
                 log.msg("Connect in progress.")
                 return False
 
-        if self.state == 'waiting':
-            if self.reconnectDelayedCall.called:
-                self.reconnectDelayedCall = None
+        if self._state == 'waiting':
+            if self._reconnectDelayedCall.called:
+                self._reconnectDelayedCall = None
                 pass
             else:
-                self.reconnectDelayedCall.reset(0)
+                self._reconnectDelayedCall.reset(0)
                 log.msg("Reconnecting now.")
                 return True
 
         if self.consumer is None:
             log.msg("No Twitter consumer set. Not connecting.")
-            if self.state != 'idle':
-                self.toState('idle')
+            if self._state != 'idle':
+                self._toState('idle')
             return False
 
         if not self.terms and not self.userIDs:
             log.msg("No Twitter terms or users to filter on. Not connecting.")
-            if self.state != 'idle':
-                self.toState('idle')
+            if self._state != 'idle':
+                self._toState('idle')
             return False
 
-        self.toState('connecting')
+        self._toState('connecting')
         return True
 
 
@@ -889,23 +889,23 @@ class TwitterMonitor(service.Service):
         self.terms = terms
         self.userIDs = userIDs
 
-        if self.state == 'idle':
+        if self._state == 'idle':
             self.connect()
-        elif self.state == 'connecting':
+        elif self._state == 'connecting':
             self.connect(forceReconnect=True)
-        elif self.state == 'connected':
+        elif self._state == 'connected':
             self.connect(forceReconnect=True)
-        elif self.state == 'disconnected':
+        elif self._state == 'disconnected':
             pass
-        elif self.state == 'error':
+        elif self._state == 'error':
             pass
-        elif self.state == 'waiting':
+        elif self._state == 'waiting':
             pass
-        elif self.state == 'stopped':
+        elif self._state == 'stopped':
             pass
-        elif self.state == 'aborting':
+        elif self._state == 'aborting':
             pass
-        elif self.state == 'disconnecting':
+        elif self._state == 'disconnecting':
             pass
 
 
@@ -916,11 +916,11 @@ class TwitterMonitor(service.Service):
 
 
     def makeConnection(self, protocol):
-        self.errorState = None
+        self._errorState = None
 
         def cb(result):
             self.protocol = None
-            if self.state == 'stopped':
+            if self._state == 'stopped':
                 # Don't transition to any other state. We are stopped.
                 pass
             else:
@@ -928,38 +928,38 @@ class TwitterMonitor(service.Service):
                     reason = result
                 else:
                     reason = None
-                self.toState('disconnected', reason)
+                self._toState('disconnected', reason)
 
         self.protocol = protocol
         d = protocol.deferred
         d.addBoth(cb)
 
 
-    def reconnect(self):
-        if self.state == 'connecting':
+    def _reconnect(self):
+        if self._state == 'connecting':
             return
-        elif self.state == 'idle':
+        elif self._state == 'idle':
             return
         else:
             pass
-        if self.delay == 0:
+        if self._delay == 0:
             self.connect()
         else:
-            self.toState('waiting')
+            self._toState('waiting')
 
 
-    def toState(self, state, *args, **kwargs):
+    def _toState(self, state, *args, **kwargs):
         try:
-            method = getattr(self, 'state_%s' % state)
+            method = getattr(self, '_state_%s' % state)
         except AttributeError:
             raise ValueError("No such state %r" % state)
 
         log.msg("%s: to state %r" % (self.__class__.__name__, state))
-        self.state = state
+        self._state = state
         self.reactor.callLater(0, method, *args, **kwargs)
 
 
-    def state_stopped(self):
+    def _state_stopped(self):
         """
         The service is not running.
 
@@ -967,12 +967,12 @@ class TwitterMonitor(service.Service):
         called. To get out of this state, call L{startService}. If there is a
         current connection, we disconnect.
         """
-        if self.reconnectDelayedCall:
-            self.reconnectDelayedCall.cancel()
+        if self._reconnectDelayedCall:
+            self._reconnectDelayedCall.cancel()
         self.loseConnection()
 
 
-    def state_idle(self, reason=None):
+    def _state_idle(self, reason=None):
         """
         Idle state.
 
@@ -994,7 +994,7 @@ class TwitterMonitor(service.Service):
             log.err(reason, 'Abandoning reconnect.')
 
 
-    def state_connecting(self):
+    def _state_connecting(self):
         """
         A connection is being started.
 
@@ -1009,22 +1009,22 @@ class TwitterMonitor(service.Service):
 
         def cb(protocol):
             self.makeConnection(protocol)
-            if self.state == 'aborting':
-                self.toState('disconnecting')
+            if self._state == 'aborting':
+                self._toState('disconnecting')
             else:
-                self.toState('connected')
+                self._toState('connected')
 
         def trapError(failure):
             for errorState, backOff in self.backOffs.iteritems():
                 if 'errorTypes' not in backOff:
                     continue
                 if failure.check(*backOff['errorTypes']):
-                    self.toState('error', failure, errorState)
+                    self._toState('error', failure, errorState)
                     return
             return failure
 
         def trapOtherErrors(failure):
-            self.toState('error', failure, 'other')
+            self._toState('error', failure, 'other')
 
         args = {}
         if self.terms:
@@ -1038,7 +1038,7 @@ class TwitterMonitor(service.Service):
         d.addErrback(trapOtherErrors)
 
 
-    def state_connected(self):
+    def _state_connected(self):
         """
         A response was received over the new connection.
 
@@ -1048,14 +1048,14 @@ class TwitterMonitor(service.Service):
         """
 
 
-    def state_disconnecting(self):
+    def _state_disconnecting(self):
         """
         A disconnect is in progress.
         """
         self.loseConnection()
 
 
-    def state_disconnected(self, reason):
+    def _state_disconnected(self, reason):
         """
         The connection has been dropped.
 
@@ -1066,11 +1066,11 @@ class TwitterMonitor(service.Service):
             log.err(reason)
         else:
             errorState = None
-        self.delay = self.backOffs[errorState]['initial']
-        self.reconnect()
+        self._delay = self.backOffs[errorState]['initial']
+        self._reconnect()
 
 
-    def state_aborting(self):
+    def _state_aborting(self):
         """
         The current connection attempt will be aborted.
 
@@ -1080,18 +1080,18 @@ class TwitterMonitor(service.Service):
         """
 
 
-    def state_waiting(self):
+    def _state_waiting(self):
         """
         Waiting for reconnect.
 
         Wait for L{delay} seconds until attempting a new connect.
         """
-        log.msg("Reconnecting in %0.2f seconds" % (self.delay,))
-        self.reconnectDelayedCall = self.reactor.callLater(self.delay,
-                                                           self.connect)
+        log.msg("Reconnecting in %0.2f seconds" % (self._delay,))
+        self._reconnectDelayedCall = self.reactor.callLater(self._delay,
+                                                            self.connect)
 
 
-    def state_error(self, reason, errorState):
+    def _state_error(self, reason, errorState):
         """
         The connection attempt resulted in a network error.
 
@@ -1101,12 +1101,12 @@ class TwitterMonitor(service.Service):
 
         backOff = self.backOffs[errorState]
 
-        if self.errorState != errorState:
-            self.errorState = errorState
-            self.delay = backOff['initial']
+        if self._errorState != errorState:
+            self._errorState = errorState
+            self._delay = backOff['initial']
         else:
-            self.delay = min(backOff['max'], self.delay * backOff['factor'])
+            self._delay = min(backOff['max'], self._delay * backOff['factor'])
 
-        self.reconnect()
+        self._reconnect()
 
 # vim: set expandtab:
