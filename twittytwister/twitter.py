@@ -744,6 +744,10 @@ class TwitterMonitor(service.Service):
     """
     Reconnecting Twitter monitor service.
 
+    @cvar noisy: Whether or not to log informational messages about
+        reconnects.
+    type noisy: C{bool}
+
     @ivar terms: Terms to track as an iterable of C{unicode}.
 
     @ivar userIDs: IDs of users to follow as an iterable of C{unicode}.
@@ -774,6 +778,7 @@ class TwitterMonitor(service.Service):
     @type backOffs: C{dict}
 
     """
+    noisy = False
 
     terms = None
     userIDs = None
@@ -917,7 +922,6 @@ class TwitterMonitor(service.Service):
                 pass
             else:
                 self._reconnectDelayedCall.reset(0)
-                log.msg("Reconnecting now.")
                 return True
 
         self._toState('connecting')
@@ -993,7 +997,7 @@ class TwitterMonitor(service.Service):
         d.addBoth(cb)
 
 
-    def _reconnect(self):
+    def _reconnect(self, errorState):
         """
         Attempt to reconnect.
 
@@ -1001,9 +1005,24 @@ class TwitterMonitor(service.Service):
         it will cause a transition to the C{'waiting'} state, ultimately
         causing a call to L{connect} when the delay expires.
         """
-        if self._delay == 0:
+        def connect():
+            if self.noisy:
+                log.msg("Reconnecting now.")
             self.connect()
+
+        backOff = self.backOffs[errorState]
+
+        if self._errorState != errorState or self._delay is None:
+            self._errorState = errorState
+            self._delay = backOff['initial']
         else:
+            self._delay = min(backOff['max'], self._delay * backOff['factor'])
+
+        if self._delay == 0:
+            connect()
+        else:
+            self._reconnectDelayedCall = self.reactor.callLater(self._delay,
+                                                                connect)
             self._toState('waiting')
 
 
@@ -1078,16 +1097,7 @@ class TwitterMonitor(service.Service):
                 self._toState('connected')
 
         def trapError(failure):
-            for errorState, backOff in self.backOffs.iteritems():
-                if 'errorTypes' not in backOff:
-                    continue
-                if failure.check(*backOff['errorTypes']):
-                    self._toState('error', failure, errorState)
-                    return
-            return failure
-
-        def trapOtherErrors(failure):
-            self._toState('error', failure, 'other')
+            self._toState('error', failure)
 
         def onEntry(entry):
             if self.consumer:
@@ -1107,7 +1117,6 @@ class TwitterMonitor(service.Service):
         d = self.api.filter(onEntry, args)
         d.addCallback(responseReceived)
         d.addErrback(trapError)
-        d.addErrback(trapOtherErrors)
 
 
     def _state_connected(self):
@@ -1132,15 +1141,12 @@ class TwitterMonitor(service.Service):
         """
         The connection has been dropped.
 
-        A reconnect will be attempted in L{initialDelay} seconds.
+        If there was a failure, A reconnect will be attempted.
         """
         if reason:
-            errorState = 'other'
-            log.err(reason)
+            self._toState('error', reason)
         else:
-            errorState = None
-        self._delay = self.backOffs[errorState]['initial']
-        self._reconnect()
+            self._reconnect(None)
 
 
     def _state_aborting(self):
@@ -1160,12 +1166,11 @@ class TwitterMonitor(service.Service):
 
         Wait for L{delay} seconds until attempting a new connect.
         """
-        log.msg("Reconnecting in %0.2f seconds" % (self._delay,))
-        self._reconnectDelayedCall = self.reactor.callLater(self._delay,
-                                                            self.connect)
+        if self.noisy:
+            log.msg("Reconnecting in %0.2f seconds" % (self._delay,))
 
 
-    def _state_error(self, reason, errorState):
+    def _state_error(self, reason):
         """
         The connection attempt resulted in an error.
 
@@ -1173,14 +1178,16 @@ class TwitterMonitor(service.Service):
         """
         log.err(reason)
 
-        backOff = self.backOffs[errorState]
+        def matchException(failure):
+            for errorState, backOff in self.backOffs.iteritems():
+                if 'errorTypes' not in backOff:
+                    continue
+                if failure.check(*backOff['errorTypes']):
+                    return errorState
 
-        if self._errorState != errorState:
-            self._errorState = errorState
-            self._delay = backOff['initial']
-        else:
-            self._delay = min(backOff['max'], self._delay * backOff['factor'])
+            return 'other'
 
-        self._reconnect()
+        errorState = matchException(reason)
+        self._reconnect(errorState)
 
 # vim: set expandtab:

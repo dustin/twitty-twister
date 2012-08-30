@@ -777,7 +777,7 @@ class TwitterMonitorTest(unittest.TestCase):
 
     def test_connectionLostDone(self):
         """
-        When the connection is closed while connected, attempt reconnect
+        When the connection is closed while connected, attempt reconnect.
         """
         self.setUpState('connected')
 
@@ -793,9 +793,45 @@ class TwitterMonitorTest(unittest.TestCase):
         self.assertEqual(2, len(self.api.filterCalls))
 
 
+    def test_connectionLostDoneAfterError(self):
+        """
+        Reconnect with initial interval after succesful reconnect.
+        """
+        self.setUpState('connecting')
+
+        # First connect fails.
+        self.api.connectFail(ConnectError())
+        self.flushLoggedErrors(ConnectError)
+
+        # A reconnect is attempted
+        self.clock.advance(0.25)
+        self.assertEqual(2, len(self.api.filterCalls))
+
+        # Reconnect succeeds.
+        self.api.connected()
+
+        # Connection closed by other party.
+        self.api.protocol.connectionLost(failure.Failure(ResponseDone()))
+        self.clock.advance(0)
+
+        # A reconnect is attempted, but not before the back off delay.
+        self.assertEqual(2, len(self.api.filterCalls))
+        self.clock.advance(DELAY_INITIAL)
+        self.assertEqual(3, len(self.api.filterCalls))
+
+        # Second reconnect fails.
+        self.api.connectFail(ConnectError())
+        self.flushLoggedErrors(ConnectError)
+
+        # A reconnect is attempted, but not before the same back off delay.
+        self.assertEqual(3, len(self.api.filterCalls))
+        self.clock.advance(0.25)
+        self.assertEqual(4, len(self.api.filterCalls))
+
+
     def test_connectionLostFailure(self):
         """
-        When the connection is closed while connected, attempt reconnect
+        When the connection is closed with an error, attempt reconnect.
         """
         self.setUpState('connected')
 
