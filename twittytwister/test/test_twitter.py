@@ -209,7 +209,6 @@ class TwitterMonitorTest(unittest.TestCase):
             return
 
         # When disconnected, the next state is usually 'waiting'
-        self.clock.advance(0)
         if state == 'waiting':
             return
 
@@ -504,6 +503,39 @@ class TwitterMonitorTest(unittest.TestCase):
         self.assertEqual(1, len(self.api.filterCalls))
 
 
+    def test_connectIdleNoConsumer(self):
+        """
+        Don't connect without consumer.
+        """
+        self.setUpState('idle')
+
+        # Unset the consumer
+        self.monitor.consumer = None
+
+        # Try to connect.
+        self.assertFalse(self.monitor.connect())
+        self.clock.advance(0)
+
+        self.assertEqual(0, len(self.api.filterCalls), 'Extra connect')
+
+
+    def test_connectIdleNoTerms(self):
+        """
+        Don't connect without terms or userIDs.
+        """
+        self.setUpState('idle')
+
+        # Clear terms and userIDs
+        self.monitor.terms = set()
+        self.monitor.userIDs = set()
+
+        # Try to connect.
+        self.assertFalse(self.monitor.connect())
+        self.clock.advance(0)
+
+        self.assertEqual(0, len(self.api.filterCalls), 'Extra connect')
+
+
     def test_connectConnecting(self):
         """
         Don't connect while connecting.
@@ -603,11 +635,14 @@ class TwitterMonitorTest(unittest.TestCase):
         """
         self.setUpState('disconnected')
 
-        # Try to connect.
+        # Unset the consumer
         self.monitor.consumer = None
-        self.assertFalse(self.monitor.connect())
-        self.clock.advance(0)
 
+        # Try to connect.
+        self.assertFalse(self.monitor.connect())
+
+        # Now a reconnect should now occur, wait for erroneous delayed calls.
+        self.clock.advance(DELAY_INITIAL)
         self.assertEqual(1, len(self.api.filterCalls), 'Extra connect')
 
 
@@ -617,23 +652,26 @@ class TwitterMonitorTest(unittest.TestCase):
         """
         self.setUpState('disconnected')
 
-        # Try to connect.
+        # Clear terms and userIDs
         self.monitor.terms = set()
         self.monitor.userIDs = set()
-        self.assertFalse(self.monitor.connect())
-        self.clock.advance(0)
 
+        # Try to connect.
+        self.assertFalse(self.monitor.connect())
+
+        # Now a reconnect should now occur, wait for erroneous delayed calls.
+        self.clock.advance(DELAY_INITIAL)
         self.assertEqual(1, len(self.api.filterCalls), 'Extra connect')
 
 
-    def test_connectDisconnectedImmediately(self):
+    def test_connectDisconnectedReconnectImmediately(self):
         """
-        Connect immediately if delay is 0.
+        Reconnect immediately upon disconnect, if delay is 0.
         """
         import copy
         self.monitor.backOffs = copy.deepcopy(self.monitor.backOffs)
         self.monitor.backOffs[None]['initial'] = 0
-        self.setUpState('waiting')
+        self.setUpState('disconnected')
 
         self.assertEqual(2, len(self.api.filterCalls), 'Missing connect')
 
@@ -669,22 +707,6 @@ class TwitterMonitorTest(unittest.TestCase):
         # Now the reconnect occurs, wait for delayed calls.
         self.clock.advance(DELAY_INITIAL)
         self.assertEqual(2, len(self.api.filterCalls))
-
-
-    def test_connectWaiting(self):
-        """
-        Setting filters when connected causes disconnect and reconnect.
-        """
-        self.setUpState('waiting')
-
-        # Waiting for reconnect, cannot connect explicitly
-        self.assertTrue(self.monitor.connect())
-        self.clock.advance(0)
-        self.assertEqual(2, len(self.api.filterCalls), 'Missing connect')
-
-        # Now a reconnect should not occur, wait for erroneous delayed calls.
-        self.clock.advance(DELAY_INITIAL)
-        self.assertEqual(2, len(self.api.filterCalls), 'Extra connect')
 
 
     def test_connectConnectError(self):

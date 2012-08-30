@@ -899,15 +899,6 @@ class TwitterMonitor(service.Service):
                 log.msg("Connect in progress.")
                 return False
 
-        if self._state == 'waiting':
-            if self._reconnectDelayedCall.called:
-                self._reconnectDelayedCall = None
-                pass
-            else:
-                self._reconnectDelayedCall.reset(0)
-                log.msg("Reconnecting now.")
-                return True
-
         if self.consumer is None:
             log.msg("No Twitter consumer set. Not connecting.")
             if self._state != 'idle':
@@ -919,6 +910,15 @@ class TwitterMonitor(service.Service):
             if self._state != 'idle':
                 self._toState('idle')
             return False
+
+        if self._state == 'waiting':
+            if self._reconnectDelayedCall.called:
+                self._reconnectDelayedCall = None
+                pass
+            else:
+                self._reconnectDelayedCall.reset(0)
+                log.msg("Reconnecting now.")
+                return True
 
         self._toState('connecting')
         return True
@@ -948,10 +948,6 @@ class TwitterMonitor(service.Service):
             self.connect(forceReconnect=True)
         elif self._state == 'connected':
             self.connect(forceReconnect=True)
-        elif self._state == 'disconnected':
-            pass
-        elif self._state == 'error':
-            pass
         elif self._state == 'waiting':
             pass
         elif self._state == 'stopped':
@@ -1001,19 +997,10 @@ class TwitterMonitor(service.Service):
         """
         Attempt to reconnect.
 
-        Depending on the current state, this will attempt to initiate
-        a new connection. If the current state is C{'connecting'} or
-        C{'idle'}, nothing happens. In all other states, if the current
-        back-off delay is 0, L{connect} is called. Otherwise, it will cause
-        a transition to the C{'waiting'} state, ultimately causing a call
-        to L{connect} when the delay expires.
+        If the current back-off delay is 0, L{connect} is called. Otherwise,
+        it will cause a transition to the C{'waiting'} state, ultimately
+        causing a call to L{connect} when the delay expires.
         """
-        if self._state == 'connecting':
-            return
-        elif self._state == 'idle':
-            return
-        else:
-            pass
         if self._delay == 0:
             self.connect()
         else:
@@ -1033,7 +1020,7 @@ class TwitterMonitor(service.Service):
 
         log.msg("%s: to state %r" % (self.__class__.__name__, state))
         self._state = state
-        self.reactor.callLater(0, method, *args, **kwargs)
+        method(*args, **kwargs)
 
 
     def _state_stopped(self):
