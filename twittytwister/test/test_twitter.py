@@ -69,6 +69,10 @@ class TwitterFeedTest(unittest.TestCase):
 
 
 class FakeTwitterProtocol(object):
+    """
+    A testing Protocol that behaves like TwitterProtocol.
+    """
+
     def __init__(self):
         self.deferred = defer.Deferred()
         self.transport = self
@@ -76,10 +80,16 @@ class FakeTwitterProtocol(object):
 
 
     def stopProducing(self):
+        """
+        Record that this protocol was asked to stop producing.
+        """
         self.stopCalled = True
 
 
     def connectionLost(self, reason):
+        """
+        Lose the connection with reason.
+        """
         if reason.check(ResponseDone, PotentialDataLoss):
             self.deferred.callback(None)
         else:
@@ -98,6 +108,7 @@ class FakeTwitterAPI(object):
     def __init__(self):
         self.filterCalls = []
 
+
     def filter(self, *args):
         """
         Returns the deferred, which can be fired in tests at will.
@@ -108,6 +119,9 @@ class FakeTwitterAPI(object):
 
 
     def connected(self):
+        """
+        Connect using FakeTwitterProtocol and callback our deferred.
+        """
         self.protocol = FakeTwitterProtocol()
         self.deferred.callback(self.protocol)
 
@@ -121,7 +135,17 @@ class FakeTwitterAPI(object):
 
 
 class TwitterMonitorTest(unittest.TestCase):
+    """
+    Tests for L{twitter.TwitterMonitor}.
+    """
+
     def setUp(self):
+        """
+        Called at the beginning of each test.
+
+        Set up a L{twitter.TwitterMonitor} with testable API, a clock to
+        test delayed calls and make the test class the consumer.
+        """
         self.entries = []
         self.clock = task.Clock()
         self.api = FakeTwitterAPI()
@@ -189,11 +213,17 @@ class TwitterMonitorTest(unittest.TestCase):
 
 
     def setFilters(self, *args, **kwargs):
+        """
+        Wraps L{twitter.TwitterMonitor.setFilters} to track connects.
+        """
         self.patch(self.monitor, 'connect', self.connect)
         self.monitor.setFilters(*args, **kwargs)
 
 
     def connect(self, forceReconnect=False):
+        """
+        Called on each connection attempt via the L{setFilters}.
+        """
         self.connects = forceReconnect
 
 
@@ -356,7 +386,6 @@ class TwitterMonitorTest(unittest.TestCase):
         self.clock.advance(0)
         self.flushLoggedErrors(ConnectError)
         self.clock.advance(0.25)
-
 
 
     def test_startServiceNoFilters(self):
@@ -548,7 +577,6 @@ class TwitterMonitorTest(unittest.TestCase):
         # Now the reconnect occurs, wait for delayed calls.
         self.clock.advance(DELAY_INITIAL)
         self.assertEqual(2, len(self.api.filterCalls))
-
 
 
     def test_connectDisconnected(self):

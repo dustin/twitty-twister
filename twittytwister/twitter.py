@@ -745,7 +745,34 @@ class TwitterMonitor(service.Service):
     Reconnecting Twitter monitor service.
 
     @ivar terms: Terms to track as an iterable of C{unicode}.
+
     @ivar userIDs: IDs of users to follow as an iterable of C{unicode}.
+
+    @ivar consumer: The consumer of incoming Twitter entries.
+
+    @ivar protocol: Current protocol instance parsing incoming Twitter
+        entries.
+    @type protocol: L{TwitterStream}
+
+    @ivar _delay: Current delay, in seconds.
+    @type _delay: C{float}
+
+    @ivar _state: Current state.
+
+    @ivar _errorState: Current error state. One of C{None}, C{'http'},
+        C{'connect'}, C{'other'}.
+
+    @ivar _reconnectDelayedCall: Current pending reconnect call.
+    @type _reconnectDelayedCall: {twitter.internet.base.DelayedCall}
+
+    @cvar backOffs: Configuration of back-off strategies for the various
+        error states (see L{_errorState}). The value is a dictionary with
+        keys C{'initial'}, C{'max'} and {'factor'} to represent the initial
+        and maximum backoff delay (both in seconds), and the multiplication
+        factor on each attempt, respectively. The key C{'errorTypes'} key
+        holds a set of exceptions to match failures against.
+    @type backOffs: C{dict}
+
     """
 
     terms = None
@@ -759,20 +786,20 @@ class TwitterMonitor(service.Service):
     _reconnectDelayedCall = None
 
     backOffs = {
-            # Back off settings from clean disconnects
+            # Back-off settings from clean disconnects
             None: {
                 'initial': 5,
                 'max': float('inf'), # No limit,
                 'factor': 1, # No increase
                 },
-            # Back off settings for HTTP errors
+            # Back-off settings for HTTP errors
             'http': {
                 'errorTypes': (error.Error,),
                 'initial': 10,
                 'max': 240,
                 'factor': 2,
                 },
-            # Back of settings for network level connect errors
+            # Back-off settings for network level connect errors
             'network': {
                 'errorTypes': (ConnectError,
                                TimeoutError,
@@ -782,7 +809,7 @@ class TwitterMonitor(service.Service):
                 'max': 16,
                 'factor': 2,
                 },
-            # Back of settings for other, non-specific errors.
+            # Back-off settings for other, non-specific errors.
             'other': {
                 'initial': 10,
                 'max': 240,
@@ -791,6 +818,18 @@ class TwitterMonitor(service.Service):
             }
 
     def __init__(self, api, consumer=None, reactor=None):
+        """
+        Initialize the monitor.
+
+        This sets the initial state to C{'stopped'}.
+
+        @param api: A Twitter API instance that is used to initiate connections.
+        @type api: L{twitter.TwitterFeed}
+
+        @param consumer: An optional consumer of received Twitter entries.
+            This instance will have its C{onEntry} called with an L{Status}
+            instance.
+        """
         self.api = api
         self.consumer = consumer
         if reactor is None:
@@ -800,12 +839,23 @@ class TwitterMonitor(service.Service):
 
 
     def startService(self):
+        """
+        Start the service.
+
+        This causes a transition to the C{'idle'} state, and then calls
+        L{connect} to attempt an initial conection.
+        """
         service.Service.startService(self)
         self._toState('idle')
         self.connect()
 
 
     def stopService(self):
+        """
+        Stop the service.
+
+        This causes a transition to the C{'stopped'} state.
+        """
         service.Service.stopService(self)
         self._toState('stopped')
 
@@ -875,6 +925,9 @@ class TwitterMonitor(service.Service):
 
 
     def loseConnection(self):
+        """
+        Forcibly close the current connection.
+        """
         if self.protocol:
             self.protocol.transport.stopProducing()
 
@@ -916,6 +969,21 @@ class TwitterMonitor(service.Service):
 
 
     def makeConnection(self, protocol):
+        """
+        Called when the connection has been established.
+
+        This method is called when an HTTP 200 response has been received,
+        with the protocol that decodes the individual Twitter stream elements.
+        That protocol will call L{onEntry} on the consumer for all Twitter
+        entries received.
+
+        The protocol, stored in L{protocol}, has a deferred that fires when
+        the connection is closed, causing a transition to the
+        C{'disconnected'} state.
+
+        @param protocol: The Twitter stream protocol.
+        @type protocol: L{TwitterStream}
+        """
         self._errorState = None
 
         def cb(result):
@@ -936,6 +1004,16 @@ class TwitterMonitor(service.Service):
 
 
     def _reconnect(self):
+        """
+        Attempt to reconnect.
+
+        Depending on the current state, this will attempt to initiate
+        a new connection. If the current state is C{'connecting'} or
+        C{'idle'}, nothing happens. In all other states, if the current
+        back-off delay is 0, L{connect} is called. Otherwise, it will cause
+        a transition to the C{'waiting'} state, ultimately causing a call
+        to L{connect} when the delay expires.
+        """
         if self._state == 'connecting':
             return
         elif self._state == 'idle':
@@ -949,6 +1027,11 @@ class TwitterMonitor(service.Service):
 
 
     def _toState(self, state, *args, **kwargs):
+        """
+        Transition to the next state.
+
+        @param state: Name of the next state.
+        """
         try:
             method = getattr(self, '_state_%s' % state)
         except AttributeError:
@@ -977,11 +1060,11 @@ class TwitterMonitor(service.Service):
         Idle state.
 
         In this state no connection attempts are made, and there are no
-        automatic transitions from here, the service is at rest.
+        automatic transitions from here: the service is at rest.
 
         Besides being the initial state when the service starts, it is reached
-        when some unknown error has occurred or preconditions for connecting to
-        Twitter have not been met (e.g. when there are no terms to monitor).
+        when preconditions for connecting to Twitter have not been met (e.g.
+        when there are no terms to monitor).
 
         This state can be left by calling by a new connection attempt
         though L{connect} or L{setFilters}, or by stopping the service.
@@ -1003,8 +1086,7 @@ class TwitterMonitor(service.Service):
         to the state C{'aborting'} will cause an immediate disconnect instead,
         by transitioning to C{'disconnecting'}.
 
-        Network or HTTP errors will cause a transition to the C{'error'} state.
-        Other error conditions will result in a transition to C{'idle'}.
+        Errors will cause a transition to the C{'error'} state.
         """
 
         def cb(protocol):
@@ -1093,7 +1175,7 @@ class TwitterMonitor(service.Service):
 
     def _state_error(self, reason, errorState):
         """
-        The connection attempt resulted in a network error.
+        The connection attempt resulted in an error.
 
         Attempt a reconnect with a back-off algorithm.
         """
