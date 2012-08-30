@@ -146,13 +146,13 @@ class TwitterMonitorTest(unittest.TestCase):
         Called at the beginning of each test.
 
         Set up a L{twitter.TwitterMonitor} with testable API, a clock to
-        test delayed calls and make the test class the consumer.
+        test delayed calls and make the test class the delegate.
         """
         self.entries = []
         self.clock = task.Clock()
         self.api = FakeTwitterAPI()
-        self.monitor = twitter.TwitterMonitor(self.api,
-                                              consumer=self,
+        self.monitor = twitter.TwitterMonitor(self.api.filter,
+                                              delegate=None,
                                               reactor=self.clock)
         self.monitor.noisy = True
         self.connects = None
@@ -174,24 +174,22 @@ class TwitterMonitorTest(unittest.TestCase):
         if state == 'stopped':
             return
 
-        # Starting the service with no terms or userIDs results in state 'idle'.
+        # Starting the service with no delegate results in state 'idle'.
         self.monitor.startService()
         if state == 'idle':
             return
 
-        # Setting up filters causes transition to state 'connecting'.
-        self.monitor.setFilters(set(['foo', 'bar']), set(['42']))
+        # Setting up a delegate causes transition to state 'connecting'.
+        if not self.monitor.delegate:
+            self.monitor.delegate = self.onEntry
+            self.monitor.connect()
         self.clock.advance(0)
         if state == 'connecting':
             return
 
-        # If we want to reach aborting, don't connect but set filters again.
+        # If we want to reach aborting, force a reconnect while connecting.
         if state == 'aborting':
-            self.monitor.setFilters(set(['foo', 'bar']), set(['42']))
-            return
-
-        if state == 'error':
-            self.api.connectFail(ConnectError())
+            self.monitor.connect(forceReconnect=True)
             return
 
         # Connecting the API causes a transition to state 'connected'
@@ -199,8 +197,8 @@ class TwitterMonitorTest(unittest.TestCase):
         if state == 'connected':
             return
 
-        # Setting filters while connected drops the connection
-        self.monitor.setFilters(set(['foo', 'bar']), set(['42']))
+        # Forcing a reconnect while connected drops the connection
+        self.monitor.connect(forceReconnect=True)
         if state == 'disconnecting':
             return
 
@@ -233,7 +231,8 @@ class TwitterMonitorTest(unittest.TestCase):
         """
         Set up monitor without passing a custom reactor.
         """
-        self.monitor = twitter.TwitterMonitor(self.api, consumer=self)
+        self.monitor = twitter.TwitterMonitor(self.api,
+                                              delegate=self.onEntry)
 
 
     def test_initialStateStopped(self):
@@ -252,158 +251,20 @@ class TwitterMonitorTest(unittest.TestCase):
         self.assertRaises(ValueError, self.monitor._toState, "unknown")
 
 
-    def test_setFilters(self):
-        self.monitor.setFilters(set(['foo', 'bar']), set(['42']))
-        self.assertEqual(set(['foo', 'bar']), self.monitor.terms)
-        self.assertEqual(set(['42']), self.monitor.userIDs)
-
-
-    def test_setFiltersStopped(self):
+    def test_startServiceNoDelegate(self):
         """
-        Setting filters when the service is not running, causes no connect.
-        """
-        self.setUpState('stopped')
-
-        self.setFilters(set(['foo', 'bar']), set(['42']))
-        self.assertIdentical(None, self.connects)
-
-
-    def test_setFiltersIdle(self):
-        """
-        Setting filters in the idle state causes a connection attempt.
-        """
-        self.setUpState('idle')
-
-        self.setFilters(set(['foo', 'bar']), set(['42']))
-        self.assertFalse(self.connects)
-
-        # Wait for delayed calls
-        self.clock.advance(0)
-
-
-    def test_setFiltersConnected(self):
-        """
-        Setting filters when connected causes disconnect and reconnect.
-        """
-        self.setUpState('connected')
-
-        # Set filters to cause reconnect.
-        self.setFilters(set(['foo', 'bar']), set(['42']))
-
-        self.assertTrue(self.connects)
-
-        # Wait for delayed calls
-        self.clock.advance(0)
-
-
-    def test_setFiltersConnecting(self):
-        """
-        Setting filters when connected causes disconnect and reconnect.
-        """
-        self.setUpState('connecting')
-
-        # Set filter to cause reconnect.
-        self.setFilters(set(['foo', 'bar']), set(['42']))
-
-        self.assertTrue(self.connects)
-
-        # Wait for delayed calls
-        self.clock.advance(0)
-
-
-    def test_setFiltersDisconnecting(self):
-        """
-        Setting filters when disconnecting should do nothing, wait for reconnect.
-        """
-        self.setUpState('disconnecting')
-
-        # Set filters
-        self.setFilters(set(['foo', 'bar']), set(['42']))
-
-        self.assertIdentical(None, self.connects)
-
-        # Wait for delayed calls
-        self.clock.advance(0)
-
-
-    def test_setFiltersDisconnected(self):
-        """
-        Setting filters when disconnected should do nothing, wait for reconnect.
-        """
-        self.setUpState('disconnected')
-
-        # Set filters
-        self.setFilters(set(['foo', 'bar']), set(['42']))
-
-        self.assertIdentical(None, self.connects)
-
-        # Wait for delayed calls
-        self.clock.advance(0)
-        self.clock.advance(5)
-
-
-    def test_setFiltersWaiting(self):
-        """
-        Setting filters when waiting for reconnect should wait that out.
-        """
-        self.setUpState('waiting')
-
-        # Set filters
-        self.setFilters(set(['foo', 'bar']), set(['42']))
-
-        self.assertIdentical(None, self.connects)
-
-        # Wait for delayed calls
-        self.clock.advance(0)
-        self.clock.advance(5)
-
-
-    def test_setFiltersAborting(self):
-        """
-        Setting filters when aborting the current connection awaits reconnect.
-        """
-        self.setUpState('aborting')
-
-        # Set filters
-        self.setFilters(set(['foo', 'bar']), set(['42']))
-
-        self.assertIdentical(None, self.connects)
-
-        # Wait for delayed calls
-        self.clock.advance(0)
-
-
-    def test_setFiltersError(self):
-        """
-        Setting filters when connecting fails waits for reconnect
-        """
-        self.setUpState('error')
-
-        # Set filters.
-        self.setFilters(set(['foo', 'bar']), set(['42']))
-
-        self.assertIdentical(None, self.connects)
-
-        # Wait for delayed calls
-        self.clock.advance(0)
-        self.flushLoggedErrors(ConnectError)
-        self.clock.advance(0.25)
-
-
-    def test_startServiceNoFilters(self):
-        """
-        When the service is started without filters, go to 'idle'.
+        When the service is started without delegate, go to 'idle'.
         """
         self.monitor.startService()
         self.clock.advance(0)
         self.assertEqual(0, len(self.api.filterCalls))
 
 
-    def test_startServiceWithFilters(self):
+    def test_startServiceWithDelegate(self):
         """
         When the service is started with filters, initiate connection.
         """
-        self.monitor.terms = set(['foo', 'bar'])
+        self.monitor.delegate = self.onEntry
         self.monitor.startService()
         self.clock.advance(0)
         self.assertEqual(1, len(self.api.filterCalls))
@@ -492,43 +353,24 @@ class TwitterMonitorTest(unittest.TestCase):
     def test_connectIdle(self):
         """
         Attempting to connect while idle should succeed.
-
-        The initial state is stopped, so don't connect.
         """
         self.setUpState('idle')
 
-        self.monitor.terms = set(['foo', 'bar'])
+        self.monitor.delegate = self.onEntry
         self.monitor.connect()
         self.clock.advance(0)
 
         self.assertEqual(1, len(self.api.filterCalls))
 
 
-    def test_connectIdleNoConsumer(self):
+    def test_connectIdleNoDelegate(self):
         """
-        Don't connect without consumer.
-        """
-        self.setUpState('idle')
-
-        # Unset the consumer
-        self.monitor.consumer = None
-
-        # Try to connect.
-        self.assertRaises(twitter.Error, self.monitor.connect)
-
-        self.clock.advance(0)
-        self.assertEqual(0, len(self.api.filterCalls), 'Extra connect')
-
-
-    def test_connectIdleNoTerms(self):
-        """
-        Don't connect without terms or userIDs.
+        Don't connect without delegate.
         """
         self.setUpState('idle')
 
-        # Clear terms and userIDs
-        self.monitor.terms = set()
-        self.monitor.userIDs = set()
+        # Unset the delegate
+        self.monitor.delegate = None
 
         # Try to connect.
         self.assertRaises(twitter.Error, self.monitor.connect)
@@ -631,37 +473,19 @@ class TwitterMonitorTest(unittest.TestCase):
         self.assertEqual(2, len(self.api.filterCalls), 'Extra connect')
 
 
-    def test_connectDisconnectedNoConsumer(self):
+    def test_connectDisconnectedNoDelegate(self):
         """
-        Don't connect without consumer if disconnected.
+        Don't connect without delegate if disconnected.
         """
         self.setUpState('disconnected')
 
-        # Unset the consumer
-        self.monitor.consumer = None
+        # Unset the delegate
+        self.monitor.delegate = None
 
         # Try to connect.
         self.assertRaises(twitter.Error, self.monitor.connect)
 
         # Now a reconnect should not occur, wait for erroneous delayed calls.
-        self.clock.advance(DELAY_INITIAL)
-        self.assertEqual(1, len(self.api.filterCalls), 'Extra connect')
-
-
-    def test_connectDisconnectedNoTerms(self):
-        """
-        Don't connect without terms or userIDs if disconnected.
-        """
-        self.setUpState('disconnected')
-
-        # Clear terms and userIDs
-        self.monitor.terms = set()
-        self.monitor.userIDs = set()
-
-        # Try to connect.
-        self.assertRaises(twitter.Error, self.monitor.connect)
-
-        # Now a reconnect should now occur, wait for erroneous delayed calls.
         self.clock.advance(DELAY_INITIAL)
         self.assertEqual(1, len(self.api.filterCalls), 'Extra connect')
 
@@ -857,7 +681,7 @@ class TwitterMonitorTest(unittest.TestCase):
 
     def test_onEntry(self):
         """
-        Received entries are passed to the consumer.
+        Received entries are passed to the delegate.
         """
         self.setUpState('connected')
         self.clock.advance(0)
@@ -867,14 +691,14 @@ class TwitterMonitorTest(unittest.TestCase):
         self.assertEqual([status], self.entries)
 
 
-    def test_onEntryNoConsumer(self):
+    def test_onEntryNoDelegate(self):
         """
-        If there is no (longer) a consumer, silently drop the entry.
+        If there is no (longer) a delegate, silently drop the entry.
         """
         self.setUpState('connected')
         self.clock.advance(0)
 
-        self.monitor.consumer = None
+        self.monitor.delegate = None
 
         status = streaming.Status.fromDict({'text': u'Hello!'})
         self.api.delegate(status)
@@ -882,16 +706,15 @@ class TwitterMonitorTest(unittest.TestCase):
 
     def test_onEntryError(self):
         """
-        If the consumer's onEntry raises an exception, log it and go on.
+        If the delegate's onEntry raises an exception, log it and go on.
         """
         class Error(Exception):
             pass
 
-        class ErringConsumer(object):
-            def onEntry(self, entry):
-                raise Error()
+        def onEntry(entry):
+            raise Error()
 
-        self.monitor.consumer = ErringConsumer()
+        self.monitor.delegate = onEntry
         self.setUpState('connected')
         self.clock.advance(0)
 

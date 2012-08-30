@@ -19,8 +19,7 @@ from oauth import oauth
 
 from twisted.application import service
 from twisted.internet import defer, reactor, endpoints
-from twisted.internet.error import ConnectError, ConnectionClosed, TimeoutError
-from twisted.internet.error import DNSLookupError
+from twisted.internet import error as ierror
 from twisted.python import failure, log
 from twisted.web import client, error, http_headers
 
@@ -742,7 +741,23 @@ class TwitterFeed(Twitter):
 
 
 class Error(Exception):
-    pass
+    """
+    Base error raised by L{TwitterMonitor.connect}.
+    """
+
+
+
+class ConnectError(Error):
+    """
+    Error raised while attempting to initiate a new connection.
+    """
+
+
+
+class NoConsumerError(Error):
+    """
+    The monitor has no consumer.
+    """
 
 
 
@@ -750,15 +765,21 @@ class TwitterMonitor(service.Service):
     """
     Reconnecting Twitter monitor service.
 
+    This service attempts to keep a connection by reconnecting if a connection
+    is dropped or when explicitly requested through L{connect}. Be sure that
+    the API parameters provided in L{args} have all required parameters before
+    starting the service.
+
     @cvar noisy: Whether or not to log informational messages about
         reconnects.
     type noisy: C{bool}
 
-    @ivar terms: Terms to track as an iterable of C{unicode}.
+    @type api: The Twitter API endpoint that is used to initiate connections.
 
-    @ivar userIDs: IDs of users to follow as an iterable of C{unicode}.
+    @ivar args: Arguments to the Streaming API request.
+    @type args: C{dict}
 
-    @ivar consumer: The consumer of incoming Twitter entries.
+    @ivar delegate: The consumer of incoming Twitter entries.
 
     @ivar protocol: Current protocol instance parsing incoming Twitter
         entries.
@@ -786,9 +807,6 @@ class TwitterMonitor(service.Service):
     """
     noisy = False
 
-    terms = None
-    userIDs = None
-    consumer = None
     protocol = None
 
     _delay = None
@@ -812,10 +830,10 @@ class TwitterMonitor(service.Service):
                 },
             # Back-off settings for network level connect errors
             'network': {
-                'errorTypes': (ConnectError,
-                               TimeoutError,
-                               ConnectionClosed,
-                               DNSLookupError,
+                'errorTypes': (ierror.ConnectError,
+                               ierror.TimeoutError,
+                               ierror.ConnectionClosed,
+                               ierror.DNSLookupError,
                                ),
                 'initial': 0.25,
                 'max': 16,
@@ -829,21 +847,25 @@ class TwitterMonitor(service.Service):
                 },
             }
 
-    def __init__(self, api, consumer=None, reactor=None):
+    def __init__(self, api, delegate, args=None, reactor=None):
         """
         Initialize the monitor.
 
         This sets the initial state to C{'stopped'}.
 
-        @param api: A Twitter API instance that is used to initiate connections.
-        @type api: L{twitter.TwitterFeed}
+        @param api: The Twitter API endpoint that is used to initiate
+            connections. E.g. L{twittytwister.twitter.TwitterFeed.filter}.
 
-        @param consumer: An optional consumer of received Twitter entries.
-            This instance will have its C{onEntry} called with an L{Status}
-            instance.
+        @param delegate: The consumer of received Twitter entries.
+            This callable will be called with a L{Status} instances as they
+            are received.
+
+        @param args: Initial arguments to the API.
+        @type args: C{dict}
         """
         self.api = api
-        self.consumer = consumer
+        self.delegate = delegate
+        self.args = args
         if reactor is None:
             from twisted.internet import reactor
         self.reactor = reactor
@@ -859,9 +881,10 @@ class TwitterMonitor(service.Service):
         """
         service.Service.startService(self)
         self._toState('idle')
+
         try:
             self.connect()
-        except Error:
+        except NoConsumerError:
             pass
 
 
@@ -880,16 +903,20 @@ class TwitterMonitor(service.Service):
         Check current conditions and initiate connection if possible.
 
         This is called to check preconditions for starting a new connection,
-        and transitioning to the C{'connecting'} state if met.
+        and initating the connection itself.
 
-        If the service is not running, this will do nothing. If there is
-        no consumer for incoming Tweets or there are no terms or users to
-        track, this moves to the C{'idle'} state.
+        If the service is not running, this will do nothing.
 
-        @param forceReconnect: Drop an existing connection to reconnnecting.
+        @param forceReconnect: Drop an existing connection to reconnnect.
         @type forceReconnect: C{False}
-        """
 
+        @raises L{ConnectError}: When a connection (attempt) is already in
+            progress, unless C{forceReconnect} is set.
+
+        @raises L{NoConsumerError}: When there is no consumer for incoming
+        tweets. No further connection attempts will be made, unless L{connect}
+        is called again.
+        """
         if self._state == 'stopped':
             raise Error("This service is not running. Not connecting.")
         if self._state == 'connected':
@@ -897,27 +924,22 @@ class TwitterMonitor(service.Service):
                 self._toState('disconnecting')
                 return True
             else:
-                raise Error("Already connected.")
+                raise ConnectError("Already connected.")
         elif self._state == 'aborting':
-            raise Error("Aborting connection in progress.")
+            raise ConnectError("Aborting connection in progress.")
         elif self._state == 'disconnecting':
-            raise Error("Disconnect in progress.")
+            raise ConnectError("Disconnect in progress.")
         elif self._state == 'connecting':
             if forceReconnect:
                 self._toState('aborting')
                 return True
             else:
-                raise Error("Connect in progress.")
+                raise ConnectError("Connect in progress.")
 
-        if self.consumer is None:
+        if self.delegate is None:
             if self._state != 'idle':
                 self._toState('idle')
-            raise Error("No Twitter consumer set. Not connecting.")
-
-        if not self.terms and not self.userIDs:
-            if self._state != 'idle':
-                self._toState('idle')
-            raise Error("No Twitter terms or users to filter on. Not connecting.")
+            raise NoConsumerError()
 
         if self._state == 'waiting':
             if self._reconnectDelayedCall.called:
@@ -939,40 +961,13 @@ class TwitterMonitor(service.Service):
             self.protocol.transport.stopProducing()
 
 
-    def setFilters(self, terms, userIDs):
-        """
-        Set the terms to track and users to follow and (re)connect.
-
-        @param terms: Terms to track as an iterable of C{unicode}.
-        @param userIDs: IDs of users to follow as an iterable of C{unicode}.
-        """
-        self.terms = terms
-        self.userIDs = userIDs
-
-        if self._state == 'idle':
-            self.connect()
-        elif self._state == 'connecting':
-            self.connect(forceReconnect=True)
-        elif self._state == 'connected':
-            self.connect(forceReconnect=True)
-        elif self._state == 'waiting':
-            pass
-        elif self._state == 'stopped':
-            pass
-        elif self._state == 'aborting':
-            pass
-        elif self._state == 'disconnecting':
-            pass
-
-
     def makeConnection(self, protocol):
         """
         Called when the connection has been established.
 
         This method is called when an HTTP 200 response has been received,
         with the protocol that decodes the individual Twitter stream elements.
-        That protocol will call L{onEntry} on the consumer for all Twitter
-        entries received.
+        That protocol will call the consumer for all Twitter entries received.
 
         The protocol, stored in L{protocol}, has a deferred that fires when
         the connection is closed, causing a transition to the
@@ -1068,7 +1063,7 @@ class TwitterMonitor(service.Service):
 
         Besides being the initial state when the service starts, it is reached
         when preconditions for connecting to Twitter have not been met (e.g.
-        when there are no terms to monitor).
+        when is no consumer).
 
         This state can be left by calling by a new connection attempt
         though L{connect} or L{setFilters}, or by stopping the service.
@@ -1101,21 +1096,15 @@ class TwitterMonitor(service.Service):
             self._toState('error', failure)
 
         def onEntry(entry):
-            if self.consumer:
+            if self.delegate:
                 try:
-                    self.consumer.onEntry(entry)
+                    self.delegate(entry)
                 except:
                     log.err()
             else:
                 pass
 
-        args = {}
-        if self.terms:
-            args['track'] = ','.join(self.terms)
-        if self.userIDs:
-            args['follow'] = ','.join(self.userIDs)
-
-        d = self.api.filter(onEntry, args)
+        d = self.api(onEntry, self.args)
         d.addCallback(responseReceived)
         d.addErrback(trapError)
 
