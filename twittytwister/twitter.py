@@ -20,6 +20,7 @@ from oauth import oauth
 from twisted.application import service
 from twisted.internet import defer, reactor, endpoints
 from twisted.internet.error import ConnectError, ConnectionClosed, TimeoutError
+from twisted.internet.error import DNSLookupError
 from twisted.python import failure, log
 from twisted.web import client, error, http_headers
 
@@ -809,6 +810,7 @@ class TwitterMonitor(service.Service):
                 'errorTypes': (ConnectError,
                                TimeoutError,
                                ConnectionClosed,
+                               DNSLookupError,
                                ),
                 'initial': 0.25,
                 'max': 16,
