@@ -13,7 +13,7 @@ from twisted.web import error as http_error
 from twisted.web.client import ResponseDone
 from twisted.web.http import PotentialDataLoss
 
-from twittytwister import twitter
+from twittytwister import twitter, streaming
 
 DELAY_INITIAL = twitter.TwitterMonitor.backOffs[None]['initial']
 
@@ -107,12 +107,14 @@ class FakeTwitterAPI(object):
 
     def __init__(self):
         self.filterCalls = []
+        self.delegate = None
 
 
-    def filter(self, *args):
+    def filter(self, delegate, args=None):
         """
         Returns the deferred, which can be fired in tests at will.
         """
+        self.delegate = delegate
         self.filterCalls.append(args)
         self.deferred = defer.Deferred()
         return self.deferred
@@ -788,5 +790,51 @@ class TwitterMonitorTest(unittest.TestCase):
         self.assertEqual(1, len(self.api.filterCalls))
         self.clock.advance(self.monitor.backOffs['other']['initial'] - 1)
         self.assertEqual(2, len(self.api.filterCalls))
+
+        self.assertEqual(1, len(self.flushLoggedErrors(Error)))
+
+
+    def test_onEntry(self):
+        """
+        Received entries are passed to the consumer.
+        """
+        self.setUpState('connected')
+        self.clock.advance(0)
+
+        status = streaming.Status.fromDict({'text': u'Hello!'})
+        self.api.delegate(status)
+        self.assertEqual([status], self.entries)
+
+
+    def test_onEntryNoConsumer(self):
+        """
+        If there is no (longer) a consumer, silently drop the entry.
+        """
+        self.setUpState('connected')
+        self.clock.advance(0)
+
+        self.monitor.consumer = None
+
+        status = streaming.Status.fromDict({'text': u'Hello!'})
+        self.api.delegate(status)
+
+
+    def test_onEntryError(self):
+        """
+        If the consumer's onEntry raises an exception, log it and go on.
+        """
+        class Error(Exception):
+            pass
+
+        class ErringConsumer(object):
+            def onEntry(self, entry):
+                raise Error()
+
+        self.monitor.consumer = ErringConsumer()
+        self.setUpState('connected')
+        self.clock.advance(0)
+
+        status = streaming.Status.fromDict({'text': u'Hello!'})
+        self.api.delegate(status)
 
         self.assertEqual(1, len(self.flushLoggedErrors(Error)))

@@ -962,12 +962,6 @@ class TwitterMonitor(service.Service):
             pass
 
 
-    def onEntry(self, entry):
-        """
-        A new entry has been received.
-        """
-
-
     def makeConnection(self, protocol):
         """
         Called when the connection has been established.
@@ -1089,7 +1083,7 @@ class TwitterMonitor(service.Service):
         Errors will cause a transition to the C{'error'} state.
         """
 
-        def cb(protocol):
+        def responseReceived(protocol):
             self.makeConnection(protocol)
             if self._state == 'aborting':
                 self._toState('disconnecting')
@@ -1108,14 +1102,23 @@ class TwitterMonitor(service.Service):
         def trapOtherErrors(failure):
             self._toState('error', failure, 'other')
 
+        def onEntry(entry):
+            if self.consumer:
+                try:
+                    self.consumer.onEntry(entry)
+                except:
+                    log.err()
+            else:
+                pass
+
         args = {}
         if self.terms:
             args['track'] = ','.join(self.terms)
         if self.userIDs:
             args['follow'] = ','.join(self.userIDs)
 
-        d = self.api.filter(self.onEntry, args)
-        d.addCallback(cb)
+        d = self.api.filter(onEntry, args)
+        d.addCallback(responseReceived)
         d.addErrback(trapError)
         d.addErrback(trapOtherErrors)
 
@@ -1128,6 +1131,7 @@ class TwitterMonitor(service.Service):
         when the connection has been dropped, which then causes a transition
         to the C{'disconnected'} state.
         """
+        pass
 
 
     def _state_disconnecting(self):
@@ -1160,6 +1164,7 @@ class TwitterMonitor(service.Service):
         TCP connection, so we have to wait until we are connected, or
         the connecting fails, until we can disconnect.
         """
+        pass
 
 
     def _state_waiting(self):
