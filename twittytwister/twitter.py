@@ -748,6 +748,16 @@ class TwitterMonitor(service.Service):
     @ivar userIDs: IDs of users to follow as an iterable of C{unicode}.
     """
 
+    terms = None
+    userIDs = None
+    consumer = None
+    protocol = None
+
+    delay = None
+    state = None
+    errorState = None
+    reconnectDelayedCall = None
+
     backOffs = {
             # Back off settings from clean disconnects
             None: {
@@ -780,18 +790,6 @@ class TwitterMonitor(service.Service):
                 },
             }
 
-    delay = None
-
-    state = None
-    errorState = None
-    reconnectDelayedCall = None
-
-    consumer = None
-    protocol = None
-
-    terms = None
-    userIDs = None
-
     def __init__(self, api, consumer=None, reactor=None):
         self.api = api
         self.consumer = consumer
@@ -810,52 +808,6 @@ class TwitterMonitor(service.Service):
     def stopService(self):
         service.Service.stopService(self)
         self.toState('stopped')
-
-
-    def loseConnection(self):
-        if self.protocol:
-            self.protocol.transport.stopProducing()
-
-
-    def toState(self, state, *args, **kwargs):
-        try:
-            method = getattr(self, 'state_%s' % state)
-        except AttributeError:
-            raise ValueError("No such state %r" % state)
-
-        log.msg("%s: to state %r" % (self.__class__.__name__, state))
-        self.state = state
-        self.reactor.callLater(0, method, *args, **kwargs)
-
-
-    def state_stopped(self):
-        """
-        The service is not running.
-
-        This is the initial state, and the state after L{stopService} was
-        called. To get out of this state, call L{startService}. If there is a
-        current connection, we disconnect.
-        """
-        if self.reconnectDelayedCall:
-            self.reconnectDelayedCall.cancel()
-        self.loseConnection()
-
-
-    def state_disconnecting(self):
-        """
-        A disconnect is in progress.
-        """
-        self.loseConnection()
-
-
-    def state_aborting(self):
-        """
-        The current connection attempt will be aborted.
-
-        Unfortunately, there is no interface to drop the underlying
-        TCP connection, so we have to wait until we are connected, or
-        the connecting fails, until we can disconnect.
-        """
 
 
     def connect(self, forceReconnect=False):
@@ -922,6 +874,126 @@ class TwitterMonitor(service.Service):
         return True
 
 
+    def loseConnection(self):
+        if self.protocol:
+            self.protocol.transport.stopProducing()
+
+
+    def setFilters(self, terms, userIDs):
+        """
+        Set the terms to track and users to follow and (re)connect.
+
+        @param terms: Terms to track as an iterable of C{unicode}.
+        @param userIDs: IDs of users to follow as an iterable of C{unicode}.
+        """
+        self.terms = terms
+        self.userIDs = userIDs
+
+        if self.state == 'idle':
+            self.connect()
+        elif self.state == 'connecting':
+            self.connect(forceReconnect=True)
+        elif self.state == 'connected':
+            self.connect(forceReconnect=True)
+        elif self.state == 'disconnected':
+            pass
+        elif self.state == 'error':
+            pass
+        elif self.state == 'waiting':
+            pass
+        elif self.state == 'stopped':
+            pass
+        elif self.state == 'aborting':
+            pass
+        elif self.state == 'disconnecting':
+            pass
+
+
+    def onEntry(self, entry):
+        """
+        A new entry has been received.
+        """
+
+
+    def makeConnection(self, protocol):
+        self.errorState = None
+
+        def cb(result):
+            self.protocol = None
+            if self.state == 'stopped':
+                # Don't transition to any other state. We are stopped.
+                pass
+            else:
+                if isinstance(result, failure.Failure):
+                    reason = result
+                else:
+                    reason = None
+                self.toState('disconnected', reason)
+
+        self.protocol = protocol
+        d = protocol.deferred
+        d.addBoth(cb)
+
+
+    def reconnect(self):
+        if self.state == 'connecting':
+            return
+        elif self.state == 'idle':
+            return
+        else:
+            pass
+        if self.delay == 0:
+            self.connect()
+        else:
+            self.toState('waiting')
+
+
+    def toState(self, state, *args, **kwargs):
+        try:
+            method = getattr(self, 'state_%s' % state)
+        except AttributeError:
+            raise ValueError("No such state %r" % state)
+
+        log.msg("%s: to state %r" % (self.__class__.__name__, state))
+        self.state = state
+        self.reactor.callLater(0, method, *args, **kwargs)
+
+
+    def state_stopped(self):
+        """
+        The service is not running.
+
+        This is the initial state, and the state after L{stopService} was
+        called. To get out of this state, call L{startService}. If there is a
+        current connection, we disconnect.
+        """
+        if self.reconnectDelayedCall:
+            self.reconnectDelayedCall.cancel()
+        self.loseConnection()
+
+
+    def state_idle(self, reason=None):
+        """
+        Idle state.
+
+        In this state no connection attempts are made, and there are no
+        automatic transitions from here, the service is at rest.
+
+        Besides being the initial state when the service starts, it is reached
+        when some unknown error has occurred or preconditions for connecting to
+        Twitter have not been met (e.g. when there are no terms to monitor).
+
+        This state can be left by calling by a new connection attempt
+        though L{connect} or L{setFilters}, or by stopping the service.
+
+        @param reason: The failure that was the reason this state was
+            transitioned to.
+        @type reason: L{twisted.python.failure.Failure}.
+        """
+        if reason:
+            log.err(reason, 'Abandoning reconnect.')
+
+
     def state_connecting(self):
         """
         A connection is being started.
@@ -966,26 +1038,6 @@ class TwitterMonitor(service.Service):
         d.addErrback(trapOtherErrors)
 
 
-    def makeConnection(self, protocol):
-        self.errorState = None
-
-        def cb(result):
-            self.protocol = None
-            if self.state == 'stopped':
-                # Don't transition to any other state. We are stopped.
-                pass
-            else:
-                if isinstance(result, failure.Failure):
-                    reason = result
-                else:
-                    reason = None
-                self.toState('disconnected', reason)
-
-        self.protocol = protocol
-        d = protocol.deferred
-        d.addBoth(cb)
-
-
     def state_connected(self):
         """
         A response was received over the new connection.
@@ -994,6 +1046,13 @@ class TwitterMonitor(service.Service):
         when the connection has been dropped, which then causes a transition
         to the C{'disconnected'} state.
         """
+
+
+    def state_disconnecting(self):
+        """
+        A disconnect is in progress.
+        """
+        self.loseConnection()
 
 
     def state_disconnected(self, reason):
@@ -1011,17 +1070,14 @@ class TwitterMonitor(service.Service):
         self.reconnect()
 
 
-    def reconnect(self):
-        if self.state == 'connecting':
-            return
-        elif self.state == 'idle':
-            return
-        else:
-            pass
-        if self.delay == 0:
-            self.connect()
-        else:
-            self.toState('waiting')
+    def state_aborting(self):
+        """
+        The current connection attempt will be aborted.
+
+        Unfortunately, there is no interface to drop the underlying
+        TCP connection, so we have to wait until we are connected, or
+        the connecting fails, until we can disconnect.
+        """
 
 
     def state_waiting(self):
@@ -1052,63 +1108,5 @@ class TwitterMonitor(service.Service):
             self.delay = min(backOff['max'], self.delay * backOff['factor'])
 
         self.reconnect()
-
-
-    def state_idle(self, reason=None):
-        """
-        Idle state.
-
-        In this state no connection attempts are made, and there are no
-        automatic transitions from here, the service is at rest.
-
-        Besides being the initial state when the service starts, it is reached
-        when some unknown error has occurred or preconditions for connecting to
-        Twitter have not been met (e.g. when there are no terms to monitor).
-
-        This state can be left by calling by a new connection attempt
-        though L{connect} or L{setFilters}, or by stopping the service.
-
-        @param reason: The failure that was the reason this state was
-            transitioned to.
-        @type reason: L{twisted.python.failure.Failure}.
-        """
-        if reason:
-            log.err(reason, 'Abandoning reconnect.')
-
-
-    def onEntry(self, entry):
-        """
-        A new entry has been received.
-        """
-
-
-    def setFilters(self, terms, userIDs):
-        """
-        Set the terms to track and users to follow and (re)connect.
-
-        @param terms: Terms to track as an iterable of C{unicode}.
-        @param userIDs: IDs of users to follow as an iterable of C{unicode}.
-        """
-        self.terms = terms
-        self.userIDs = userIDs
-
-        if self.state == 'idle':
-            self.connect()
-        elif self.state == 'connecting':
-            self.connect(forceReconnect=True)
-        elif self.state == 'connected':
-            self.connect(forceReconnect=True)
-        elif self.state == 'disconnected':
-            pass
-        elif self.state == 'error':
-            pass
-        elif self.state == 'waiting':
-            pass
-        elif self.state == 'stopped':
-            pass
-        elif self.state == 'aborting':
-            pass
-        elif self.state == 'disconnecting':
-            pass
 
 # vim: set expandtab:
