@@ -17,7 +17,10 @@ import logging
 
 from oauth import oauth
 
+from twisted.application import service
 from twisted.internet import defer, reactor, endpoints
+from twisted.internet.error import ConnectError, ConnectionClosed, TimeoutError
+from twisted.python import failure, log
 from twisted.web import client, error, http_headers
 
 from twittytwister import streaming, txml
@@ -734,5 +737,378 @@ class TwitterFeed(Twitter):
         return self._rtfeed('https://sitestream.twitter.com/2b/site.json',
                             delegate,
                             args)
+
+
+
+class TwitterMonitor(service.Service):
+    """
+    Reconnecting Twitter monitor service.
+
+    @ivar terms: Terms to track as an iterable of C{unicode}.
+    @ivar userIDs: IDs of users to follow as an iterable of C{unicode}.
+    """
+
+    backOffs = {
+            # Back off settings from clean disconnects
+            None: {
+                'initial': 5,
+                'max': float('inf'), # No limit,
+                'factor': 1, # No increase
+                },
+            # Back off settings for HTTP errors
+            'http': {
+                'errorTypes': (error.Error,),
+                'initial': 10,
+                'max': 240,
+                'factor': 2,
+                },
+            # Back of settings for network level connect errors
+            'network': {
+                'errorTypes': (ConnectError,
+                               TimeoutError,
+                               ConnectionClosed,
+                               ),
+                'initial': 0.25,
+                'max': 16,
+                'factor': 2,
+                },
+            # Back of settings for other, non-specific errors.
+            'other': {
+                'initial': 10,
+                'max': 240,
+                'factor': 2,
+                },
+            }
+
+    delay = None
+
+    state = None
+    errorState = None
+    reconnectDelayedCall = None
+
+    consumer = None
+    protocol = None
+
+    terms = None
+    userIDs = None
+
+    def __init__(self, api, consumer=None, reactor=None):
+        self.api = api
+        self.consumer = consumer
+        if reactor is None:
+            from twisted.internet import reactor
+        self.reactor = reactor
+        self.state = 'stopped'
+
+
+    def startService(self):
+        service.Service.startService(self)
+        self.toState('idle')
+        self.connect()
+
+
+    def stopService(self):
+        service.Service.stopService(self)
+        self.toState('stopped')
+
+
+    def loseConnection(self):
+        if self.protocol:
+            self.protocol.transport.stopProducing()
+
+
+    def toState(self, state, *args, **kwargs):
+        try:
+            method = getattr(self, 'state_%s' % state)
+        except AttributeError:
+            raise ValueError("No such state %r" % state)
+
+        log.msg("%s: to state %r" % (self.__class__.__name__, state))
+        self.state = state
+        self.reactor.callLater(0, method, *args, **kwargs)
+
+
+    def state_stopped(self):
+        """
+        The service is not running.
+
+        This is the initial state, and the state after L{stopService} was
+        called. To get out of this state, call L{startService}. If there is a
+        current connection, we disconnect.
+        """
+        if self.reconnectDelayedCall:
+            self.reconnectDelayedCall.cancel()
+        self.loseConnection()
+
+
+    def state_disconnecting(self):
+        """
+        A disconnect is in progress.
+        """
+        self.loseConnection()
+
+
+    def state_aborting(self):
+        """
+        The current connection attempt will be aborted.
+
+        Unfortunately, there is no interface to drop the underlying
+        TCP connection, so we have to wait until we are connected, or
+        the connecting fails, until we can disconnect.
+        """
+
+
+    def connect(self, forceReconnect=False):
+        """
+        Check current conditions and initiate connection if possible.
+
+        This is called to check preconditions for starting a new connection,
+        and transitioning to the C{'connecting'} state if met.
+
+        If the service is not running, this will do nothing. If there is
+        no consumer for incoming Tweets or there are no terms or users to
+        track, this moves to the C{'idle'} state.
+
+        @param forceReconnect: Drop an existing connection to reconnnecting.
+        @type forceReconnect: C{False}
+        """
+
+        if self.state == 'stopped':
+            log.msg("This service is not running. Not connecting.")
+            return False
+        if self.state == 'connected':
+            if forceReconnect:
+                self.toState('disconnecting')
+                return True
+            else:
+                log.msg("Already connected.")
+                return False
+        elif self.state == 'aborting':
+            log.msg("Aborting connection in progress.")
+            return False
+        elif self.state == 'disconnecting':
+            log.msg("Disconnect in progress.")
+            return False
+        elif self.state == 'connecting':
+            if forceReconnect:
+                self.toState('aborting')
+                return True
+            else:
+                log.msg("Connect in progress.")
+                return False
+
+        if self.state == 'waiting':
+            if self.reconnectDelayedCall.called:
+                self.reconnectDelayedCall = None
+                pass
+            else:
+                self.reconnectDelayedCall.reset(0)
+                log.msg("Reconnecting now.")
+                return True
+
+        if self.consumer is None:
+            log.msg("No Twitter consumer set. Not connecting.")
+            if self.state != 'idle':
+                self.toState('idle')
+            return False
+
+        if not self.terms and not self.userIDs:
+            log.msg("No Twitter terms or users to filter on. Not connecting.")
+            if self.state != 'idle':
+                self.toState('idle')
+            return False
+
+        self.toState('connecting')
+        return True
+
+
+    def state_connecting(self):
+        """
+        A connection is being started.
+
+        A succesful attempt results in the state C{'connected'} when the
+        first response from Twitter has been received. Transitioning
+        to the state C{'aborting'} will cause an immediate disconnect instead,
+        by transitioning to C{'disconnecting'}.
+
+        Network or HTTP errors will cause a transition to the C{'error'} state.
+        Other error conditions will result in a transition to C{'idle'}.
+        """
+
+        def cb(protocol):
+            self.makeConnection(protocol)
+            if self.state == 'aborting':
+                self.toState('disconnecting')
+            else:
+                self.toState('connected')
+
+        def trapError(failure):
+            for errorState, backOff in self.backOffs.iteritems():
+                if 'errorTypes' not in backOff:
+                    continue
+                if failure.check(*backOff['errorTypes']):
+                    self.toState('error', failure, errorState)
+                    return
+            return failure
+
+        def trapOtherErrors(failure):
+            self.toState('error', failure, 'other')
+
+        args = {}
+        if self.terms:
+            args['track'] = ','.join(self.terms)
+        if self.userIDs:
+            args['follow'] = ','.join(self.userIDs)
+
+        d = self.api.filter(self.onEntry, args)
+        d.addCallback(cb)
+        d.addErrback(trapError)
+        d.addErrback(trapOtherErrors)
+
+
+    def makeConnection(self, protocol):
+        self.errorState = None
+
+        def cb(result):
+            self.protocol = None
+            if self.state == 'stopped':
+                # Don't transition to any other state. We are stopped.
+                pass
+            else:
+                if isinstance(result, failure.Failure):
+                    reason = result
+                else:
+                    reason = None
+                self.toState('disconnected', reason)
+
+        self.protocol = protocol
+        d = protocol.deferred
+        d.addBoth(cb)
+
+
+    def state_connected(self):
+        """
+        A response was received over the new connection.
+
+        The protocol passed to this state has a deferred that will fire
+        when the connection has been dropped, which then causes a transition
+        to the C{'disconnected'} state.
+        """
+
+
+    def state_disconnected(self, reason):
+        """
+        The connection has been dropped.
+
+        A reconnect will be attempted in L{initialDelay} seconds.
+        """
+        if reason:
+            errorState = 'other'
+            log.err(reason)
+        else:
+            errorState = None
+        self.delay = self.backOffs[errorState]['initial']
+        self.reconnect()
+
+
+    def reconnect(self):
+        if self.state == 'connecting':
+            return
+        elif self.state == 'idle':
+            return
+        else:
+            pass
+        if self.delay == 0:
+            self.connect()
+        else:
+            self.toState('waiting')
+
+
+    def state_waiting(self):
+        """
+        Waiting for reconnect.
+
+        Wait for L{delay} seconds until attempting a new connect.
+        """
+        log.msg("Reconnecting in %0.2f seconds" % (self.delay,))
+        self.reconnectDelayedCall = self.reactor.callLater(self.delay,
+                                                           self.connect)
+
+
+    def state_error(self, reason, errorState):
+        """
+        The connection attempt resulted in a network error.
+
+        Attempt a reconnect with a back-off algorithm.
+        """
+        log.err(reason)
+
+        backOff = self.backOffs[errorState]
+
+        if self.errorState != errorState:
+            self.errorState = errorState
+            self.delay = backOff['initial']
+        else:
+            self.delay = min(backOff['max'], self.delay * backOff['factor'])
+
+        self.reconnect()
+
+
+    def state_idle(self, reason=None):
+        """
+        Idle state.
+
+        In this state no connection attempts are made, and there are no
+        automatic transitions from here, the service is at rest.
+
+        Besides being the initial state when the service starts, it is reached
+        when some unknown error has occurred or preconditions for connecting to
+        Twitter have not been met (e.g. when there are no terms to monitor).
+
+        This state can be left by calling by a new connection attempt
+        though L{connect} or L{setFilters}, or by stopping the service.
+
+        @param reason: The failure that was the reason this state was
+            transitioned to.
+        @type reason: L{twisted.python.failure.Failure}.
+        """
+        if reason:
+            log.err(reason, 'Abandoning reconnect.')
+
+
+    def onEntry(self, entry):
+        """
+        A new entry has been received.
+        """
+
+
+    def setFilters(self, terms, userIDs):
+        """
+        Set the terms to track and users to follow and (re)connect.
+
+        @param terms: Terms to track as an iterable of C{unicode}.
+        @param userIDs: IDs of users to follow as an iterable of C{unicode}.
+        """
+        self.terms = terms
+        self.userIDs = userIDs
+
+        if self.state == 'idle':
+            self.connect()
+        elif self.state == 'connecting':
+            self.connect(forceReconnect=True)
+        elif self.state == 'connected':
+            self.connect(forceReconnect=True)
+        elif self.state == 'disconnected':
+            pass
+        elif self.state == 'error':
+            pass
+        elif self.state == 'waiting':
+            pass
+        elif self.state == 'stopped':
+            pass
+        elif self.state == 'aborting':
+            pass
+        elif self.state == 'disconnecting':
+            pass
 
 # vim: set expandtab:
