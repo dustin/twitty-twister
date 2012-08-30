@@ -154,6 +154,7 @@ class TwitterMonitorTest(unittest.TestCase):
         self.monitor = twitter.TwitterMonitor(self.api,
                                               consumer=self,
                                               reactor=self.clock)
+        self.monitor.noisy = True
         self.connects = None
 
 
@@ -482,7 +483,7 @@ class TwitterMonitorTest(unittest.TestCase):
         """
         self.setUpState('stopped')
 
-        self.assertFalse(self.monitor.connect())
+        self.assertRaises(twitter.Error, self.monitor.connect)
 
         self.clock.advance(0)
         self.assertEqual(0, len(self.api.filterCalls))
@@ -497,7 +498,7 @@ class TwitterMonitorTest(unittest.TestCase):
         self.setUpState('idle')
 
         self.monitor.terms = set(['foo', 'bar'])
-        self.assertTrue(self.monitor.connect())
+        self.monitor.connect()
         self.clock.advance(0)
 
         self.assertEqual(1, len(self.api.filterCalls))
@@ -513,9 +514,9 @@ class TwitterMonitorTest(unittest.TestCase):
         self.monitor.consumer = None
 
         # Try to connect.
-        self.assertFalse(self.monitor.connect())
-        self.clock.advance(0)
+        self.assertRaises(twitter.Error, self.monitor.connect)
 
+        self.clock.advance(0)
         self.assertEqual(0, len(self.api.filterCalls), 'Extra connect')
 
 
@@ -530,9 +531,9 @@ class TwitterMonitorTest(unittest.TestCase):
         self.monitor.userIDs = set()
 
         # Try to connect.
-        self.assertFalse(self.monitor.connect())
-        self.clock.advance(0)
+        self.assertRaises(twitter.Error, self.monitor.connect)
 
+        self.clock.advance(0)
         self.assertEqual(0, len(self.api.filterCalls), 'Extra connect')
 
 
@@ -543,7 +544,8 @@ class TwitterMonitorTest(unittest.TestCase):
         self.setUpState('connecting')
 
         # Try to connect.
-        self.assertFalse(self.monitor.connect())
+        self.assertRaises(twitter.Error, self.monitor.connect)
+
         self.clock.advance(0)
         self.assertEqual(1, len(self.api.filterCalls), 'Extra connect')
 
@@ -555,7 +557,7 @@ class TwitterMonitorTest(unittest.TestCase):
         self.setUpState('connecting')
 
         # Try to connect.
-        self.assertTrue(self.monitor.connect(forceReconnect=True))
+        self.monitor.connect(forceReconnect=True)
 
         # As we haven't connected yet, we cannot drop the connection yet,
         # and no reconnect should have taken place.
@@ -583,7 +585,7 @@ class TwitterMonitorTest(unittest.TestCase):
         self.setUpState('connected')
 
         # Try to connect.
-        self.assertFalse(self.monitor.connect())
+        self.assertRaises(twitter.Error, self.monitor.connect)
         self.clock.advance(0)
         self.assertEqual(1, len(self.api.filterCalls), 'Extra connect')
 
@@ -595,7 +597,7 @@ class TwitterMonitorTest(unittest.TestCase):
         self.setUpState('connected')
 
         # Try to connect.
-        self.assertTrue(self.monitor.connect(forceReconnect=True))
+        self.monitor.connect(forceReconnect=True)
 
         # As we haven't connected yet, we cannot drop the connection yet,
         # and no reconnect should have taken place.
@@ -620,7 +622,7 @@ class TwitterMonitorTest(unittest.TestCase):
         self.setUpState('disconnected')
 
         # Try to connect.
-        self.assertTrue(self.monitor.connect())
+        self.monitor.connect()
         self.clock.advance(0)
         self.assertEqual(2, len(self.api.filterCalls), 'Missing connect')
 
@@ -639,9 +641,9 @@ class TwitterMonitorTest(unittest.TestCase):
         self.monitor.consumer = None
 
         # Try to connect.
-        self.assertFalse(self.monitor.connect())
+        self.assertRaises(twitter.Error, self.monitor.connect)
 
-        # Now a reconnect should now occur, wait for erroneous delayed calls.
+        # Now a reconnect should not occur, wait for erroneous delayed calls.
         self.clock.advance(DELAY_INITIAL)
         self.assertEqual(1, len(self.api.filterCalls), 'Extra connect')
 
@@ -657,7 +659,7 @@ class TwitterMonitorTest(unittest.TestCase):
         self.monitor.userIDs = set()
 
         # Try to connect.
-        self.assertFalse(self.monitor.connect())
+        self.assertRaises(twitter.Error, self.monitor.connect)
 
         # Now a reconnect should now occur, wait for erroneous delayed calls.
         self.clock.advance(DELAY_INITIAL)
@@ -683,9 +685,9 @@ class TwitterMonitorTest(unittest.TestCase):
         self.setUpState('aborting')
 
         # Try to connect.
-        self.assertFalse(self.monitor.connect())
-        self.clock.advance(0)
+        self.assertRaises(twitter.Error, self.monitor.connect)
 
+        self.clock.advance(0)
         self.assertEqual(1, len(self.api.filterCalls), 'Extra connect')
 
 
@@ -696,7 +698,8 @@ class TwitterMonitorTest(unittest.TestCase):
         self.setUpState('disconnecting')
 
         # The stream is being disconnected, cannot connect explicitly
-        self.assertFalse(self.monitor.connect())
+        self.assertRaises(twitter.Error, self.monitor.connect)
+
         self.clock.advance(0)
         self.assertEqual(1, len(self.api.filterCalls), 'Extra connect')
 

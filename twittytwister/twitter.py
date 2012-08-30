@@ -741,6 +741,11 @@ class TwitterFeed(Twitter):
 
 
 
+class Error(Exception):
+    pass
+
+
+
 class TwitterMonitor(service.Service):
     """
     Reconnecting Twitter monitor service.
@@ -854,7 +859,10 @@ class TwitterMonitor(service.Service):
         """
         service.Service.startService(self)
         self._toState('idle')
-        self.connect()
+        try:
+            self.connect()
+        except Error:
+            pass
 
 
     def stopService(self):
@@ -883,40 +891,33 @@ class TwitterMonitor(service.Service):
         """
 
         if self._state == 'stopped':
-            log.msg("This service is not running. Not connecting.")
-            return False
+            raise Error("This service is not running. Not connecting.")
         if self._state == 'connected':
             if forceReconnect:
                 self._toState('disconnecting')
                 return True
             else:
-                log.msg("Already connected.")
-                return False
+                raise Error("Already connected.")
         elif self._state == 'aborting':
-            log.msg("Aborting connection in progress.")
-            return False
+            raise Error("Aborting connection in progress.")
         elif self._state == 'disconnecting':
-            log.msg("Disconnect in progress.")
-            return False
+            raise Error("Disconnect in progress.")
         elif self._state == 'connecting':
             if forceReconnect:
                 self._toState('aborting')
                 return True
             else:
-                log.msg("Connect in progress.")
-                return False
+                raise Error("Connect in progress.")
 
         if self.consumer is None:
-            log.msg("No Twitter consumer set. Not connecting.")
             if self._state != 'idle':
                 self._toState('idle')
-            return False
+            raise Error("No Twitter consumer set. Not connecting.")
 
         if not self.terms and not self.userIDs:
-            log.msg("No Twitter terms or users to filter on. Not connecting.")
             if self._state != 'idle':
                 self._toState('idle')
-            return False
+            raise Error("No Twitter terms or users to filter on. Not connecting.")
 
         if self._state == 'waiting':
             if self._reconnectDelayedCall.called:
@@ -1054,10 +1055,11 @@ class TwitterMonitor(service.Service):
         """
         if self._reconnectDelayedCall:
             self._reconnectDelayedCall.cancel()
+            self._reconnectDelayedCall = None
         self.loseConnection()
 
 
-    def _state_idle(self, reason=None):
+    def _state_idle(self):
         """
         Idle state.
 
@@ -1070,13 +1072,10 @@ class TwitterMonitor(service.Service):
 
         This state can be left by calling by a new connection attempt
         though L{connect} or L{setFilters}, or by stopping the service.
-
-        @param reason: The failure that was the reason this state was
-            transitioned to.
-        @type reason: L{twisted.python.failure.Failure}.
         """
-        if reason:
-            log.err(reason, 'Abandoning reconnect.')
+        if self._reconnectDelayedCall:
+            self._reconnectDelayedCall.cancel()
+            self._reconnectDelayedCall = None
 
 
     def _state_connecting(self):
