@@ -17,7 +17,10 @@ import logging
 
 from oauth import oauth
 
+from twisted.application import service
 from twisted.internet import defer, reactor, endpoints
+from twisted.internet import error as ierror
+from twisted.python import failure, log
 from twisted.web import client, error, http_headers
 
 from twittytwister import streaming, txml
@@ -734,5 +737,447 @@ class TwitterFeed(Twitter):
         return self._rtfeed('https://sitestream.twitter.com/2b/site.json',
                             delegate,
                             args)
+
+
+
+class Error(Exception):
+    """
+    Base error raised by L{TwitterMonitor.connect}.
+    """
+
+
+
+class ConnectError(Error):
+    """
+    Error raised while attempting to initiate a new connection.
+    """
+
+
+
+class NoConsumerError(Error):
+    """
+    The monitor has no consumer.
+    """
+
+
+
+class TwitterMonitor(service.Service):
+    """
+    Reconnecting Twitter monitor service.
+
+    This service attempts to keep a connection by reconnecting if a connection
+    is dropped or when explicitly requested through L{connect}. Be sure that
+    the API parameters provided in L{args} have all required parameters before
+    starting the service.
+
+    @cvar noisy: Whether or not to log informational messages about
+        reconnects.
+    type noisy: C{bool}
+
+    @type api: The Twitter API endpoint that is used to initiate connections.
+
+    @ivar args: Arguments to the Streaming API request.
+    @type args: C{dict}
+
+    @ivar delegate: The consumer of incoming Twitter entries.
+
+    @ivar protocol: Current protocol instance parsing incoming Twitter
+        entries.
+    @type protocol: L{TwitterStream}
+
+    @ivar _delay: Current delay, in seconds.
+    @type _delay: C{float}
+
+    @ivar _state: Current state.
+
+    @ivar _errorState: Current error state. One of C{None}, C{'http'},
+        C{'connect'}, C{'other'}.
+
+    @ivar _reconnectDelayedCall: Current pending reconnect call.
+    @type _reconnectDelayedCall: {twitter.internet.base.DelayedCall}
+
+    @cvar backOffs: Configuration of back-off strategies for the various
+        error states (see L{_errorState}). The value is a dictionary with
+        keys C{'initial'}, C{'max'} and {'factor'} to represent the initial
+        and maximum backoff delay (both in seconds), and the multiplication
+        factor on each attempt, respectively. The key C{'errorTypes'} key
+        holds a set of exceptions to match failures against.
+    @type backOffs: C{dict}
+
+    """
+    noisy = False
+
+    protocol = None
+
+    _delay = None
+    _state = None
+    _errorState = None
+    _reconnectDelayedCall = None
+
+    backOffs = {
+            # Back-off settings from clean disconnects
+            None: {
+                'initial': 5,
+                'max': float('inf'), # No limit,
+                'factor': 1, # No increase
+                },
+            # Back-off settings for HTTP errors
+            'http': {
+                'errorTypes': (error.Error,),
+                'initial': 10,
+                'max': 240,
+                'factor': 2,
+                },
+            # Back-off settings for network level connect errors
+            'network': {
+                'errorTypes': (ierror.ConnectError,
+                               ierror.TimeoutError,
+                               ierror.ConnectionClosed,
+                               ierror.DNSLookupError,
+                               ),
+                'initial': 0.25,
+                'max': 16,
+                'factor': 2,
+                },
+            # Back-off settings for other, non-specific errors.
+            'other': {
+                'initial': 10,
+                'max': 240,
+                'factor': 2,
+                },
+            }
+
+    def __init__(self, api, delegate, args=None, reactor=None):
+        """
+        Initialize the monitor.
+
+        This sets the initial state to C{'stopped'}.
+
+        @param api: The Twitter API endpoint that is used to initiate
+            connections. E.g. L{twittytwister.twitter.TwitterFeed.filter}.
+
+        @param delegate: The consumer of received Twitter entries.
+            This callable will be called with a L{Status} instances as they
+            are received.
+
+        @param args: Initial arguments to the API.
+        @type args: C{dict}
+        """
+        self.api = api
+        self.delegate = delegate
+        self.args = args
+        if reactor is None:
+            from twisted.internet import reactor
+        self.reactor = reactor
+        self._state = 'stopped'
+
+
+    def startService(self):
+        """
+        Start the service.
+
+        This causes a transition to the C{'idle'} state, and then calls
+        L{connect} to attempt an initial conection.
+        """
+        service.Service.startService(self)
+        self._toState('idle')
+
+        try:
+            self.connect()
+        except NoConsumerError:
+            pass
+
+
+    def stopService(self):
+        """
+        Stop the service.
+
+        This causes a transition to the C{'stopped'} state.
+        """
+        service.Service.stopService(self)
+        self._toState('stopped')
+
+
+    def connect(self, forceReconnect=False):
+        """
+        Check current conditions and initiate connection if possible.
+
+        This is called to check preconditions for starting a new connection,
+        and initating the connection itself.
+
+        If the service is not running, this will do nothing.
+
+        @param forceReconnect: Drop an existing connection to reconnnect.
+        @type forceReconnect: C{False}
+
+        @raises L{ConnectError}: When a connection (attempt) is already in
+            progress, unless C{forceReconnect} is set.
+
+        @raises L{NoConsumerError}: When there is no consumer for incoming
+        tweets. No further connection attempts will be made, unless L{connect}
+        is called again.
+        """
+        if self._state == 'stopped':
+            raise Error("This service is not running. Not connecting.")
+        if self._state == 'connected':
+            if forceReconnect:
+                self._toState('disconnecting')
+                return True
+            else:
+                raise ConnectError("Already connected.")
+        elif self._state == 'aborting':
+            raise ConnectError("Aborting connection in progress.")
+        elif self._state == 'disconnecting':
+            raise ConnectError("Disconnect in progress.")
+        elif self._state == 'connecting':
+            if forceReconnect:
+                self._toState('aborting')
+                return True
+            else:
+                raise ConnectError("Connect in progress.")
+
+        if self.delegate is None:
+            if self._state != 'idle':
+                self._toState('idle')
+            raise NoConsumerError()
+
+        if self._state == 'waiting':
+            if self._reconnectDelayedCall.called:
+                self._reconnectDelayedCall = None
+                pass
+            else:
+                self._reconnectDelayedCall.reset(0)
+                return True
+
+        self._toState('connecting')
+        return True
+
+
+    def loseConnection(self):
+        """
+        Forcibly close the current connection.
+        """
+        if self.protocol:
+            self.protocol.transport.stopProducing()
+
+
+    def makeConnection(self, protocol):
+        """
+        Called when the connection has been established.
+
+        This method is called when an HTTP 200 response has been received,
+        with the protocol that decodes the individual Twitter stream elements.
+        That protocol will call the consumer for all Twitter entries received.
+
+        The protocol, stored in L{protocol}, has a deferred that fires when
+        the connection is closed, causing a transition to the
+        C{'disconnected'} state.
+
+        @param protocol: The Twitter stream protocol.
+        @type protocol: L{TwitterStream}
+        """
+        self._errorState = None
+
+        def cb(result):
+            self.protocol = None
+            if self._state == 'stopped':
+                # Don't transition to any other state. We are stopped.
+                pass
+            else:
+                if isinstance(result, failure.Failure):
+                    reason = result
+                else:
+                    reason = None
+                self._toState('disconnected', reason)
+
+        self.protocol = protocol
+        d = protocol.deferred
+        d.addBoth(cb)
+
+
+    def _reconnect(self, errorState):
+        """
+        Attempt to reconnect.
+
+        If the current back-off delay is 0, L{connect} is called. Otherwise,
+        it will cause a transition to the C{'waiting'} state, ultimately
+        causing a call to L{connect} when the delay expires.
+        """
+        def connect():
+            if self.noisy:
+                log.msg("Reconnecting now.")
+            self.connect()
+
+        backOff = self.backOffs[errorState]
+
+        if self._errorState != errorState or self._delay is None:
+            self._errorState = errorState
+            self._delay = backOff['initial']
+        else:
+            self._delay = min(backOff['max'], self._delay * backOff['factor'])
+
+        if self._delay == 0:
+            connect()
+        else:
+            self._reconnectDelayedCall = self.reactor.callLater(self._delay,
+                                                                connect)
+            self._toState('waiting')
+
+
+    def _toState(self, state, *args, **kwargs):
+        """
+        Transition to the next state.
+
+        @param state: Name of the next state.
+        """
+        try:
+            method = getattr(self, '_state_%s' % state)
+        except AttributeError:
+            raise ValueError("No such state %r" % state)
+
+        log.msg("%s: to state %r" % (self.__class__.__name__, state))
+        self._state = state
+        method(*args, **kwargs)
+
+
+    def _state_stopped(self):
+        """
+        The service is not running.
+
+        This is the initial state, and the state after L{stopService} was
+        called. To get out of this state, call L{startService}. If there is a
+        current connection, we disconnect.
+        """
+        if self._reconnectDelayedCall:
+            self._reconnectDelayedCall.cancel()
+            self._reconnectDelayedCall = None
+        self.loseConnection()
+
+
+    def _state_idle(self):
+        """
+        Idle state.
+
+        In this state no connection attempts are made, and there are no
+        automatic transitions from here: the service is at rest.
+
+        Besides being the initial state when the service starts, it is reached
+        when preconditions for connecting to Twitter have not been met (e.g.
+        when is no consumer).
+
+        This state can be left by calling by a new connection attempt
+        though L{connect} or L{setFilters}, or by stopping the service.
+        """
+        if self._reconnectDelayedCall:
+            self._reconnectDelayedCall.cancel()
+            self._reconnectDelayedCall = None
+
+
+    def _state_connecting(self):
+        """
+        A connection is being started.
+
+        A succesful attempt results in the state C{'connected'} when the
+        first response from Twitter has been received. Transitioning
+        to the state C{'aborting'} will cause an immediate disconnect instead,
+        by transitioning to C{'disconnecting'}.
+
+        Errors will cause a transition to the C{'error'} state.
+        """
+
+        def responseReceived(protocol):
+            self.makeConnection(protocol)
+            if self._state == 'aborting':
+                self._toState('disconnecting')
+            else:
+                self._toState('connected')
+
+        def trapError(failure):
+            self._toState('error', failure)
+
+        def onEntry(entry):
+            if self.delegate:
+                try:
+                    self.delegate(entry)
+                except:
+                    log.err()
+            else:
+                pass
+
+        d = self.api(onEntry, self.args)
+        d.addCallback(responseReceived)
+        d.addErrback(trapError)
+
+
+    def _state_connected(self):
+        """
+        A response was received over the new connection.
+
+        The protocol passed to this state has a deferred that will fire
+        when the connection has been dropped, which then causes a transition
+        to the C{'disconnected'} state.
+        """
+        pass
+
+
+    def _state_disconnecting(self):
+        """
+        A disconnect is in progress.
+        """
+        self.loseConnection()
+
+
+    def _state_disconnected(self, reason):
+        """
+        The connection has been dropped.
+
+        If there was a failure, A reconnect will be attempted.
+        """
+        if reason:
+            self._toState('error', reason)
+        else:
+            self._reconnect(None)
+
+
+    def _state_aborting(self):
+        """
+        The current connection attempt will be aborted.
+
+        Unfortunately, there is no interface to drop the underlying
+        TCP connection, so we have to wait until we are connected, or
+        the connecting fails, until we can disconnect.
+        """
+        pass
+
+
+    def _state_waiting(self):
+        """
+        Waiting for reconnect.
+
+        Wait for L{delay} seconds until attempting a new connect.
+        """
+        if self.noisy:
+            log.msg("Reconnecting in %0.2f seconds" % (self._delay,))
+
+
+    def _state_error(self, reason):
+        """
+        The connection attempt resulted in an error.
+
+        Attempt a reconnect with a back-off algorithm.
+        """
+        log.err(reason)
+
+        def matchException(failure):
+            for errorState, backOff in self.backOffs.iteritems():
+                if 'errorTypes' not in backOff:
+                    continue
+                if failure.check(*backOff['errorTypes']):
+                    return errorState
+
+            return 'other'
+
+        errorState = matchException(reason)
+        self._reconnect(errorState)
 
 # vim: set expandtab:
