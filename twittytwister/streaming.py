@@ -27,8 +27,8 @@ class LengthDelimitedStream(LineReceiver):
     """
 
     def __init__(self):
-        self._buffer = None
-        self._bufferLength = None
+        self._rawBuffer = None
+        self._rawBufferLength = None
         self._expectedLength = None
 
 
@@ -41,8 +41,8 @@ class LengthDelimitedStream(LineReceiver):
         """
         if line and line.isdigit():
             self._expectedLength = int(line)
-            self._buffer = []
-            self._bufferLength = 0
+            self._rawBuffer = []
+            self._rawBufferLength = 0
             self.setRawMode()
         else:
             self.keepAliveReceived()
@@ -53,20 +53,20 @@ class LengthDelimitedStream(LineReceiver):
         Called when raw data is received.
 
         Fill the raw buffer C{_rawBuffer} until we have received at least
-        C{_lenghtExpected} bytes. Call objectReceived with the received byte
-        string of the expected size. Then switch back to line mode with the
-        remainder of the buffer.
+        C{_expectedLength} bytes. Call C{datagramReceived} with the received
+        byte string of the expected size. Then switch back to line mode with
+        the remainder of the buffer.
         """
-        self._buffer.append(data)
-        self._bufferLength += len(data)
+        self._rawBuffer.append(data)
+        self._rawBufferLength += len(data)
 
-        if self._bufferLength >= self._expectedLength:
-            receivedData = ''.join(self._buffer)
+        if self._rawBufferLength >= self._expectedLength:
+            receivedData = ''.join(self._rawBuffer)
             expectedData = receivedData[:self._expectedLength]
             extraData = receivedData[self._expectedLength:]
 
-            self._buffer = None
-            self._bufferLength = None
+            self._rawBuffer = None
+            self._rawBufferLength = None
             self._expectedLength = None
 
             self.datagramReceived(expectedData)
