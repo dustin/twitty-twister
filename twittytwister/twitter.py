@@ -616,9 +616,10 @@ class TwitterFeed(Twitter):
 
         The actual access level determines the portion of the firehose.
         """
-        return self._rtfeed('https://stream.twitter.com/1/statuses/sample.json',
-                            delegate,
-                            args)
+        return self._rtfeed(
+            'https://stream.twitter.com/1.1/statuses/sample.json',
+            delegate,
+            args)
 
 
     def spritzer(self, delegate, args=None):
@@ -645,18 +646,20 @@ class TwitterFeed(Twitter):
         """
         Returns all public statuses.
         """
-        return self._rtfeed('https://stream.twitter.com/1/statuses/firehose.json',
-                            delegate,
-                            args)
+        return self._rtfeed(
+            'https://stream.twitter.com/1.1/statuses/firehose.json',
+            delegate,
+            args)
 
 
     def filter(self, delegate, args=None):
         """
         Returns public statuses that match one or more filter predicates.
         """
-        return self._rtfeed('https://stream.twitter.com/1/statuses/filter.json',
-                            delegate,
-                            args)
+        return self._rtfeed(
+            'https://stream.twitter.com/1.1/statuses/filter.json',
+            delegate,
+            args)
 
 
     def follow(self, delegate, follow):
@@ -716,9 +719,10 @@ class TwitterFeed(Twitter):
         also track certain keywords, follow additional accounts or filter by
         location.
         """
-        return self._rtfeed('https://userstream.twitter.com/2/user.json',
-                            delegate,
-                            args)
+        return self._rtfeed(
+            'https://userstream.twitter.com/1.1/user.json',
+            delegate,
+            args)
 
 
     def site(self, delegate, args):
@@ -734,9 +738,10 @@ class TwitterFeed(Twitter):
         accounts the users follow and/or all replies to accounts the users
         follow.
         """
-        return self._rtfeed('https://sitestream.twitter.com/2b/site.json',
-                            delegate,
-                            args)
+        return self._rtfeed(
+            'https://sitestream.twitter.com/1.1/site.json',
+            delegate,
+            args)
 
 
 

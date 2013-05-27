@@ -39,7 +39,7 @@ class TwitterFeedTest(unittest.TestCase):
         self.feed.user(None)
         self.assertEqual(1, len(self.calls))
         url, delegate, args = self.calls[-1]
-        self.assertEqual('https://userstream.twitter.com/2/user.json', url)
+        self.assertEqual('https://userstream.twitter.com/1.1/user.json', url)
         self.assertIdentical(None, delegate)
         self.assertIdentical(None, args)
 
@@ -62,7 +62,7 @@ class TwitterFeedTest(unittest.TestCase):
         self.feed.site(None, {'follow': '6253282'})
         self.assertEqual(1, len(self.calls))
         url, delegate, args = self.calls[-1]
-        self.assertEqual('https://sitestream.twitter.com/2b/site.json', url)
+        self.assertEqual('https://sitestream.twitter.com/1.1/site.json', url)
         self.assertIdentical(None, delegate)
         self.assertEqual({'follow': '6253282'}, args)
 
